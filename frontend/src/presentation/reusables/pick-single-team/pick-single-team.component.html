@@ -1,0 +1,50 @@
+<!-- Pick Single Team -->
+<div
+    [appMixinStyledCard]="{
+        size: 'mixin-Scard-base',
+        theme: 'theme-Scard-generic-white',
+        hasBorder: true,
+        hasDivide: true
+    }"
+>
+    <div appMixinStyledCardSection>
+        <button
+            [appMixinStyledButton]="{
+                theme: 'theme-Sbutton-generic-white',
+                size: 'mixin-Sbutton-base'
+            }"
+            (click)="openTeamPickerModal()"
+            type="button"
+        >
+            Filter Teams
+        </button>
+    </div>
+    <ng-content *ngIf="value != null">
+        <section appMixinStyledCardSection class="grid gap-3" style="grid-template: auto / auto 1fr">
+            <div class="aspect-square theme-avatar-any">
+                <section class="relative h-full w-full flex">
+                    <app-cover-image src=""></app-cover-image>
+                </section>
+            </div>
+            <div class="overflow-hidden">
+                <div class="token-card--header--primary-text">
+                    {{ value.name }}
+                </div>
+            </div>
+        </section>
+        <section appMixinStyledCardSection>
+            <div class="token-default-list">
+                <span class="token-default-list__label shrink-0">Id</span>
+                <span class="token-default-list__value truncate">
+                    {{ value.id }}
+                </span>
+            </div>
+            <div class="token-default-list">
+                <span class="token-default-list__label shrink-0">Date Founded</span>
+                <span class="token-default-list__value truncate">
+                    {{ value.dateFounded | date }}
+                </span>
+            </div>
+        </section>
+    </ng-content>
+</div>

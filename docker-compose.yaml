@@ -1,0 +1,31 @@
+services:
+    mysql:
+        image: mysql:8.0
+        environment:
+            MYSQL_ROOT_PASSWORD: adminword
+            MYSQL_DATABASE: soocer_manager
+        ports:
+            - "3306:3306"
+        volumes:
+            - mysql_data:/var/lib/mysql
+        healthcheck:
+            test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+
+    backend:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        ports:
+            - "3000:3000"
+        depends_on:
+            mysql:
+                condition: service_healthy
+        volumes:
+            - ./src:/app/src
+            - /app/node_modules
+
+volumes:
+    mysql_data:

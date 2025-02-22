@@ -1,0 +1,127 @@
+@layer components {
+    .token-card--header--primary-text {
+        @apply text-base font-semibold text-gray-800;
+    }
+
+    .token-card--header--secondary-text {
+        @apply text-sm text-gray-800;
+    }
+
+    .token-card--header--tertiary-text {
+        @apply text-sm text-gray-900;
+    }
+
+    .token-card--label {
+        @apply text-sm text-gray-900 font-semibold;
+    }
+
+    .token-card--default-text {
+        @apply text-base text-gray-900;
+    }
+
+    .token-default-list {
+        @apply text-base flex flex-row max-[440px]:flex-col justify-between min-[440px]:items-center gap-x-3;
+    }
+
+    .token-default-list__label {
+        @apply text-sm font-medium;
+    }
+
+    .token-default-list__value {
+        @apply text-gray-700 text-sm;
+    }
+
+    .token-default-shadow {
+        box-shadow: 0 2px 4px 2px rgba(0, 0, 0, 0.05);
+    }
+
+    .token-default-border-color {
+        @apply border-zinc-200;
+    }
+
+    .token-default-divide-color {
+        @apply divide-zinc-200;
+    }
+
+    .token-default-avatar {
+        @apply aspect-square h-full overflow-hidden shrink-0 rounded-lg bg-zinc-200;
+    }
+
+    .token-default-title {
+        @apply text-lg font-medium text-gray-800;
+    }
+
+    .token-default-subtitle {
+        @apply text-sm font-medium text-zinc-400;
+    }
+
+    .token-base-text {
+        @apply text-sm text-gray-800;
+    }
+
+    .token-default-flex-row {
+        @apply flex flex-row gap-3;
+    }
+
+    .token-default-flex-col {
+        @apply flex flex-col gap-3;
+    }
+
+    .token-hover-element {
+        @apply hover:scale-95 transition-all cursor-pointer;
+    }
+
+    .token-header-section {
+        @apply bg-white;
+
+        > * {
+            @apply py-2 px-4 border-x token-default-border-color;
+        }
+    }
+
+    .token-breadcrumb-section {
+        @apply bg-white;
+
+        > * {
+            @apply border-x token-default-border-color flex;
+        }
+    }
+
+    .token-nav-section {
+        @apply bg-white;
+
+        > * {
+            @apply border-x divide-x token-default-border-color;
+        }
+    }
+
+    .token-body-section {
+        @apply border-x token-default-border-color;
+    }
+
+    .token-nav-section-button {
+        @apply shrink-0 border-b-4 mixin-Sbutton-like mixin-Sbutton-base rounded-none bg-white grow justify-center;
+
+        &:not(.active) {
+            @apply token-default-border-color;
+        }
+
+        &:hover,
+        &.active {
+            @apply border-blue-400 bg-gray-100;
+        }
+    }
+
+    .token-breadcrumb-section-button {
+        @apply shrink-0 border-r-4 mixin-Sbutton-like mixin-Sbutton-sm rounded-none bg-white;
+
+        &:not(.active) {
+            @apply token-default-border-color;
+        }
+
+        &:hover,
+        &.active {
+            @apply border-blue-400 bg-gray-100;
+        }
+    }
+}

@@ -1,0 +1,8 @@
+<div class="relative h-full w-full overflow-hidden" [ngClass]="className">
+    <img
+        class="absolute w-full h-full object-cover sm:object-cover"
+        [src]="src == null ? 'null' : src"
+        [alt]="src"
+        onerror="this.style.display='none';"
+    />
+</div>

@@ -1,0 +1,82 @@
+<!-- Search Players Modal -->
+<div
+    [appPanelDirective]="{
+        panelSize: 'mixin-panel-base',
+        panelTheme: 'theme-panel-generic-white',
+        panelHasBorder: true,
+        panelHasShadow: true
+    }"
+    class="w-[100vw]"
+>
+    <header appPanelSectionDirective class="flex flex-row gap-2 justify-between">
+        <div class="font-bold">Filter Players</div>
+        <button
+            [appMixinStyledButton]="{
+                size: 'mixin-Sbutton-sm',
+                theme: 'theme-Sbutton-generic-white'
+            }"
+            (mouseup)="close()"
+        >
+            Close
+        </button>
+    </header>
+    <app-divider />
+    <nav appPanelSectionDirective class="flex flex-row gap-3">
+        <button
+            [appMixinStyledButton]="{
+                size: 'mixin-Sbutton-base',
+                theme: 'theme-Sbutton-generic-white'
+            }"
+            (click)="changeRoute('form')"
+            class="basis-1/2 justify-center"
+            [ngClass]="{ active: currentRoute === 'form' }"
+        >
+            Form
+        </button>
+        <button
+            [appMixinStyledButton]="{
+                size: 'mixin-Sbutton-base',
+                theme: 'theme-Sbutton-generic-white'
+            }"
+            (click)="changeRoute('results')"
+            class="basis-1/2 justify-center"
+            [ngClass]="{ active: currentRoute === 'results' }"
+        >
+            Result
+        </button>
+    </nav>
+    <app-divider />
+    <ng-content *ngIf="currentRoute === 'form'">
+        <form appPanelSectionDirective class="flex flex-col gap-3" [formGroup]="form" (submit)="onFormSubmit()">
+            <app-form-field [name]="'name'">
+                <ng-template let-name="name">
+                    <app-char-field
+                        [formControlName]="name"
+                        [options]="{
+                            size: 'mixin-char-input-base',
+                            theme: 'theme-input-generic-white'
+                        }"
+                    ></app-char-field>
+                </ng-template>
+            </app-form-field>
+            <footer appPanelSectionDirective class="flex flex-row gap-3 justify-end">
+                <button
+                    [appMixinStyledButton]="{
+                        size: 'mixin-Sbutton-base',
+                        theme: 'theme-Sbutton-generic-green'
+                    }"
+                    (mouseup)="onFormSubmit()"
+                >
+                    Filter
+                </button>
+            </footer>
+        </form>
+    </ng-content>
+    <ng-content *ngIf="currentRoute === 'results'">
+        <div appPanelSectionDirective class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <ng-container *ngFor="let player of results">
+                <ng-container *ngComponentOutlet="ResultComponent; inputs: propsFactory(player)"> </ng-container>
+            </ng-container>
+        </div>
+    </ng-content>
+</div>

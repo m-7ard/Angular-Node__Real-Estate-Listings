@@ -1,0 +1,11 @@
+<div [class]="['mixin-char-input-like', options.size, options.theme].join(' ')">
+    <input
+        [value]="value"
+        (input)="onInput($event)"
+        [attr.type]="type"
+        [attr.placeholder]="placeholder"
+        [attr.disabled]="disabled ? '' : null"
+        [attr.maxLength]="maxLength"
+        [attr.step]="step"
+    />
+</div>

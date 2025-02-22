@@ -1,0 +1,42 @@
+<!-- List Teams Page -->
+<div [appPageDirective]="{ pageSize: 'mixin-page-base' }" appContentGrid>
+    <section
+        appPageSectionDirective
+        [appContentGridTrack]="{ contentGridTrack: 'base' }"
+        class="token-default-flex-row flex-wrap token-body-section"
+    >
+        <div class="token-default-title">Teams</div>
+        <button
+            [appMixinStyledButton]="{
+                size: 'mixin-Sbutton-sm',
+                theme: 'theme-Sbutton-generic-white',
+                hasShadow: true
+            }"
+            class="shrink-0 ml-auto"
+        >
+            Filter
+        </button>
+        <button
+            [appMixinStyledButton]="{
+                size: 'mixin-Sbutton-sm',
+                theme: 'theme-Sbutton-generic-white',
+                hasShadow: true
+            }"
+            class="shrink-0"
+        >
+            Order By
+        </button>
+    </section>
+    <app-divider [appContentGridTrack]="{ contentGridTrack: 'base' }" />
+    <section
+        appPageSectionDirective
+        [appContentGridTrack]="{ contentGridTrack: 'base' }"
+        class="token-body-section grow"
+    >
+        <div class="token-default-flex-row flex-wrap">
+            <ng-container *ngFor="let team of teams">
+                <app-team-element [team]="team" class="min-w-[200px] basis-1/4 grow" />
+            </ng-container>
+        </div>
+    </section>
+</div>

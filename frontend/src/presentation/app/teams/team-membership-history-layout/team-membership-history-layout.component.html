@@ -1,0 +1,6 @@
+<!-- Team Player Layout Page -->
+<div [appPageDirective]="{ pageSize: 'mixin-page-base' }" appContentGrid class="overflow-hidden">
+    <app-header-navbar [appContentGridTrack]="{ contentGridTrack: 'full' }" [buttons]="navbarProps" />
+    <app-divider />
+    <router-outlet></router-outlet>
+</div>

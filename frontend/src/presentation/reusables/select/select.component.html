@@ -1,0 +1,12 @@
+<button type="button" [appMixinStyledButton]="{ theme: 'theme-Sbutton-generic-white', size: 'mixin-Sbutton-base' }" primeNgPopoverDirective [popover]="op" class="w-full" [positioning]="{ top: '100%', left: '0px', right: '0px' }">
+    {{ label }}
+</button>
+<p-popover #op class="fixed">
+    <ul class="mixin-select-like mixin-select-base theme-select-generic-white fixed w-full flex flex-col">
+        <ng-container *ngFor="let option of options; let i = index">
+            <button type="button" (click)="onSelect(option)" data-role="option">
+                {{ option.label }}
+            </button>
+        </ng-container>
+    </ul>
+</p-popover>

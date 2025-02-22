@@ -1,0 +1,97 @@
+<!-- Create Team Membership Page -->
+<form
+    [formGroup]="form"
+    (ngSubmit)="onSubmit()"
+    (reset)="onReset()"
+    appContentGrid
+    [appPageDirective]="{ pageSize: 'mixin-page-base' }"
+>
+    <section
+        appPageSectionDirective
+        class="token-default-flex-col token-body-section"
+        [appContentGridTrack]="{ contentGridTrack: 'base' }"
+    >
+        <div class="token-default-title">Create Team Membership</div>
+    </section>
+    <app-divider [appContentGridTrack]="{ contentGridTrack: 'base' }" />
+    <section
+        appPageSectionDirective
+        class="token-default-flex-col grow token-body-section"
+        [appContentGridTrack]="{ contentGridTrack: 'base' }"
+    >
+        <section *ngIf="errors['_'] != null">
+            <app-form-errors [errors]="errors['_']"></app-form-errors>
+        </section>
+        <app-form-field [name]="'player'" [errors]="errors.playerId">
+            <ng-template let-name="name">
+                <app-pick-single-player [formControlName]="name"></app-pick-single-player>
+            </ng-template>
+        </app-form-field>
+        <app-form-field [name]="'activeFrom'" [errors]="errors.activeFrom" [helperTexts]="activeFromHelperText">
+            <ng-template let-name="name">
+                <app-char-field
+                    [formControlName]="name"
+                    [options]="{
+                        size: 'mixin-char-input-base',
+                        theme: 'theme-input-generic-white'
+                    }"
+                    type="date"
+                ></app-char-field>
+            </ng-template>
+        </app-form-field>
+        <app-form-field [name]="'activeTo'" [errors]="errors.activeTo">
+            <ng-template let-name="name">
+                <app-char-field
+                    [formControlName]="name"
+                    [options]="{
+                        size: 'mixin-char-input-base',
+                        theme: 'theme-input-generic-white'
+                    }"
+                    type="date"
+                ></app-char-field>
+            </ng-template>
+        </app-form-field>
+        <app-form-field [name]="'number'" [errors]="errors.number">
+            <ng-template let-name="name">
+                <app-char-field
+                    [formControlName]="name"
+                    [options]="{
+                        size: 'mixin-char-input-base',
+                        theme: 'theme-input-generic-white'
+                    }"
+                    type="text"
+                ></app-char-field>
+            </ng-template>
+        </app-form-field>
+        <app-form-field [name]="'position'" [errors]="errors.position">
+            <ng-template let-name="name">
+                <app-select [formControlName]="name" [options]="playerPositionSingleton.options"></app-select>
+            </ng-template>
+        </app-form-field>
+    </section>
+    <app-divider [appContentGridTrack]="{ contentGridTrack: 'base' }" />
+    <section
+        appPageSectionDirective
+        class="token-default-flex-row justify-end token-body-section"
+        [appContentGridTrack]="{ contentGridTrack: 'base' }"
+    >
+        <button
+            [appMixinStyledButton]="{
+                theme: 'theme-Sbutton-generic-white',
+                size: 'mixin-Sbutton-base'
+            }"
+            type="reset"
+        >
+            Reset
+        </button>
+        <button
+            [appMixinStyledButton]="{
+                theme: 'theme-Sbutton-generic-green',
+                size: 'mixin-Sbutton-base'
+            }"
+            type="submit"
+        >
+            Create Membership
+        </button>
+    </section>
+</form>

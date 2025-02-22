@@ -1,0 +1,134 @@
+<!-- App -->
+<header class="relative shrink-0 token-header-section" appContentGrid>
+    <nav class="token-default-flex-row overflow-x-auto" [appContentGridTrack]="{ contentGridTrack: 'base' }">
+        <ng-content *ngIf="isAuthenticated; else unauthenticatedBlock">
+            <button
+                [appMixinStyledButton]="{
+                    size: 'mixin-Sbutton-sm',
+                    theme: 'theme-Sbutton-generic-red'
+                }"
+                type="button"
+                (mouseup)="authService.logout()"
+            >
+                Logout
+            </button>
+        </ng-content>
+        <ng-template #unauthenticatedBlock>
+            <a
+                routerLink="/users/login"
+                routerLinkActive="active"
+                ariaCurrentWhenActive="page"
+                [appMixinStyledButton]="{
+                    size: 'mixin-Sbutton-sm',
+                    theme: 'theme-Sbutton-generic-yellow'
+                }"
+                [routerLinkActiveOptions]="{ exact: true }"
+            >
+                Login
+            </a>
+            <a
+                routerLink="/users/register"
+                routerLinkActive="active"
+                ariaCurrentWhenActive="page"
+                [appMixinStyledButton]="{
+                    size: 'mixin-Sbutton-sm',
+                    theme: 'theme-Sbutton-generic-green'
+                }"
+                [routerLinkActiveOptions]="{ exact: true }"
+            >
+                Register
+            </a>
+        </ng-template>
+        <a
+            class="ml-auto"
+            routerLink="/"
+            routerLinkActive="active"
+            ariaCurrentWhenActive="page"
+            [appMixinStyledButton]="{
+                size: 'mixin-Sbutton-sm',
+                theme: 'theme-Sbutton-generic-white'
+            }"
+            [routerLinkActiveOptions]="{ exact: true }"
+        >
+            Frontpage
+        </a>
+        <a
+            routerLink="/players"
+            routerLinkActive="active"
+            ariaCurrentWhenActive="page"
+            [appMixinStyledButton]="{
+                size: 'mixin-Sbutton-sm',
+                theme: 'theme-Sbutton-generic-white'
+            }"
+            [routerLinkActiveOptions]="{ exact: true }"
+        >
+            Players
+        </a>
+        <a
+            routerLink="/teams"
+            routerLinkActive="active"
+            ariaCurrentWhenActive="page"
+            [appMixinStyledButton]="{
+                size: 'mixin-Sbutton-sm',
+                theme: 'theme-Sbutton-generic-white'
+            }"
+            [routerLinkActiveOptions]="{ exact: true }"
+        >
+            Teams
+        </a>
+        <a
+            routerLink="/matches"
+            routerLinkActive="active"
+            ariaCurrentWhenActive="page"
+            [appMixinStyledButton]="{
+                size: 'mixin-Sbutton-sm',
+                theme: 'theme-Sbutton-generic-white'
+            }"
+            [routerLinkActiveOptions]="{ exact: true }"
+        >
+            Matches
+        </a>
+        <div
+            *ngIf="false"
+            [appMixinStyledButton]="{
+                size: 'mixin-Sbutton-sm',
+                theme: 'theme-Sbutton-generic-white'
+            }"
+            modalTrigger
+            [modalPanel]="exampleModal"
+            [modalData]="{ title: otherTitle }"
+            class="truncate shrink-0"
+        >
+            Modal Sample
+        </div>
+    </nav>
+</header>
+<app-divider />
+<main class="flex flex-col grow bg-white" appContentGrid>
+    <app-breadcrumb />
+    <app-divider />
+    <router-outlet></router-outlet>
+</main>
+<app-divider class="z-10" />
+<footer appContentGrid class="relative shrink-0 token-header-section">
+    <nav class="token-default-flex-row overflow-x-auto" [appContentGridTrack]="{ contentGridTrack: 'base' }">
+        <a
+            [appMixinStyledButton]="{
+                theme: 'theme-Sbutton-generic-yellow',
+                size: 'mixin-Sbutton-sm',
+                hasShadow: true,
+                isSharp: true
+            }"
+            class="grow select-text justify-center"
+            href="https://github.com/m-7ard"
+        >
+            https://github.com/m-7ard
+        </a>
+    </nav>
+</footer>
+<ng-content *ngIf="error != null">
+    <app-exception-notice-popover
+        [error]="error"
+        (dismiss)="exceptionNoticeService.clearError()"
+    ></app-exception-notice-popover>
+</ng-content>

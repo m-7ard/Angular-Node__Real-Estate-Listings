@@ -1,0 +1,73 @@
+<!-- Create Team Page -->
+<form
+    [formGroup]="form"
+    (ngSubmit)="onSubmit()"
+    (reset)="onReset()"
+    [appPageDirective]="{ pageSize: 'mixin-page-base' }"
+    appContentGrid
+>
+    <section
+        [appContentGridTrack]="{ contentGridTrack: 'base' }"
+        appPageSectionDirective
+        class="token-body-section items-center justify-between"
+    >
+        <div class="token-default-title">Create Team</div>
+    </section>
+    <app-divider [appContentGridTrack]="{ contentGridTrack: 'base' }" />
+    <section
+        [appContentGridTrack]="{ contentGridTrack: 'base' }"
+        appPageSectionDirective
+        class="token-body-section grow token-default-flex-col grow"
+    >
+        <section *ngIf="errors['_'] != null">
+            <app-form-errors [errors]="errors['_']"></app-form-errors>
+        </section>
+        <app-form-field [name]="'name'" [errors]="errors.name">
+            <ng-template let-name="name">
+                <app-char-field
+                    [formControlName]="name"
+                    [options]="{
+                        size: 'mixin-char-input-base',
+                        theme: 'theme-input-generic-white'
+                    }"
+                ></app-char-field>
+            </ng-template>
+        </app-form-field>
+        <app-form-field [name]="'dateFounded'" [errors]="errors.dateFounded">
+            <ng-template let-name="name">
+                <app-char-field
+                    [formControlName]="name"
+                    [options]="{
+                        size: 'mixin-char-input-base',
+                        theme: 'theme-input-generic-white'
+                    }"
+                    [type]="'date'"
+                ></app-char-field>
+            </ng-template>
+        </app-form-field>
+    </section>
+    <app-divider [appContentGridTrack]="{ contentGridTrack: 'base' }" />
+    <footer
+        class="flex flex-row gap-3 justify-end"
+        [appContentGridTrack]="{ contentGridTrack: 'base' }"
+        appPageSectionDirective
+    >
+        <button
+            [appMixinStyledButton]="{
+                size: 'mixin-Sbutton-base',
+                theme: 'theme-Sbutton-generic-white'
+            }"
+            type="reset"
+        >
+            Reset
+        </button>
+        <button
+            [appMixinStyledButton]="{
+                size: 'mixin-Sbutton-base',
+                theme: 'theme-Sbutton-generic-green'
+            }"
+        >
+            Create
+        </button>
+    </footer>
+</form>

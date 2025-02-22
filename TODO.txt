@@ -1,0 +1,2 @@
+fix player element not having min width on the frontpage;
+fix matches not being align start in matches;

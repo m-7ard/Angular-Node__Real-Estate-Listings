@@ -1,0 +1,44 @@
+<!-- Frontpage Page -->
+<div [appPageDirective]="{ pageSize: 'mixin-page-base' }" appContentGrid>
+    <section
+        appPageSectionDirective
+        class="token-default-flex-col token-body-section"
+        [appContentGridTrack]="{ contentGridTrack: 'base' }"
+    >
+        <header>
+            <div class="token-default-title">Today's Matches</div>
+            <div class="token-default-subtitle">
+                {{ matchesDate | date }}
+            </div>
+        </header>
+        <section class="flex flex-row gap-3 flex-wrap" appPageSectionDirective *ngIf="matches.length">
+            <app-match-element *ngFor="let match of matches" [match]="match" class="min-w-[250px] basis-1/3 grow" />
+        </section>
+    </section>
+    <app-divider [appContentGridTrack]="{ contentGridTrack: 'base' }" />
+    <section
+        appPageSectionDirective
+        class="token-default-flex-col token-body-section"
+        [appContentGridTrack]="{ contentGridTrack: 'base' }"
+    >
+        <header>
+            <div class="token-default-title">Recently Added Teams</div>
+        </header>
+        <section class="flex flex-row gap-3 flex-wrap" appPageSectionDirective *ngIf="teams.length">
+            <app-team-element *ngFor="let team of teams" [team]="team" class="min-w-[200px] basis-1/3 grow" />
+        </section>
+    </section>
+    <app-divider [appContentGridTrack]="{ contentGridTrack: 'base' }" />
+    <section
+        appPageSectionDirective
+        class="token-default-flex-col token-body-section grow"
+        [appContentGridTrack]="{ contentGridTrack: 'base' }"
+    >
+        <header>
+            <div class="token-default-title">Recently Added Players</div>
+        </header>
+        <section class="flex flex-row gap-3 flex-wrap" appPageSectionDirective *ngIf="players.length">
+            <app-player-element *ngFor="let player of players" [player]="player" class="min-w-[200px] basis-1/3 grow" />
+        </section>
+    </section>
+</div>

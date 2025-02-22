@@ -1,0 +1,33 @@
+<!-- Delete Team Membership Page -->
+<form (submit)="onSubmit($event)" [appPageDirective]="{ pageSize: 'mixin-page-base' }" appContentGrid>
+    <section [appContentGridTrack]="{ contentGridTrack: 'base' }" appPageSectionDirective class="token-body-section">
+        <div class="token-default-title">Delete Team Membership</div>
+    </section>
+    <app-divider [appContentGridTrack]="{ contentGridTrack: 'base' }" />
+    <section
+        [appContentGridTrack]="{ contentGridTrack: 'base' }"
+        appPageSectionDirective
+        class="token-body-section grow token-default-flex-col"
+    >
+        <section *ngIf="errors['_'] != null">
+            <app-form-errors [errors]="errors['_']"></app-form-errors>
+        </section>
+    </section>
+    <app-divider [appContentGridTrack]="{ contentGridTrack: 'base' }" />
+    <section
+        class="token-default-flex-row"
+        [appContentGridTrack]="{ contentGridTrack: 'base' }"
+        appPageSectionDirective
+    >
+        <button
+            [appMixinStyledButton]="{
+                size: 'mixin-Sbutton-base',
+                theme: 'theme-Sbutton-generic-red'
+            }"
+            class="grow justify-center"
+            type="submit"
+        >
+            Delete
+        </button>
+    </section>
+</form>

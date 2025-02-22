@@ -1,0 +1,61 @@
+<!-- Pick Single Player -->
+<div
+    [appMixinStyledCard]="{
+        size: 'mixin-Scard-base',
+        theme: 'theme-Scard-generic-white',
+        hasBorder: true,
+        hasDivide: true
+    }"
+>
+    <div appMixinStyledCardSection>
+        <button
+            [appMixinStyledButton]="{
+                theme: 'theme-Sbutton-generic-white',
+                size: 'mixin-Sbutton-base'
+            }"
+            (click)="openPlayerPickerModal()"
+            type="button"
+        >
+            Filter Players
+        </button>
+    </div>
+    <ng-content *ngIf="value != null">
+        <section appMixinStyledCardSection>
+            <div
+                [appMixinStyledCard]="{
+                    size: 'mixin-Scard-base',
+                    theme: 'theme-Scard-generic-white',
+                    hasDivide: true,
+                    hasBorder: true
+                }"
+            >
+                <main appMixinStyledCardSection class="grid gap-3" style="grid-template: auto / auto 1fr">
+                    <div class="aspect-square theme-avatar-any">
+                        <section class="relative h-full w-full flex">
+                            <app-cover-image src=""></app-cover-image>
+                        </section>
+                    </div>
+                    <div class="overflow-hidden">
+                        <div class="token-card--header--primary-text">
+                            {{ value.name }}
+                        </div>
+                    </div>
+                </main>
+                <section appMixinStyledCardSection>
+                    <div class="token-default-list">
+                        <span class="token-default-list__label">Id</span>
+                        <span class="truncate token-default-list__value">
+                            {{ value.id }}
+                        </span>
+                    </div>
+                    <div class="token-default-list">
+                        <span class="token-default-list__label">Active Since</span>
+                        <span class="truncate token-default-list__value">
+                            {{ value.activeSince | date }}
+                        </span>
+                    </div>
+                </section>
+            </div>
+        </section>
+    </ng-content>
+</div>

@@ -1,0 +1,141 @@
+@layer components {
+    .theme-input-generic-white {
+        @apply border flex flex-grow border-zinc-200;
+
+        > input {
+            @apply text-gray-900 bg-white focus:bg-zinc-300;
+        }
+    }
+
+    .theme-checkbox-generic-white {
+        $root: &;
+        @apply border border-gray-900 bg-white hover:bg-zinc-300;
+        
+        &--active [data-role="inner-part"], &:has(:checked) [data-role="inner-part"] {
+            @apply bg-gray-900;
+        }
+    }
+
+    .theme-textarea-generic-white {
+        @apply border border-gray-900 text-gray-900 bg-white;
+
+        > textarea {
+            @apply bg-white focus:bg-zinc-300;
+        }
+
+        [data-role="footer"] {
+            @apply bg-transparent border-gray-900;
+        }
+
+        [data-role="counter"] {
+            @apply border-gray-900;
+        }
+    }
+
+    .theme-panel-generic-white {
+        @apply bg-white;
+    }
+
+    .theme-Scard-generic-white {
+        @apply bg-white;
+    }
+
+    .theme-Sbutton-generic-white {
+        $root: &;
+        @apply border border-zinc-200 text-gray-800;
+
+        &:not(&.active) {
+            @apply bg-white;
+        }
+
+        &.active, &:not(&--static):hover {
+            @apply bg-gray-200;
+        }
+    }
+
+    .theme-Sbutton-generic-yellow {
+        $root: &;
+        @apply text-gray-800;
+
+        &:not(&.active) {
+            @apply bg-yellow-300;
+        }
+
+        &.active, &:not(&--static):hover {
+            @apply bg-yellow-400;
+        }
+    }
+
+    .theme-Sbutton-generic-green {
+        $root: &;
+        @apply text-white;
+
+        &:not(&.active) {
+            @apply bg-emerald-500;
+        }
+
+        &.active, &:not(&--static):hover {
+            @apply bg-emerald-600;
+        }
+    }
+
+    .theme-Sbutton-generic-red {
+        $root: &;
+        @apply text-white;
+
+        &:not(&.active) {
+            @apply bg-red-500;
+        }
+
+        &.active, &:not(&--static):hover {
+            @apply bg-red-600;
+        }
+    }
+
+    .theme-Sbutton-generic-orange {
+        $root: &;
+        @apply text-gray-800;
+
+        &:not(&.active) {
+            @apply bg-orange-300;
+        }
+
+        &.active, &:not(&--static):hover {
+            @apply bg-orange-400;
+        }
+    }
+
+    .theme-Sbutton-generic-blue {
+        $root: &;
+        @apply text-white;
+
+        &:not(&.active) {
+            @apply bg-blue-500;
+        }
+
+        &.active, &:not(&--static):hover {
+            @apply bg-blue-600;
+        }
+    }
+
+    .theme-avatar-any {
+        @apply bg-zinc-300 shadow shadow-gray-400/20 rounded-md;
+    }
+
+    .theme-select-generic-white {
+        @apply border border-zinc-200 divide-y divide-zinc-200;
+        
+        [data-role="option"] {
+            $root: &;
+            @apply text-gray-800;
+    
+            &.active, &:not(&.active):hover {
+                @apply bg-gray-200;
+            }
+
+            &:not(&.active) {
+                @apply bg-white;
+            }
+        }
+    }
+}
