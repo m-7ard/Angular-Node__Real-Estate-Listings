@@ -1,6 +1,5 @@
-import { err, ok } from "neverthrow";
+import { err, ok, Result } from "neverthrow";
 import IValueObject from "../IValueObject";
-import TDomainResult from "domain/errors/TDomainResult";
 
 export default class ClientType implements IValueObject {
     readonly __type: "ClientType" = null!;
@@ -12,15 +11,16 @@ export default class ClientType implements IValueObject {
 
     private constructor(public value: string) {}
 
-    public static canCreate(value: string): TDomainResult {
+    public static canCreate(value: string): Result<boolean, string> {
         const type = this.validTypes.find(type => type.value === value);
         if (type == null) return err(`"${value}" is not a valid Real Estate Listing Type`);
+        
         return ok(true);
     }
 
     public static executeCreate(value: string): ClientType {
         const canCreate = this.canCreate(value);
-        if (canCreate.isErr()) throw new Error(canCreate.error.message);
+        if (canCreate.isErr()) throw new Error(canCreate.error);
 
         const type = this.validTypes.find(type => type.value === value);
         if (type == null) throw new Error(`"${value}" is not a valid Real Estate Listing Type`);

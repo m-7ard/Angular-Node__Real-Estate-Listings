@@ -1,8 +1,11 @@
-import { DomainResult } from "domain/errors/TDomainResult";
+import CannotCreateClientId from "domain/errors/client/valueObjects/CannotCreateClientId";
+import CannotCreateClientType from "domain/errors/client/valueObjects/CannotCreateClientType";
+import DomainError from "domain/errors/DomainError";
 import ClientId from "domain/valueObjects/Client/ClientId";
 import ClientType from "domain/valueObjects/Client/ClientType";
+import { err, ok, Result } from "neverthrow";
 
-interface CreateClientContract {
+export interface CreateClientContract {
     id: string;
     type: string;
     name: string;
@@ -11,19 +14,19 @@ interface CreateClientContract {
 export default class Client {
     private constructor(public id: ClientId, public type: ClientType, public name: string) {}
 
-    public canCreate(contract: CreateClientContract): DomainResult {
+    public static canCreate(contract: CreateClientContract): Result<true, DomainError> {
         const id = ClientId.canCreate(contract.id);
-        if (id.isErr()) return DomainResult.fromError(id.error);
+        if (id.isErr()) return err(new CannotCreateClientId({ message: id.error }))
 
         const type = ClientType.canCreate(contract.type); 
-        if (type.isErr()) return DomainResult.fromError(type.error);
+        if (type.isErr()) return err(new CannotCreateClientType({ message: type.error }));
 
-        return DomainResult.OK;
+        return ok(true);
     }
 
-    public executeCreate(contract: CreateClientContract) {
+    public static executeCreate(contract: CreateClientContract) {
         const canCreate = this.canCreate(contract);
-        if (canCreate.isError) throw new Error(canCreate.error.message);
+        if (canCreate.isErr()) throw canCreate.error;
         
         const id = ClientId.executeCreate(contract.id);
         const type = ClientType.executeCreate(contract.type); 

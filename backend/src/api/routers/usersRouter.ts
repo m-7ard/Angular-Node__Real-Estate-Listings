@@ -6,6 +6,8 @@ import LoginUserAction from "api/actions/users/LoginUserAction";
 import ExpressHttpService from "api/services/ExpressHttpService";
 import CurrentUserAction from "api/actions/users/CurrentUserAction";
 
+/*
+
 const usersRouter = Router();
 
 registerAction({
@@ -41,3 +43,5 @@ registerAction({
 });
 
 export default usersRouter;
+
+*/

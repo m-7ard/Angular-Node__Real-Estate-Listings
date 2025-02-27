@@ -1,28 +1,19 @@
 import express, { NextFunction, Request, Response } from "express";
 import IDatabaseService from "./interfaces/IDatabaseService";
-import teamsRouter from "./routers/teamsRouter";
 import diContainer, { DI_TOKENS } from "./deps/diContainer";
-import TeamRepository from "infrastructure/repositories/TeamRepository";
 import createRequestDispatcher from "./deps/createRequestDispatcher";
 import errorLogger from "./middleware/errorLogger";
-import playersRouter from "./routers/playersRouter";
-import PlayerRepository from "infrastructure/repositories/PlayerRepository";
 import cors from "cors";
-import usersRouter from "./routers/usersRouter";
-import UserRepository from "infrastructure/repositories/UserRepository";
 import { JsonWebTokenService } from "infrastructure/services/JsonWebTokenService";
 import { BcryptPasswordHasher } from "infrastructure/services/BcryptPasswordHasher";
-import MatchRepository from "infrastructure/repositories/MatchRepository";
-import matchesRouter from "./routers/matchesRouter";
 import ApiModelService from "./services/ApiModelService";
-import PlayerExistsValidator from "application/services/PlayerExistsValidator";
-import TeamExistsValidator from "application/services/TeamExistsValidator";
-import MatchExistsValidator from "application/services/MatchExistsValidator";
-import UserExistsValidator from "application/services/UserExistsValidator";
-import { AddGoalServiceFactory } from "application/services/AddGoalService";
-import { TeamMembershipExistsValidatorFactory } from "application/services/TeamMembershipValidator";
 import path from "path";
 import knex from "knex";
+import ClientRepository from "infrastructure/persistence/ClientRepository";
+import MySQLClientMapper from "infrastructure/mappers/MySQL/MySQLClientMapper";
+import connectionProviderMiddlewareFactory from "./middleware/connectionProviderMiddlewareFactory";
+import UnitOfWork from "infrastructure/persistence/UnitOfWork";
+import ClientDomainService from "domain/services/ClientDomainService";
 
 export default function createApplication(config: {
     port: 3000 | 4200;
@@ -38,34 +29,39 @@ export default function createApplication(config: {
 
     // Database
     diContainer.register(DI_TOKENS.DATABASE, database);
+    diContainer.registerFactory(DI_TOKENS.UNIT_OF_WORK, (container) => {
+        const connection = container.resolve(DI_TOKENS.DATABASE_CONNECTION);
+        const userRepo = container.resolve(DI_TOKENS.USER_REPOSITORY);
+        const clientRepo = container.resolve(DI_TOKENS.CLIENT_REPOSITORY);
+
+        return new UnitOfWork(connection, userRepo, clientRepo);
+    })
 
     // Query Builder
-    const queryBuilder = knex({ client: database.__type });
-    diContainer.register(DI_TOKENS.QUERY_BUILDER, queryBuilder);
+    const queryBuilder = knex({ client: "mysql2" });
+    diContainer.register(DI_TOKENS.KNEX_QUERY_BUILDER, queryBuilder);
 
     // Services
     diContainer.register(DI_TOKENS.JWT_TOKEN_SERVICE, new JsonWebTokenService("super_secret_key"));
     diContainer.register(DI_TOKENS.PASSWORD_HASHER, new BcryptPasswordHasher());
-    diContainer.registerFactory(DI_TOKENS.API_MODEL_SERVICE, (diContainer) => {
-        return new ApiModelService(diContainer.resolve(DI_TOKENS.PLAYER_REPOSITORY), diContainer.resolve(DI_TOKENS.TEAM_REPOSITORY));
+    diContainer.registerFactory(DI_TOKENS.API_MODEL_SERVICE, (container) => {
+        const clientRepository = container.resolve(DI_TOKENS.CLIENT_REPOSITORY);
+        return new ApiModelService(clientRepository);
     });
 
-    // Repositories
-    diContainer.register(DI_TOKENS.TEAM_REPOSITORY, new TeamRepository(database, queryBuilder));
-    diContainer.register(DI_TOKENS.PLAYER_REPOSITORY, new PlayerRepository(database, queryBuilder));
-    diContainer.register(DI_TOKENS.USER_REPOSITORY, new UserRepository(database));
-    diContainer.register(DI_TOKENS.MATCH_REPOSITORY, new MatchRepository(database, queryBuilder));
+    diContainer.registerFactory(DI_TOKENS.CLIENT_DOMAIN_SERVICE, (container) => {
+        const unitOfWork = container.resolve(DI_TOKENS.UNIT_OF_WORK);
+        return new ClientDomainService(unitOfWork); 
+    })
 
-    // Application Services
-    diContainer.registerFactory(DI_TOKENS.PLAYER_EXISTS_VALIDATOR, (container) => new PlayerExistsValidator(container.resolve(DI_TOKENS.PLAYER_REPOSITORY)));
-    diContainer.registerFactory(DI_TOKENS.TEAM_EXISTS_VALIDATOR, (container) => new TeamExistsValidator(container.resolve(DI_TOKENS.TEAM_REPOSITORY)));
-    diContainer.registerFactory(DI_TOKENS.USER_EXISTS_VALIDATOR, (container) => new UserExistsValidator(container.resolve(DI_TOKENS.USER_REPOSITORY)));
-    diContainer.registerFactory(DI_TOKENS.MATCH_EXISTS_VALIDATOR, (container) => new MatchExistsValidator(container.resolve(DI_TOKENS.MATCH_REPOSITORY)));
-    diContainer.registerFactory(
-        DI_TOKENS.ADD_GOAL_SERIVICE_FACTORY,
-        (container) => new AddGoalServiceFactory(container.resolve(DI_TOKENS.PLAYER_EXISTS_VALIDATOR), container.resolve(DI_TOKENS.TEAM_EXISTS_VALIDATOR)),
-    );
-    diContainer.registerFactory(DI_TOKENS.TEAM_MEMBERSHIP_EXISTS_VALIDATOR_FACTORY, (container) => new TeamMembershipExistsValidatorFactory());
+    // Repositories
+    diContainer.register(DI_TOKENS.MAPPER_REGISTRY, { clientMapper: new MySQLClientMapper() }); 
+
+    diContainer.registerFactory(DI_TOKENS.CLIENT_REPOSITORY, (container) => {
+        const connection = container.resolve(DI_TOKENS.DATABASE_CONNECTION);
+        const registry = diContainer.resolve(DI_TOKENS.MAPPER_REGISTRY);
+        return new ClientRepository(connection, registry);
+    });
 
     // Request Dispatcher
     const dispatcher = createRequestDispatcher();
@@ -77,14 +73,13 @@ export default function createApplication(config: {
         app.use(middleware);
     });
 
-    app.use("/api/teams/", teamsRouter);
-    app.use("/api/players/", playersRouter);
-    app.use("/api/users/", usersRouter);
-    app.use("/api/matches/", matchesRouter);
+    // app.use("/api/users/", usersRouter);
 
     app.use("/media", express.static("media"));
     app.use("/static", express.static("static"));
     app.use(errorLogger);
+    app.use(diContainer.createRequestScopeMiddleware());
+    app.use(connectionProviderMiddlewareFactory(diContainer));
 
     const DIST_DIR = process.cwd();
     const STATIC_DIR = path.join(DIST_DIR, "static");

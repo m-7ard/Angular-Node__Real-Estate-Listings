@@ -1,15 +1,15 @@
-import IDatabaseService from "api/interfaces/IDatabaseService";
 import IUserRepository from "application/interfaces/IUserRepository";
 import sql from "sql-template-tag";
 import User from "domain/entities/User";
 import IUserSchema from "infrastructure/dbSchemas/IUserSchema";
 import UserMapper from "infrastructure/mappers/UserMapper";
 import UserDbEntity from "infrastructure/dbEntities/UserDbEntity";
+import IDatabaseConnection from "api/interfaces/IDatabaseConnection";
 
 class UserRepository implements IUserRepository {
-    private readonly _db: IDatabaseService;
+    private readonly _db: IDatabaseConnection;
 
-    constructor(db: IDatabaseService) {
+    constructor(db: IDatabaseConnection) {
         this._db = db;
     }
 

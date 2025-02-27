@@ -5,22 +5,17 @@ import JsonResponse from "../../responses/JsonResponse";
 import { StatusCodes } from "http-status-codes";
 import IApiError from "api/errors/IApiError";
 import ApiErrorFactory from "api/errors/ApiErrorFactory";
-import loginUserValidator from "api/validators/users/loginUserValidator";
-import { LoginUserQuery } from "application/handlers/users/LoginUserQueryHandler";
-import ILoginUserRequestDTO from "api/DTOs/users/login/ILoginUserRequestDTO";
-import ILoginUserResponseDTO from "api/DTOs/users/login/ILoginUserResponseDTO";
-import IHttpService from "api/interfaces/IHttpRequestService";
 
-type ActionRequest = { dto: ILoginUserRequestDTO };
-type ActionResponse = JsonResponse<ILoginUserResponseDTO | IApiError[]>;
+type ActionRequest = { dto: ICreateClientRequestDTO };
+type ActionResponse = JsonResponse<ICreateClientResponseDTO | IApiError[]>;
 
-class LoginUserAction implements IAction<ActionRequest, ActionResponse> {
-    constructor(private readonly _requestDispatcher: IRequestDispatcher, private readonly _httpService: IHttpService) {}
+class CreateClientAction implements IAction<ActionRequest, ActionResponse> {
+    constructor(private readonly _requestDispatcher: IRequestDispatcher) {}
     
     async handle(request: ActionRequest): Promise<ActionResponse> {
         const { dto } = request;
 
-        const validation = loginUserValidator(dto);
+        const validation = CreateClientValidator(dto);
         if (validation.isErr()) {
             return new JsonResponse({
                 status: StatusCodes.BAD_REQUEST,
@@ -28,22 +23,17 @@ class LoginUserAction implements IAction<ActionRequest, ActionResponse> {
             });
         }
 
-        const command = new LoginUserQuery({
+        const guid = crypto.randomUUID();
+
+        const command = new CreateClientCommand({
+            id: guid,
+            name: dto.name,
             email: dto.email,
             password: dto.password
         });
         const result = await this._requestDispatcher.dispatch(command);
 
         if (result.isErr()) {
-            const [firstError] = result.error;
-
-            if (firstError.code === APPLICATION_ERROR_CODES.OperationFailed) {
-                return new JsonResponse({
-                    status: StatusCodes.INTERNAL_SERVER_ERROR,
-                    body: ApiErrorFactory.mapApplicationErrors(result.error),
-                });
-            }
-
             return new JsonResponse({
                 status: StatusCodes.BAD_REQUEST,
                 body: ApiErrorFactory.mapApplicationErrors(result.error),
@@ -51,16 +41,18 @@ class LoginUserAction implements IAction<ActionRequest, ActionResponse> {
         }
 
         return new JsonResponse({
-            status: StatusCodes.OK,
+            status: StatusCodes.CREATED,
             body: {
-                token: result.value.jwtToken
+                id: guid
             },
         });
     }
 
+
     bind(request: Request): ActionRequest {
         return {
             dto: {
+                name: request.body.name,
                 email: request.body.email,
                 password: request.body.password
             },
@@ -68,4 +60,4 @@ class LoginUserAction implements IAction<ActionRequest, ActionResponse> {
     }
 }
 
-export default LoginUserAction;
+export default CreateClientAction;

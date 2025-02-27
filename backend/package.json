@@ -6,7 +6,6 @@
     "scripts": {
         "dev": "cross-env NODE_ENV=DEVELOPMENT tsx watch ./src/index.ts",
         "clean": "rimraf dist",
-
         "export:dev": "pkgroll --env.NODE_ENV=DEVELOPMENT",
         "export:prod": "pkgroll --env.NODE_ENV=PRODUCTION",
         "export:docker": "pkgroll --env.NODE_ENV=DOCKER",

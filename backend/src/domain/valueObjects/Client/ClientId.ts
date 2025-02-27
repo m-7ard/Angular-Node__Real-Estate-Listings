@@ -1,19 +1,18 @@
-import { err, ok, Result } from "neverthrow";
 import IValueObject from "../IValueObject";
-import TDomainResult from "domain/errors/TDomainResult";
+import { ok, Result } from "neverthrow";
 
 export default class ClientId implements IValueObject {
     __type = "ClientId";
 
     private constructor(public value: string) {}
 
-    public static canCreate(value: string): TDomainResult {
+    public static canCreate(value: string): Result<boolean, string> {
         return ok(true);
     }
 
     public static executeCreate(value: string) {
         const canCreate = this.canCreate(value);
-        if (canCreate.isErr()) throw new Error(canCreate.error.message);
+        if (canCreate.isErr()) throw new Error(canCreate.error);
         return new ClientId(value);
     }
 
