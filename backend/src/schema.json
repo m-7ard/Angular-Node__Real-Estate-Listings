@@ -1,26 +1,15 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "title": "Person",
+    "$id": "https://example.com/schemas/user.schema.json",
+    "title": "User",
     "type": "object",
     "properties": {
-      "name": {
-        "type": "string",
-        "description": "The person's full name"
-      },
-      "age": {
-        "type": "integer",
-        "minimum": 0,
-        "description": "The person's age in years"
-      },
-      "email": {
-        "type": "string",
-        "format": "email",
-        "description": "The person's email address"
-      },
-      "isEmployed": {
-        "type": "boolean",
-        "description": "Indicates if the person is employed"
+      "userId": { "type": "string", "format": "uuid" },
+      "name": { "type": "string" },
+      "ads": {
+        "type": "array",
+        "items": { "$ref": "https://example.com/schemas/advert.schema.json" }
       }
     },
-    "required": ["name", "age"]
+    "required": ["userId", "name"]
   }

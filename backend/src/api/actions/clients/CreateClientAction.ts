@@ -5,8 +5,9 @@ import JsonResponse from "../../responses/JsonResponse";
 import { StatusCodes } from "http-status-codes";
 import IApiError from "api/errors/IApiError";
 import ApiErrorFactory from "api/errors/ApiErrorFactory";
+import { CreateClientRequestDTO } from "../../../../types/api/contracts/clients/create/CreateClientRequestDTO";
 
-type ActionRequest = { dto: ICreateClientRequestDTO };
+type ActionRequest = { dto: CreateClientRequestDTO };
 type ActionResponse = JsonResponse<ICreateClientResponseDTO | IApiError[]>;
 
 class CreateClientAction implements IAction<ActionRequest, ActionResponse> {

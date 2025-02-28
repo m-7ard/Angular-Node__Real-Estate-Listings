@@ -5,6 +5,7 @@
     "main": "index.js",
     "scripts": {
         "dev": "cross-env NODE_ENV=DEVELOPMENT tsx watch ./src/index.ts",
+        "schema": "tsx watch ./src/schemaServer.ts",
         "clean": "rimraf dist",
         "export:dev": "pkgroll --env.NODE_ENV=DEVELOPMENT",
         "export:prod": "pkgroll --env.NODE_ENV=PRODUCTION",
@@ -57,6 +58,7 @@
         "cross-env": "^7.0.3",
         "dotenv": "^16.4.7",
         "express": "^4.21.1",
+        "fs-extra": "^11.3.0",
         "http-status-codes": "^2.3.0",
         "immutable": "^5.0.3",
         "jsonwebtoken": "^9.0.2",
@@ -64,6 +66,9 @@
         "luxon": "^3.5.0",
         "mysql2": "^3.11.3",
         "neverthrow": "^8.1.1",
+        "path": "^0.12.7",
+        "quicktype": "^23.0.171",
+        "quicktype-core": "^23.0.171",
         "sql-template-tag": "^5.2.1",
         "superstruct": "^2.0.2",
         "tsx": "^4.19.2"

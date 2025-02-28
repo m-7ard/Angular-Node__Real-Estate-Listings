@@ -15,5 +15,5 @@
         "forceConsistentCasingInFileNames": true,
         "rootDirs": ["./src"]
     },
-    "include": ["src/**/*", "babel.config.js", "static"]
+    "include": ["src/**/*", "babel.config.js", "static", "types/**/*"]
 }

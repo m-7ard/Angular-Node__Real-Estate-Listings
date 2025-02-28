@@ -1,0 +1,14 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "http://127.0.0.1:3000/schemas/api/models/Client.json",
+    "title": "Client",
+    "type": "object",
+    "properties": {
+        "id": { "type": "string", "format": "uuid" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "price": { "type": "number", "minimum": 0 },
+        "publishedAt": { "type": "string", "format": "date-time" }
+    },
+    "required": ["id", "title", "price"]
+}
