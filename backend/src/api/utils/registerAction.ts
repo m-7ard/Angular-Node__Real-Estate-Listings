@@ -16,7 +16,13 @@ function registerAction({
 }) {
     const handleRequest = async (req: Request, res: Response, next: NextFunction) => {
         const action = initialiseAction(req, res);
-        const arg = action.bind(req, res);
+        const validation = action.validate(req);
+        if (!validation.ok) {
+            res.status(400).json(validation.errors);
+            return;
+        }
+
+        const arg = action.bind(req);
 
         try {
             const result = await action.handle(arg);

@@ -1,0 +1,9 @@
+{
+    "$id": "http://127.0.0.1:3000/schemas/api/contracts/clients/create/CreateClientResponseDTO.json",
+    "title": "CreateClientResponseDTO",
+    "type": "object",
+    "properties": {
+        "id": { "type": "string", "format": "uuid" }
+    },
+    "required": ["id"]
+}

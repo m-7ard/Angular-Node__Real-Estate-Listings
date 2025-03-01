@@ -3,7 +3,7 @@ import { TResultHeader } from "../../api/interfaces/IDatabaseService";
 import IDatabaseConnection from "api/interfaces/IDatabaseConnection";
 
 class MySQLDatabaseConnection implements IDatabaseConnection {
-    constructor(private readonly connection: mysql.Connection) {}
+    constructor(private readonly connection: mysql.PoolConnection) {}
 
     async startTransaction() {
         await this.connection.beginTransaction();
@@ -41,8 +41,8 @@ class MySQLDatabaseConnection implements IDatabaseConnection {
         return { affectedRows: query.affectedRows };
     }
 
-    async disponse() {
-        await this.connection.end();
+    async dispose() {
+        this.connection.release();
     }
 }
 

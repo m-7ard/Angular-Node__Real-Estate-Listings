@@ -28,7 +28,7 @@ beforeEach(async () => {
     await resetIntegrationTest();
 
     const mixins = new Mixins();
-    const result = await mixins.createUser(1, false);
+    const result = await mixins.createClientUser(1);
     user_001 = result.user;
     user_001_plain_password = result.password;
 });

@@ -8,7 +8,7 @@ interface IDatabaseConnection {
     queryHeaders(args: { statement: string }): Promise<TResultHeader>;
     executeRows<T>(args: { statement: string; parameters: Array<unknown> }): Promise<T[]>;
     executeHeaders<T>(args: { statement: string; parameters: Array<unknown> }): Promise<TResultHeader>;
-    disponse: () => Promise<void>;
+    dispose: () => Promise<void>;
 }
 
 export default IDatabaseConnection;

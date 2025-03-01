@@ -14,6 +14,9 @@ import MySQLClientMapper from "infrastructure/mappers/MySQL/MySQLClientMapper";
 import connectionProviderMiddlewareFactory from "./middleware/connectionProviderMiddlewareFactory";
 import UnitOfWork from "infrastructure/persistence/UnitOfWork";
 import ClientDomainService from "domain/services/ClientDomainService";
+import clientsRouter from "./routers/clientsRouter";
+import UserRepository from "infrastructure/persistence/UserRepository";
+import MySQLUserMapper from "infrastructure/mappers/MySQL/MySQLUserMapper";
 
 export default function createApplication(config: {
     port: 3000 | 4200;
@@ -29,6 +32,7 @@ export default function createApplication(config: {
 
     // Database
     diContainer.register(DI_TOKENS.DATABASE, database);
+    
     diContainer.registerFactory(DI_TOKENS.UNIT_OF_WORK, (container) => {
         const connection = container.resolve(DI_TOKENS.DATABASE_CONNECTION);
         const userRepo = container.resolve(DI_TOKENS.USER_REPOSITORY);
@@ -55,13 +59,20 @@ export default function createApplication(config: {
     })
 
     // Repositories
-    diContainer.register(DI_TOKENS.MAPPER_REGISTRY, { clientMapper: new MySQLClientMapper() }); 
+    diContainer.register(DI_TOKENS.MAPPER_REGISTRY, { clientMapper: new MySQLClientMapper(), userMapper: new MySQLUserMapper() }); 
 
     diContainer.registerFactory(DI_TOKENS.CLIENT_REPOSITORY, (container) => {
         const connection = container.resolve(DI_TOKENS.DATABASE_CONNECTION);
-        const registry = diContainer.resolve(DI_TOKENS.MAPPER_REGISTRY);
+        const registry = container.resolve(DI_TOKENS.MAPPER_REGISTRY);
         return new ClientRepository(connection, registry);
     });
+
+    diContainer.registerFactory(DI_TOKENS.USER_REPOSITORY, (container) => {
+        const connection = diContainer.resolve(DI_TOKENS.DATABASE_CONNECTION);
+        const registry = diContainer.resolve(DI_TOKENS.MAPPER_REGISTRY);
+        return new UserRepository(connection, registry);
+    });
+
 
     // Request Dispatcher
     const dispatcher = createRequestDispatcher();
@@ -73,7 +84,8 @@ export default function createApplication(config: {
         app.use(middleware);
     });
 
-    // app.use("/api/users/", usersRouter);
+    app.use("/api/users/", usersRouter);
+    app.use("/api/clients/", clientsRouter);
 
     app.use("/media", express.static("media"));
     app.use("/static", express.static("static"));

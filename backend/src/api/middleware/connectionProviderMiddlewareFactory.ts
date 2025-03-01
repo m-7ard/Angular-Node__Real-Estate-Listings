@@ -9,11 +9,11 @@ function connectionProviderMiddlewareFactory(diContainer: DIContainer) {
             const connection = await db.getConnection();
         
             res.on("finish", () => {
-                connection.disponse().catch(err => console.error('Error releasing DB connection:', err));
+                connection.dispose().catch(err => console.error('Error releasing DB connection:', err));
             });
     
             res.on("close", () => {
-                connection.disponse().catch(err => console.error('Error releasing DB connection:', err));
+                connection.dispose().catch(err => console.error('Error releasing DB connection:', err));
             });
     
             diContainer.registerScoped(DI_TOKENS.DATABASE_CONNECTION, () => connection);

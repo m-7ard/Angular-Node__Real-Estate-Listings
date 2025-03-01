@@ -46,7 +46,7 @@ class EnhancedJSONSchemaStore extends FetchingJSONSchemaStore {
                 }
                 
                 // Parse the response as JSON
-                const schema = await response.json();
+                const schema = await response.json() as JSONSchema;
                 console.log(`Successfully fetched schema from ${address}`);
                 
                 // Cache the schema

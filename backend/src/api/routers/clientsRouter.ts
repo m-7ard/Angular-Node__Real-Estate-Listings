@@ -1,17 +1,17 @@
 import { Request, Response, Router } from "express";
 import registerAction from "../utils/registerAction";
 import diContainer, { DI_TOKENS } from "api/deps/diContainer";
-import RegisterUserAction from "api/actions/users/RegisterUserAction";
+import CreateClientAction from "api/actions/clients/CreateClientAction";
 
 const clientsRouter = Router();
 
 registerAction({
     router: clientsRouter,
-    path: "/register",
+    path: "/create",
     method: "POST",
     initialiseAction: () => {
         const requestDispatcher = diContainer.resolve(DI_TOKENS.REQUEST_DISPATCHER);
-        return new CreateUser(requestDispatcher);
+        return new CreateClientAction(requestDispatcher);
     },
 });
 

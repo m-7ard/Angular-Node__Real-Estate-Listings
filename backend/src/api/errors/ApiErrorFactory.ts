@@ -2,6 +2,7 @@ import API_ERROR_CODES from "./API_ERROR_CODES";
 import { Failure } from "superstruct";
 import IApiError from "./IApiError";
 import IApplicationError from "application/errors/IApplicationError";
+import { ErrorObject } from "ajv";
 
 class ApiErrorFactory {
     static superstructFailureToApiErrors(errors: Array<Failure>, pathPrefix: string[] = []) {
@@ -45,6 +46,14 @@ class ApiErrorFactory {
 
     static createSingleErrorList(props: { message: string; path: string; code: string }): [IApiError] {
         return [{ message: props.message, path: props.path, code: props.code }];
+    }
+
+    static mapAjvErrors(errors: ErrorObject<string, Record<string, any>, unknown>[] | null | undefined): IApiError[] {
+        if (errors == null) {
+            throw new Error("No errors were provided to mapAjvErrors.");
+        }
+
+        return errors.map<IApiError>((error) => ({ code: API_ERROR_CODES.APPLICATION_ERROR, message: error.message ?? "", path: error.instancePath }));
     }
 }
 

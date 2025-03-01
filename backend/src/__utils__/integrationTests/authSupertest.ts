@@ -6,7 +6,7 @@ import Mixins from "./Mixins";
 export async function adminSuperTest(props: { agent: Test; seed: number }): Promise<Test> {
     const { seed, agent } = props;
     const mixins = new Mixins();
-    const { user, password } = await mixins.createUser(seed, true);
+    const { user, password } = await mixins.createAdminUser(seed);
     const jwtToken = await loginUser(user, password);
     agent.set("Authorization", `Bearer ${jwtToken}`);
     return agent;

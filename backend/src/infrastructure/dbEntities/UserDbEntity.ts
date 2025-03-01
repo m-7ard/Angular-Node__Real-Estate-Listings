@@ -1,10 +1,9 @@
-import IUserSchema from "infrastructure/dbSchemas/IUserSchema";
 import sql, { raw } from "sql-template-tag";
 
-class UserDbEntity implements IUserSchema {
+class UserDbEntity {
     private readonly __type: "USER_DOMAIN" = null!;
 
-    constructor(props: { id: string; name: string; email: string; hashed_password: string; date_created: Date; is_admin: 1 | 0 }) {
+    constructor(props: { id: string; name: string; email: string; hashed_password: string; date_created: Date; is_admin: boolean }) {
         this.id = props.id;
         this.name = props.name;
         this.email = props.email;
@@ -18,7 +17,7 @@ class UserDbEntity implements IUserSchema {
     public email: string;
     public hashed_password: string;
     public date_created: Date;
-    public is_admin: 0 | 1;
+    public is_admin: boolean;
 
     public static readonly TABLE_NAME = "users";
 

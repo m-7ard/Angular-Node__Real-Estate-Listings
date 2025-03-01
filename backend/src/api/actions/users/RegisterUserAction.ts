@@ -14,7 +14,7 @@ type ActionRequest = { dto: IRegisterUserRequestDTO };
 type ActionResponse = JsonResponse<IRegisterUserResponseDTO | IApiError[]>;
 
 class RegisterUserAction implements IAction<ActionRequest, ActionResponse> {
-    constructor(private readonly _requestDispatcher: IRequestDispatcher) {}
+    constructor(private readonly requestDispatcher: IRequestDispatcher) {}
     
     async handle(request: ActionRequest): Promise<ActionResponse> {
         const { dto } = request;
@@ -35,7 +35,7 @@ class RegisterUserAction implements IAction<ActionRequest, ActionResponse> {
             email: dto.email,
             password: dto.password
         });
-        const result = await this._requestDispatcher.dispatch(command);
+        const result = await this.requestDispatcher.dispatch(command);
 
         if (result.isErr()) {
             return new JsonResponse({
