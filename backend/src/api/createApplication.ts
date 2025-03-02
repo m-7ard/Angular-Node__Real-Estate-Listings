@@ -1,6 +1,5 @@
 import express, { NextFunction, Request, Response } from "express";
 import IDatabaseService from "./interfaces/IDatabaseService";
-import diContainer, { DI_TOKENS } from "./deps/diContainer";
 import createRequestDispatcher from "./deps/createRequestDispatcher";
 import errorLogger from "./middleware/errorLogger";
 import cors from "cors";
@@ -11,20 +10,24 @@ import path from "path";
 import knex from "knex";
 import ClientRepository from "infrastructure/persistence/ClientRepository";
 import MySQLClientMapper from "infrastructure/mappers/MySQL/MySQLClientMapper";
-import connectionProviderMiddlewareFactory from "./middleware/connectionProviderMiddlewareFactory";
+import connectionProviderMiddlewareFactory, { createRequestScopeMiddleware } from "./middleware/connectionProviderMiddlewareFactory";
 import UnitOfWork from "infrastructure/persistence/UnitOfWork";
-import ClientDomainService from "domain/services/ClientDomainService";
-import clientsRouter from "./routers/clientsRouter";
+import ClientDomainService from "application/services/domainServices/ClientDomainService";
 import UserRepository from "infrastructure/persistence/UserRepository";
 import MySQLUserMapper from "infrastructure/mappers/MySQL/MySQLUserMapper";
+import UserDomainService from "application/services/domainServices/UserDomainService";
+import { DI_TOKENS, IDIContainer } from "./services/DIContainer";
+import { createUsersRouter } from "./routers/usersRouter";
+import { createClientsRouter } from "./routers/clientsRouter";
 
 export default function createApplication(config: {
     port: 3000 | 4200;
     middleware: Array<(req: Request, res: Response, next: NextFunction) => void>;
     database: IDatabaseService;
     mode: "PRODUCTION" | "DEVELOPMENT" | "DOCKER";
+    diContainer: IDIContainer;
 }) {
-    const { database } = config;
+    const { database, diContainer } = config;
     const app = express();
     app.options("*", cors());
     // console.log("----------------------------");
@@ -57,6 +60,11 @@ export default function createApplication(config: {
         const unitOfWork = container.resolve(DI_TOKENS.UNIT_OF_WORK);
         return new ClientDomainService(unitOfWork); 
     })
+    diContainer.registerFactory(DI_TOKENS.USER_DOMAIN_SERVICE, (container) => {
+        const unitOfWork = container.resolve(DI_TOKENS.UNIT_OF_WORK);
+        const passwordHasher = container.resolve(DI_TOKENS.PASSWORD_HASHER);
+        return new UserDomainService(unitOfWork, passwordHasher); 
+    })
 
     // Repositories
     diContainer.register(DI_TOKENS.MAPPER_REGISTRY, { clientMapper: new MySQLClientMapper(), userMapper: new MySQLUserMapper() }); 
@@ -84,14 +92,15 @@ export default function createApplication(config: {
         app.use(middleware);
     });
 
-    app.use("/api/users/", usersRouter);
-    app.use("/api/clients/", clientsRouter);
+    app.use(createRequestScopeMiddleware(diContainer));
+    app.use(connectionProviderMiddlewareFactory(diContainer));
+
+    app.use("/api/users/", createUsersRouter(diContainer));
+    app.use("/api/clients/", createClientsRouter(diContainer));
 
     app.use("/media", express.static("media"));
     app.use("/static", express.static("static"));
     app.use(errorLogger);
-    app.use(diContainer.createRequestScopeMiddleware());
-    app.use(connectionProviderMiddlewareFactory(diContainer));
 
     const DIST_DIR = process.cwd();
     const STATIC_DIR = path.join(DIST_DIR, "static");

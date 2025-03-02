@@ -1,0 +1,9 @@
+{
+    "$id": "http://127.0.0.1:3000/schemas/api/contracts/users/currentUser/CurrentUserRequestDTO.json",
+    "title": "CurrentUserRequestDTO",
+    "type": "object",
+    "properties": {
+        "_": { "type": "null" }
+    },
+    "required": []
+}

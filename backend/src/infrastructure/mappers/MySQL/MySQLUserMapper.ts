@@ -11,7 +11,7 @@ class MySQLUserMapper implements IUserMapper {
             date_created: source.date_created,
             email: source.email,
             hashed_password: source.hashed_password,
-            is_admin: Boolean(source.is_admin),
+            is_admin: source.is_admin,
         });
     }
 
@@ -20,9 +20,9 @@ class MySQLUserMapper implements IUserMapper {
             id: source.id.value,
             name: source.name,
             date_created: source.dateCreated,
-            email: source.email,
+            email: source.email.value,
             hashed_password: source.hashedPassword,
-            is_admin: source.isAdmin,
+            is_admin: source.isAdmin ? 1 : 0,
         });
     }
 
@@ -33,7 +33,7 @@ class MySQLUserMapper implements IUserMapper {
             dateCreated: source.date_created,
             email: source.email,
             hashedPassword: source.hashed_password,
-            isAdmin: source.is_admin,
+            isAdmin: Boolean(source.is_admin),
         });
     }
 }

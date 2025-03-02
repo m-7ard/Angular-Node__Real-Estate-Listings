@@ -1,0 +1,9 @@
+{
+    "$id": "http://127.0.0.1:3000/schemas/api/contracts/users/login/LoginUserResponseDTO.json",
+    "title": "LoginUserResponseDTO",
+    "type": "object",
+    "properties": {
+        "token": { "type": "string" }
+    },
+    "required": ["token"]
+}

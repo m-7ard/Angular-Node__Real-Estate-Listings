@@ -10,7 +10,6 @@ export type TValidateResult = { ok: boolean; errors: IApiError[] };
 interface IAction<ActionReq, ActionRes = IActionResponse> {
     handle(request: ActionReq): Promise<ActionRes>;
     bind(request: Request): ActionReq;
-    validate(request: Request): TValidateResult;
 }
 
 export default IAction;

@@ -1,0 +1,6 @@
+enum USER_ERROR_CODES {
+    INVALID_EMAIL = "INVALID_EMAIL",
+    INVALID_ID = "INVALID_ID"
+}
+
+export default USER_ERROR_CODES;

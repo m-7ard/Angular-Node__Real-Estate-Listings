@@ -1,0 +1,12 @@
+{
+    "$id": "http://127.0.0.1:3000/schemas/api/models/UserApiModel.json",
+    "title": "UserApiModel",
+    "type": "object",
+    "properties": {
+        "id": { "type": "string", "format": "uuid" },
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "isAdmin": { "type": "boolean" }
+    },
+    "required": ["id",  "name", "email", "isAdmin"]
+}

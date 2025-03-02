@@ -1,15 +1,12 @@
 import { IRequestHandler } from "../IRequestHandler";
 import ICommand, { ICommandResult } from "../ICommand";
 import { err, ok } from "neverthrow";
-import IUserRepository from "../../interfaces/IUserRepository";
-import UserFactory from "domain/domainFactories/UserFactory";
-import IPasswordHasher from "application/interfaces/IPasswordHasher";
-import APPLICATION_ERROR_CODES from "application/errors/VALIDATION_ERROR_CODES";
-import ApplicationErrorFactory from "application/errors/ApplicationErrorFactory";
-import UserExistsValidator from "application/services/UserExistsValidator";
-import IApplicationError from "application/errors/IApplicationError";
+import IUnitOfWork from "application/interfaces/IUnitOfWork";
+import IUserDomainService from "application/interfaces/domainServices/IUserDomainService";
+import ApplicationError from "application/errors/ApplicationError";
+import CannotCreateClientUserServiceError from "application/errors/services/userDomainService/CannotCreateClientUserServiceError";
 
-export type RegisterUserCommandResult = ICommandResult<IApplicationError[]>;
+export type RegisterUserCommandResult = ICommandResult<ApplicationError[]>;
 
 export class RegisterUserCommand implements ICommand<RegisterUserCommandResult> {
     __returnType: RegisterUserCommandResult = null!;
@@ -28,36 +25,22 @@ export class RegisterUserCommand implements ICommand<RegisterUserCommandResult> 
 }
 
 export default class RegisterUserCommandHandler implements IRequestHandler<RegisterUserCommand, RegisterUserCommandResult> {
-    private readonly _userRepository: IUserRepository;
-    private readonly _passwordHasher: IPasswordHasher;
-    private readonly userExistsValidator: UserExistsValidator;
-
-    constructor(props: { userRepository: IUserRepository; passwordHasher: IPasswordHasher; userExistsValidator: UserExistsValidator; }) {
-        this._userRepository = props.userRepository;
-        this._passwordHasher = props.passwordHasher;
-        this.userExistsValidator = props.userExistsValidator;
-    }
+    constructor(private readonly unitOfWork: IUnitOfWork, private readonly userDomainService: IUserDomainService) {}
 
     async handle(command: RegisterUserCommand): Promise<RegisterUserCommandResult> {
-        const userExistResult = await this.userExistsValidator.validate({ email: command.email });
-        if (userExistResult.isOk()) {
-            return err(ApplicationErrorFactory.createSingleListError({
-                message: `User of email "${command.email} already exists."`,
-                code: APPLICATION_ERROR_CODES.ModelAlreadyExists,
-                path: []
-            }));
-        }
+        this.unitOfWork.beginTransaction();
 
-        const hashed_password = await this._passwordHasher.hashPassword(command.password);
-        const user = UserFactory.CreateNew({
+        const tryCreate = await this.userDomainService.tryCreateStandardUser({
             id: command.id,
-            name: command.name,
             email: command.email,
-            hashedPassword: hashed_password,
-            isAdmin: false,
-        });
+            name: command.name,
+            password: command.password
+        })
 
-        await this._userRepository.createAsync(user);
+        if (tryCreate.isErr()) return err(new CannotCreateClientUserServiceError({ message: tryCreate.error.message }).asList());
+
+        await this.unitOfWork.commitTransaction();
+        
         return ok(undefined);
     }
 }

@@ -3,7 +3,7 @@ import sql, { raw } from "sql-template-tag";
 class UserDbEntity {
     private readonly __type: "USER_DOMAIN" = null!;
 
-    constructor(props: { id: string; name: string; email: string; hashed_password: string; date_created: Date; is_admin: boolean }) {
+    constructor(props: { id: string; name: string; email: string; hashed_password: string; date_created: Date; is_admin: 0 | 1 }) {
         this.id = props.id;
         this.name = props.name;
         this.email = props.email;
@@ -17,7 +17,7 @@ class UserDbEntity {
     public email: string;
     public hashed_password: string;
     public date_created: Date;
-    public is_admin: boolean;
+    public is_admin: 0 | 1;
 
     public static readonly TABLE_NAME = "users";
 

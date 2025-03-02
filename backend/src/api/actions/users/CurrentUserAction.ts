@@ -9,6 +9,7 @@ import IHttpService from "api/interfaces/IHttpRequestService";
 import { CurrentUserQuery } from "application/handlers/users/CurrentUserQueryHandler";
 import API_ERROR_CODES from "api/errors/API_ERROR_CODES";
 import ApiModelMapper from "api/mappers/ApiModelMapper";
+import InvalidJwtTokenError from "application/errors/other/InvalidJwtTokenError";
 
 type ActionRequest = {};
 type ActionResponse = JsonResponse<ICurrentUserResponseDTO | IApiError[]>;
@@ -33,9 +34,10 @@ class CurrentUserAction implements IAction<ActionRequest, ActionResponse> {
 
         if (result.isErr()) {
             const [firstError] = result.error;
-            if (firstError.code === APPLICATION_ERROR_CODES.OperationFailed) {
+
+            if (firstError instanceof InvalidJwtTokenError) {
                 return new JsonResponse({
-                    status: StatusCodes.BAD_REQUEST,
+                    status: StatusCodes.UNAUTHORIZED,
                     body: ApiErrorFactory.mapApplicationErrors(result.error),
                 });
             }

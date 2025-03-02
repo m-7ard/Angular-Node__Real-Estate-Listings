@@ -1,0 +1,5 @@
+enum MONEY_ERROR_CODES {
+    AMOUNT_TOO_SMALL = "AMOUNT_TOO_SMALL"
+}
+
+export default MONEY_ERROR_CODES;

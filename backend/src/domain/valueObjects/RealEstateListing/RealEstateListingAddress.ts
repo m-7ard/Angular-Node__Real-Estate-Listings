@@ -1,6 +1,5 @@
-import { err, ok, Result } from "neverthrow";
+import DomainValidationResult from "domain/errors/definitions/DomainValidationResult";
 import IValueObject from "../IValueObject";
-import { DomainResult } from "domain/errors/TDomainResult";
 
 interface CreateRealEstateListingAddressContract {
     street: string;
@@ -21,13 +20,13 @@ export default class RealEstateListingAddress implements IValueObject {
         public country: string,
     ) {}
 
-    public static canCreate(value: CreateRealEstateListingAddressContract): DomainResult {
-        return DomainResult.OK;
+    public static canCreate(value: CreateRealEstateListingAddressContract): DomainValidationResult {
+        return DomainValidationResult.AsOk();
     }
 
     public static executeCreate(value: CreateRealEstateListingAddressContract): RealEstateListingAddress {
         const canCreate = this.canCreate(value);
-        if (canCreate.isError) throw new Error(canCreate.error.message);
+        if (canCreate.isError()) throw new Error(canCreate.error.message);
         return new RealEstateListingAddress(value.street, value.city, value.state, value.zip, value.country);
     }
 

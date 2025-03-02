@@ -1,5 +1,5 @@
 import Client from "domain/entities/Client";
-import DomainError from "domain/errors/DomainError";
+import ApplicationError from "application/errors/ApplicationError";
 import { Result } from "neverthrow";
 
 export interface IOrchestrateCreateNewClientContract {
@@ -9,5 +9,5 @@ export interface IOrchestrateCreateNewClientContract {
 } 
 
 export default interface IClientDomainService {
-    tryOrchestractCreateNewClient(contract: IOrchestrateCreateNewClientContract): Promise<Result<Client, DomainError>>
+    tryOrchestractCreateNewClient(contract: IOrchestrateCreateNewClientContract): Promise<Result<Client, ApplicationError>>
 }

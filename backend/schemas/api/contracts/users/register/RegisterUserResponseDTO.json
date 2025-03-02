@@ -1,0 +1,9 @@
+{
+    "$id": "http://127.0.0.1:3000/schemas/api/contracts/users/register/RegisterUserResponseDTO.json",
+    "title": "RegisterUserResponseDTO",
+    "type": "object",
+    "properties": {
+        "id": { "type": "string", "format": "uuid" }
+    },
+    "required": ["id"]
+}

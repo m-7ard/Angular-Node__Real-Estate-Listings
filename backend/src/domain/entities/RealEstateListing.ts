@@ -1,4 +1,5 @@
-import { DomainResult } from "domain/errors/TDomainResult";
+import DomainValidationResult from "domain/errors/definitions/DomainValidationResult";
+import REAL_ESTATE_LISTING_ERROR_CODES from "domain/errors/enums/REAL_ESTATE_LISTING_ERROR_CODES";
 import ClientId from "domain/valueObjects/Client/ClientId";
 import Money from "domain/valueObjects/Common/Money";
 import RealEstateListingAddress from "domain/valueObjects/RealEstateListing/RealEstateListingAddress";
@@ -28,25 +29,25 @@ class RealEstateListing {
         public clientId: ClientId
     ) {}
 
-    public canCreate(contract: CreateRealEstateListingContract): DomainResult {
+    public canCreate(contract: CreateRealEstateListingContract): DomainValidationResult {
         const id = RealEstateListingId.canCreate(contract.id);
-        if (id.isError) return DomainResult.fromError(id.error);
+        if (id.isError()) return DomainValidationResult.AsError({ message: id.error.message, code: REAL_ESTATE_LISTING_ERROR_CODES.CANNOT_CREATE_ID });
 
         const type = RealEstateListingType.canCreate(contract.type);
-        if (type.isError) return DomainResult.fromError(type.error);
+        if (type.isError()) return DomainValidationResult.AsError({ message: type.error.message, code: REAL_ESTATE_LISTING_ERROR_CODES.CANNOT_CREATE_TYPE });
 
         const price = Money.canCreate(contract.price);
-        if (price.isError) return DomainResult.fromError(price.error);
+        if (price.isError()) return DomainValidationResult.AsError({ message: price.error.message, code: REAL_ESTATE_LISTING_ERROR_CODES.CANNOT_CREATE_PRICE });
 
         const address = RealEstateListingAddress.canCreate({ street: contract.street, city: contract.city, state: contract.state, zip: contract.zip, country: contract.country });
-        if (address.isError) return DomainResult.fromError(address.error);
+        if (address.isError()) return DomainValidationResult.AsError({ message: address.error.message, code: REAL_ESTATE_LISTING_ERROR_CODES.CANNOT_CREATE_ADDRESS });
 
-        return DomainResult.OK;
+        return DomainValidationResult.AsOk();
     }
 
     public executeCreate(contract: CreateRealEstateListingContract) {
         const canCreate = this.canCreate(contract);
-        if (canCreate.isError) throw new Error(canCreate.error.message);
+        if (canCreate.isError()) throw new Error(canCreate.error.message);
 
         const id = RealEstateListingId.executeCreate(contract.id);
         const type = RealEstateListingType.executeCreate(contract.type);

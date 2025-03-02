@@ -1,5 +1,6 @@
 import createApplication from "api/createApplication";
 import responseLogger from "api/middleware/responseLogger";
+import { ProductionDIContainer } from "api/services/DIContainer";
 import getMigrations from "api/utils/getMigrations";
 import MySQLDatabaseService from "infrastructure/services/MySQLDatabaseService";
 import { assert, literal, union } from "superstruct";
@@ -40,11 +41,14 @@ async function main() {
     const migrations = await getMigrations();
     await db.initialise(migrations);
 
+    const diContainer = new ProductionDIContainer();
+
     const app = createApplication({
         port: port,
         middleware: [responseLogger],
         database: db,
         mode: environment,
+        diContainer: diContainer
     });
 
     const server = app.listen(port, host, () => {

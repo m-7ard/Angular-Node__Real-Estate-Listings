@@ -1,14 +1,13 @@
-import { Request } from "express";
-import IAction from "../IAction";
-import IRequestDispatcher from "../../../application/handlers/IRequestDispatcher";
-import JsonResponse from "../../responses/JsonResponse";
-import { StatusCodes } from "http-status-codes";
-import IApiError from "api/errors/IApiError";
-import ApiErrorFactory from "api/errors/ApiErrorFactory";
 import IRegisterUserRequestDTO from "api/DTOs/users/register/IRegisterUserRequestDTO";
 import IRegisterUserResponseDTO from "api/DTOs/users/register/IRegisterUserResponseDTO";
-import registerUserValidator from "api/validators/users/registerUserValidator";
+import ApiErrorFactory from "api/errors/ApiErrorFactory";
+import IApiError from "api/errors/IApiError";
+import JsonResponse from "api/responses/JsonResponse";
+import IRequestDispatcher from "application/handlers/IRequestDispatcher";
 import { RegisterUserCommand } from "application/handlers/users/RegisterUserCommandHandler";
+import { StatusCodes } from "http-status-codes";
+import IAction from "../IAction";
+import { Request } from "express";
 
 type ActionRequest = { dto: IRegisterUserRequestDTO };
 type ActionResponse = JsonResponse<IRegisterUserResponseDTO | IApiError[]>;
@@ -19,14 +18,6 @@ class RegisterUserAction implements IAction<ActionRequest, ActionResponse> {
     async handle(request: ActionRequest): Promise<ActionResponse> {
         const { dto } = request;
 
-        const validation = registerUserValidator(dto);
-        if (validation.isErr()) {
-            return new JsonResponse({
-                status: StatusCodes.BAD_REQUEST,
-                body: ApiErrorFactory.superstructFailureToApiErrors(validation.error),
-            });
-        }
-
         const guid = crypto.randomUUID();
 
         const command = new RegisterUserCommand({
@@ -35,6 +26,7 @@ class RegisterUserAction implements IAction<ActionRequest, ActionResponse> {
             email: dto.email,
             password: dto.password
         });
+
         const result = await this.requestDispatcher.dispatch(command);
 
         if (result.isErr()) {

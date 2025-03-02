@@ -3,8 +3,8 @@ import ICommand, { ICommandResult } from "../ICommand";
 import { err, ok } from "neverthrow";
 import IUnitOfWork from "application/interfaces/IUnitOfWork";
 import IClientDomainService from "application/interfaces/domainServices/IClientDomainService";
-import ApplicationError from "application/errors/ApplicationError";
 import CannotCreateNewClient from "application/errors/services/clientDomainService/CannotCreateNewClient";
+import ApplicationError from "application/errors/ApplicationError";
 
 export type CreateClientCommandResult = ICommandResult<ApplicationError[]>;
 

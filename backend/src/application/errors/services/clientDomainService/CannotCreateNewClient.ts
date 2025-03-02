@@ -1,4 +1,4 @@
-import ApplicationError from "application/errors/ApplicationError";
+import ApplicationError from "application/errors/ApplicationError"
 
 class CannotCreateNewClient extends ApplicationError {
     constructor({ message, path = [] }: { message: string, path?: string[]}) {

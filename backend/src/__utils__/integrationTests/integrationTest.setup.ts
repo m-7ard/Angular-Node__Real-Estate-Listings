@@ -2,7 +2,7 @@ const SECONDS = 1000;
 jest.setTimeout(70 * SECONDS)
 
 import createApplication from "api/createApplication";
-import diContainer, { DI_TOKENS } from "api/deps/diContainer";
+import { DI_TOKENS, TestingDIContainer } from "api/services/DIContainer";
 import IDatabaseConnection from "api/interfaces/IDatabaseConnection";
 import IDatabaseService from "api/interfaces/IDatabaseService";
 import responseLogger from "api/middleware/responseLogger";
@@ -14,6 +14,7 @@ const jestConsole = console;
 
 export let db: IDatabaseService;
 export let server: Server;
+export let testingDIContainer: TestingDIContainer;
 let connection: IDatabaseConnection;
 
 export async function setUpIntegrationTest() {
@@ -24,11 +25,14 @@ export async function setUpIntegrationTest() {
         password: "adminword",
     });
 
+    testingDIContainer = new TestingDIContainer({ connection: await db.getConnection() });
+
     const app = createApplication({
         port: 4200,
         middleware: [responseLogger],
         database: db,
-        mode: "DEVELOPMENT"
+        mode: "DEVELOPMENT",
+        diContainer: testingDIContainer
     });
 
     server = app.listen();
@@ -48,6 +52,8 @@ export async function resetIntegrationTest() {
     global.console = require("console");
     const migrations = await getMigrations();
     await db.initialise(migrations);
+
+    await connection?.dispose(); 
     connection = await db.getConnection();
-    diContainer.register(DI_TOKENS.DATABASE_CONNECTION, connection);
+    testingDIContainer.updateConnection(connection);
 }

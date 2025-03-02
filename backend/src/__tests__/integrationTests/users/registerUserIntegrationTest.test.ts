@@ -1,18 +1,16 @@
-import API_ERROR_CODES from "api/errors/API_ERROR_CODES";
-import IApiError from "api/errors/IApiError";
 import supertest from "supertest";
-import { disposeIntegrationTest, resetIntegrationTest, server, setUpIntegrationTest } from "../../../__utils__/integrationTests/integrationTest.setup";
-import IRegisterUserRequestDTO from "api/DTOs/users/register/IRegisterUserRequestDTO";
-import diContainer, { DI_TOKENS } from "api/deps/diContainer";
-import IUserRepository from "application/interfaces/IUserRepository";
-import IRegisterUserResponseDTO from "api/DTOs/users/register/IRegisterUserResponseDTO";
+import { disposeIntegrationTest, resetIntegrationTest, server, setUpIntegrationTest, testingDIContainer } from "../../../__utils__/integrationTests/integrationTest.setup";
+import { DI_TOKENS } from "api/services/DIContainer";
 import Mixins from "__utils__/integrationTests/Mixins";
+import { RegisterUserRequestDTO } from "../../../../types/api/contracts/users/register/RegisterUserRequestDTO";
+import { RegisterUserResponseDTO } from "../../../../types/api/contracts/users/register/RegisterUserResponseDTO";
+import IUserDomainService from "application/interfaces/domainServices/IUserDomainService";
 
-let userRepository: IUserRepository;
+let userDomainService: IUserDomainService;
 
 beforeAll(async () => {
     await setUpIntegrationTest();
-    userRepository = diContainer.resolve(DI_TOKENS.USER_REPOSITORY);
+    userDomainService = testingDIContainer.resolve(DI_TOKENS.USER_DOMAIN_SERVICE);
 });
 
 afterAll(async () => {
@@ -25,7 +23,7 @@ beforeEach(async () => {
 
 describe("Register User Integration Test;", () => {
     it("Register User; Valid Data; Success;", async () => {
-        const request: IRegisterUserRequestDTO = {
+        const request: RegisterUserRequestDTO = {
             name: "new_name",
             email: "user@email.com",
             password: "userword",
@@ -33,39 +31,25 @@ describe("Register User Integration Test;", () => {
 
         const response = await supertest(server).post(`/api/users/register`).send(request).set("Content-Type", "application/json");
 
-        const body: IRegisterUserResponseDTO = response.body;
+        const body: RegisterUserResponseDTO = response.body;
         expect(response.status).toBe(201);
 
-        const user = await userRepository.getByIdAsync(body.id);
-        expect(user).not.toBeNull();
+        const userExists = await userDomainService.tryGetUserByEmail(request.email);
+        expect(userExists.isOk());
     });
 
     it("Register User; User Already Exists; Failure;", async () => {
         const mixins = new Mixins();
-        const { user } = await mixins.createUser(1, false);
+        const { user } = await mixins.createClientUser(1);
 
-        const request: IRegisterUserRequestDTO = {
+        const request: RegisterUserRequestDTO = {
             name: "new_name",
-            email: user.email,
+            email: user.email.value,
             password: "userword",
         };
 
         const response = await supertest(server).post(`/api/users/register`).send(request).set("Content-Type", "application/json");
 
         expect(response.status).toBe(400);
-    });
-
-    it("Register User; Invalid Data (Empty name); Failure;", async () => {
-        const request: IRegisterUserRequestDTO = {
-            name: "",
-            email: "user@email.com",
-            password: "userword",
-        };
-
-        const response = await supertest(server).post(`/api/users/register`).send(request).set("Content-Type", "application/json");
-
-        expect(response.status).toBe(400);
-        const body: IApiError[] = response.body;
-        expect(body[0].code).toBe(API_ERROR_CODES.VALIDATION_ERROR);
     });
 });

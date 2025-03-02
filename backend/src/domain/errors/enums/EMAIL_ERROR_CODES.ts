@@ -1,0 +1,5 @@
+enum EMAIL_ERROR_CODES {
+    INVALID_FORMAT = "INVALID_FORMAT"
+}
+
+export default EMAIL_ERROR_CODES;

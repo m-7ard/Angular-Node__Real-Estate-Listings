@@ -1,5 +1,6 @@
+import DomainValidationResult from "domain/errors/definitions/DomainValidationResult";
 import IValueObject from "../IValueObject";
-import { DomainResult } from "domain/errors/TDomainResult";
+import REAL_ESTATE_LISTING_ERROR_CODES from "domain/errors/enums/REAL_ESTATE_LISTING_ERROR_CODES";
 
 export default class RealEstateListingType implements IValueObject {
     readonly __type: "RealEstateListingType" = null!;
@@ -11,15 +12,15 @@ export default class RealEstateListingType implements IValueObject {
 
     private constructor(public value: string) {}
 
-    public static canCreate(value: string): DomainResult {
+    public static canCreate(value: string): DomainValidationResult {
         const type = this.validTypes.find(type => type.value === value);
-        if (type == null) return DomainResult.fromError({ message: `"${value}" is not a valid Real Estate Listing Type`, code: "CANNOT_CREATE_REAL_ESTATE_LISTING_TYPE" });
-        return DomainResult.OK;
+        if (type == null) return DomainValidationResult.AsError({ message: `"${value}" is not a valid Real Estate Listing Type`, code: REAL_ESTATE_LISTING_ERROR_CODES.CANNOT_CREATE_TYPE });
+        return DomainValidationResult.AsOk();
     }
 
     public static executeCreate(value: string): RealEstateListingType {
         const canCreate = this.canCreate(value);
-        if (canCreate.isError) throw new Error(canCreate.error.message);
+        if (canCreate.isError()) throw new Error(canCreate.error.message);
 
         const type = this.validTypes.find(type => type.value === value);
         if (type == null) throw new Error(`"${value}" is not a valid Real Estate Listing Type`);

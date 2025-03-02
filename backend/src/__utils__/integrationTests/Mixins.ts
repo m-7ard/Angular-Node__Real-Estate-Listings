@@ -1,15 +1,16 @@
-import diContainer, { DI_TOKENS } from "api/deps/diContainer";
+import { DI_TOKENS } from "api/services/DIContainer";
 import IPasswordHasher from "application/interfaces/IPasswordHasher";
 import IUserRepository from "application/interfaces/IUserRepository";
 import User from "domain/entities/User";
+import { testingDIContainer } from "./integrationTest.setup";
 
 class Mixins {
     private readonly _userRepository: IUserRepository;
     private readonly _passwordHasher: IPasswordHasher;
 
     constructor() {
-        this._userRepository = diContainer.resolve(DI_TOKENS.USER_REPOSITORY);
-        this._passwordHasher = diContainer.resolve(DI_TOKENS.PASSWORD_HASHER);
+        this._userRepository = testingDIContainer.resolve(DI_TOKENS.USER_REPOSITORY);
+        this._passwordHasher = testingDIContainer.resolve(DI_TOKENS.PASSWORD_HASHER);
     }
 
     async createClientUser(seed: number) {

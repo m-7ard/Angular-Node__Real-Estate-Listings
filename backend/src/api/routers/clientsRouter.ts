@@ -1,18 +1,20 @@
-import { Request, Response, Router } from "express";
+import { Router } from "express";
 import registerAction from "../utils/registerAction";
-import diContainer, { DI_TOKENS } from "api/deps/diContainer";
+import { DI_TOKENS, IDIContainer } from "api/services/DIContainer";
 import CreateClientAction from "api/actions/clients/CreateClientAction";
 
-const clientsRouter = Router();
+export function createClientsRouter(diContainer: IDIContainer) {
+    const clientsRouter = Router();
 
-registerAction({
-    router: clientsRouter,
-    path: "/create",
-    method: "POST",
-    initialiseAction: () => {
-        const requestDispatcher = diContainer.resolve(DI_TOKENS.REQUEST_DISPATCHER);
-        return new CreateClientAction(requestDispatcher);
-    },
-});
+    registerAction({
+        router: clientsRouter,
+        path: "/create",
+        method: "POST",
+        initialiseAction: () => {
+            const requestDispatcher = diContainer.resolve(DI_TOKENS.REQUEST_DISPATCHER);
+            return new CreateClientAction(requestDispatcher);
+        },
+    });
 
-export default clientsRouter;
+    return clientsRouter;
+}

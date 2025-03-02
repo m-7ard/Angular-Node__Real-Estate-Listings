@@ -4,12 +4,14 @@ import User from "domain/entities/User";
 import UserDbEntity from "infrastructure/dbEntities/UserDbEntity";
 import IDatabaseConnection from "api/interfaces/IDatabaseConnection";
 import IMapperRegistry from "infrastructure/mappers/IMapperRegistry";
+import Email from "domain/valueObjects/Common/Email";
+import UserId from "domain/valueObjects/Users/UserId";
 
 class UserRepository implements IUserRepository {
     constructor(private readonly db: IDatabaseConnection, private readonly registry: IMapperRegistry) {}
 
-    async getByEmailAsync(email: string): Promise<User | null> {
-        const sqlEntry = sql`SELECT * FROM users WHERE email = ${email}`;
+    async getByEmailAsync(email: Email): Promise<User | null> {
+        const sqlEntry = sql`SELECT * FROM users WHERE email = ${email.value}`;
 
         const [row] = await this.db.executeRows<object | null>({
             statement: sqlEntry.sql,
@@ -38,8 +40,8 @@ class UserRepository implements IUserRepository {
         throw new Error("Method not implemented.");
     }
 
-    async getByIdAsync(id: string): Promise<User | null> {
-        const sqlEntry = UserDbEntity.getByIdStatement(id);
+    async getByIdAsync(id: UserId): Promise<User | null> {
+        const sqlEntry = UserDbEntity.getByIdStatement(id.value);
 
         const [row] = await this.db.executeRows<object | null>({
             statement: sqlEntry.sql,

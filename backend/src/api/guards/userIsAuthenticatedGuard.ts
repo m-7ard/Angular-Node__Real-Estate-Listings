@@ -1,4 +1,4 @@
-import diContainer, { DI_TOKENS } from "api/deps/diContainer";
+import { DI_TOKENS } from "api/services/DIContainer";
 import API_ERROR_CODES from "api/errors/API_ERROR_CODES";
 import ApiErrorFactory from "api/errors/ApiErrorFactory";
 import ExpressHttpService from "api/services/ExpressHttpService";

@@ -1,15 +1,16 @@
-import { Request } from "express";
-import IAction from "../IAction";
-import IRequestDispatcher from "../../../application/handlers/IRequestDispatcher";
-import JsonResponse from "../../responses/JsonResponse";
-import { StatusCodes } from "http-status-codes";
-import IApiError from "api/errors/IApiError";
-import ApiErrorFactory from "api/errors/ApiErrorFactory";
-import loginUserValidator from "api/validators/users/loginUserValidator";
-import { LoginUserQuery } from "application/handlers/users/LoginUserQueryHandler";
 import ILoginUserRequestDTO from "api/DTOs/users/login/ILoginUserRequestDTO";
 import ILoginUserResponseDTO from "api/DTOs/users/login/ILoginUserResponseDTO";
+import ApiErrorFactory from "api/errors/ApiErrorFactory";
+import IApiError from "api/errors/IApiError";
 import IHttpService from "api/interfaces/IHttpRequestService";
+import JsonResponse from "api/responses/JsonResponse";
+import IRequestDispatcher from "application/handlers/IRequestDispatcher";
+import { LoginUserQuery } from "application/handlers/users/LoginUserQueryHandler";
+import { Request } from "express";
+import { StatusCodes } from "http-status-codes";
+import IAction from "../IAction";
+import UserDoesNotExist from "application/errors/services/userDomainService/UserDoesNotExist";
+
 
 type ActionRequest = { dto: ILoginUserRequestDTO };
 type ActionResponse = JsonResponse<ILoginUserResponseDTO | IApiError[]>;
@@ -20,14 +21,6 @@ class LoginUserAction implements IAction<ActionRequest, ActionResponse> {
     async handle(request: ActionRequest): Promise<ActionResponse> {
         const { dto } = request;
 
-        const validation = loginUserValidator(dto);
-        if (validation.isErr()) {
-            return new JsonResponse({
-                status: StatusCodes.BAD_REQUEST,
-                body: ApiErrorFactory.superstructFailureToApiErrors(validation.error),
-            });
-        }
-
         const command = new LoginUserQuery({
             email: dto.email,
             password: dto.password
@@ -37,9 +30,9 @@ class LoginUserAction implements IAction<ActionRequest, ActionResponse> {
         if (result.isErr()) {
             const [firstError] = result.error;
 
-            if (firstError.code === APPLICATION_ERROR_CODES.OperationFailed) {
+            if (firstError instanceof UserDoesNotExist) {
                 return new JsonResponse({
-                    status: StatusCodes.INTERNAL_SERVER_ERROR,
+                    status: StatusCodes.UNAUTHORIZED,
                     body: ApiErrorFactory.mapApplicationErrors(result.error),
                 });
             }

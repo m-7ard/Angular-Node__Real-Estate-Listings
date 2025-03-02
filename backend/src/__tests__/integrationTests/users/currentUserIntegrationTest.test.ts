@@ -9,9 +9,9 @@ import {
 } from "../../../__utils__/integrationTests/integrationTest.setup";
 import Mixins from "__utils__/integrationTests/Mixins";
 import User from "domain/entities/User";
-import ICurrentUserRequestDTO from "api/DTOs/users/get-current/ICurrentUserRequestDTO";
-import ICurrentUserResponseDTO from "api/DTOs/users/get-current/ICurrentUserResponseDTO";
 import authSupertest from "__utils__/integrationTests/authSupertest";
+import { CurrentUserRequestDTO } from "../../../../types/api/contracts/users/currentUser/CurrentUserRequestDTO";
+import { CurrentUserResponseDTO } from "../../../../types/api/contracts/users/currentUser/CurrentUserResponseDTO";
 
 let user_001: User;
 let user_001_plain_password: string;
@@ -35,7 +35,7 @@ beforeEach(async () => {
 
 describe("Current User Integration Test;", () => {
     it("Current User; Valid Data; Success;", async () => {
-        const request: ICurrentUserRequestDTO = {};
+        const request: CurrentUserRequestDTO = {};
         const response = await authSupertest({
             agent: supertest(server)
                 .get(`/api/users/current`)
@@ -46,13 +46,13 @@ describe("Current User Integration Test;", () => {
         });
 
         expect(response.status).toBe(200);
-        const body: ICurrentUserResponseDTO = response.body;
+        const body: CurrentUserResponseDTO = response.body;
         expect(body.user).not.toBeNull();
         expect(body.user!.id).toBe(user_001.id);
     });
 
     it("Current User; jwtToken missing; Failure;", async () => {
-        const request: ICurrentUserRequestDTO = {};
+        const request: CurrentUserRequestDTO = {};
 
         const response = await supertest(server)
             .get(`/api/users/current`)
@@ -65,7 +65,7 @@ describe("Current User Integration Test;", () => {
     });
 
     it("Current User; jwtToken invalid; Failure;", async () => {
-        const request: ICurrentUserRequestDTO = {};
+        const request: CurrentUserRequestDTO = {};
 
         const response = await supertest(server)
             .get(`/api/users/current`)
@@ -79,7 +79,7 @@ describe("Current User Integration Test;", () => {
 
     /*
     it("Current User; Invalid Data (Empty email); Failure;", async () => {
-        const request: ICurrentUserRequestDTO = {
+        const request: CurrentUserRequestDTO = {
             email: "",
             password: "userword",
         };

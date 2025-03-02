@@ -2,14 +2,15 @@ import IPasswordHasher from "application/interfaces/IPasswordHasher";
 import IJwtTokenService from "application/interfaces/IJwtTokenService";
 import IQuery, { IQueryResult } from "../IQuery";
 import { IRequestHandler } from "../IRequestHandler";
-import ApplicationErrorFactory from "application/errors/ApplicationErrorFactory";
-import APPLICATION_ERROR_CODES from "application/errors/VALIDATION_ERROR_CODES";
 import { err, ok } from "neverthrow";
 import { JWT_ROLES } from "application/other/jwt-payload";
-import UserExistsValidator from "application/services/UserExistsValidator";
-import IApplicationError from "application/errors/IApplicationError";
+import IUserDomainService from "application/interfaces/domainServices/IUserDomainService";
+import ApplicationError from "application/errors/ApplicationError";
+import UserDoesNotExist from "application/errors/services/userDomainService/UserDoesNotExist";
+import PasswordsDoNotMatchError from "application/errors/other/PasswordsDoNotMatchError";
+import CannotCreateJwtTokenError from "application/errors/other/CannotCreateJwtTokenError";
 
-export type LoginUserQueryResult = IQueryResult<{ jwtToken: string }, IApplicationError[]>;
+export type LoginUserQueryResult = IQueryResult<{ jwtToken: string }, ApplicationError[]>;
 
 export class LoginUserQuery implements IQuery<LoginUserQueryResult> {
     __returnType: LoginUserQueryResult = null!;
@@ -24,50 +25,23 @@ export class LoginUserQuery implements IQuery<LoginUserQueryResult> {
 }
 
 export default class LoginUserQueryHandler implements IRequestHandler<LoginUserQuery, LoginUserQueryResult> {
-    private readonly _jwtTokenService: IJwtTokenService;
-    private readonly _passwordHasher: IPasswordHasher;
-    private readonly userExistsValidator: UserExistsValidator;
-
-    constructor(props: { jwtTokenService: IJwtTokenService; passwordHasher: IPasswordHasher; userExistsValidator: UserExistsValidator; }) {
-        this._jwtTokenService = props.jwtTokenService;
-        this._passwordHasher = props.passwordHasher;
-        this.userExistsValidator = props.userExistsValidator;
-    }
+    constructor(private readonly jwtTokenService: IJwtTokenService, private readonly passwordHasher: IPasswordHasher, private readonly userDomainService: IUserDomainService) {}
 
     async handle(query: LoginUserQuery): Promise<LoginUserQueryResult> {
-        const userExistResult = await this.userExistsValidator.validate({ email: query.email });
-        if (userExistResult.isErr()) {
-            return err(userExistResult.error);
-        }
+        const tryGetUser = await this.userDomainService.tryGetUserByEmail(query.email);
+        if (tryGetUser.isErr()) return err(new UserDoesNotExist({ message: tryGetUser.error.message }).asList());
 
-        const user = userExistResult.value;
+        const user = tryGetUser.value;
 
-        const isValid = await this._passwordHasher.verifyPassword(query.password, user.hashedPassword);
-        if (!isValid) {
-            return err(
-                ApplicationErrorFactory.createSingleListError({
-                    message: `Email or password is incorrect.`,
-                    path: [],
-                    code: APPLICATION_ERROR_CODES.StateMismatch,
-                }),
-            );
-        }
+        const isValid = await this.passwordHasher.verifyPassword(query.password, user.hashedPassword);
+        if (!isValid) return err(new PasswordsDoNotMatchError({ message: `Email or password is incorrect.` }).asList());
 
-        const jwtTokenResult = await this._jwtTokenService.generateToken({
-            email: user.email,
+        const jwtTokenResult = await this.jwtTokenService.generateToken({
+            email: user.email.value,
             role: user.isAdmin ? JWT_ROLES.ADMIN : JWT_ROLES.CLIENT,
         });
 
-        if (jwtTokenResult.isErr()) {
-            return err(
-                ApplicationErrorFactory.createSingleListError({
-                    message: jwtTokenResult.error,
-                    path: [],
-                    code: APPLICATION_ERROR_CODES.OperationFailed,
-                }),
-            );
-        }
-
+        if (jwtTokenResult.isErr()) return err(new CannotCreateJwtTokenError({ message: jwtTokenResult.error }).asList());
         return ok({ jwtToken: jwtTokenResult.value });
     }
 }

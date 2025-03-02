@@ -1,0 +1,11 @@
+{
+    "$id": "http://127.0.0.1:3000/schemas/api/contracts/users/currentUser/CurrentUserResponseDTO.json",
+    "title": "CurrentUserResponseDTO",
+    "type": "object",
+    "properties": {
+        "user": {
+            "anyOf": [{ "$ref": "http://127.0.0.1:3000/schemas/api/models/UserApiModel.json" }, { "type": "null" }]
+        }
+    },
+    "required": ["user"]
+}
