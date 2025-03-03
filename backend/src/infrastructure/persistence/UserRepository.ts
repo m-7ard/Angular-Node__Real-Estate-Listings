@@ -1,4 +1,4 @@
-import IUserRepository from "application/interfaces/IUserRepository";
+import IUserRepository from "application/interfaces/persistence/IUserRepository";
 import sql from "sql-template-tag";
 import User from "domain/entities/User";
 import UserDbEntity from "infrastructure/dbEntities/UserDbEntity";

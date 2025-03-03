@@ -1,5 +1,5 @@
 import IUserDomainService, { CreateAdminUserContract, CreateStandardUserContract } from "application/interfaces/domainServices/IUserDomainService";
-import IUnitOfWork from "application/interfaces/IUnitOfWork";
+import IUnitOfWork from "application/interfaces/persistence/IUnitOfWork";
 import User from "domain/entities/User";
 import CannotCreateEmail from "application/errors/domain/common/valueObjects/CannotCreateEmail";
 import ApplicationError from "application/errors/ApplicationError";

@@ -1,5 +1,5 @@
 import IClientDomainService, { IOrchestrateCreateNewClientContract } from "application/interfaces/domainServices/IClientDomainService";
-import IUnitOfWork from "application/interfaces/IUnitOfWork";
+import IUnitOfWork from "application/interfaces/persistence/IUnitOfWork";
 import Client, { CreateClientContract } from "domain/entities/Client";
 import CannotCreateClientError from "application/errors/domain/client/CannotCreateClientError";
 import ApplicationError from "application/errors/ApplicationError";

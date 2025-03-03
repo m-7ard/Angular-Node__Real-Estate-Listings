@@ -1,6 +1,6 @@
 import { DI_TOKENS } from "api/services/DIContainer";
 import IPasswordHasher from "application/interfaces/IPasswordHasher";
-import IUserRepository from "application/interfaces/IUserRepository";
+import IUserRepository from "application/interfaces/persistence/IUserRepository";
 import User from "domain/entities/User";
 import { testingDIContainer } from "./integrationTest.setup";
 

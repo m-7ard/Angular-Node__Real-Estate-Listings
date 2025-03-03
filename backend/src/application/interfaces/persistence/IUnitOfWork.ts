@@ -3,6 +3,7 @@ import IUserRepository from "./IUserRepository";
 
 interface IUnitOfWork {
     clientRepo: IClientRepository;
+    clientRepo: IClientRepository;
     userRepo: IUserRepository;
     beginTransaction: () => Promise<void>;
     commitTransaction: () => Promise<void>;

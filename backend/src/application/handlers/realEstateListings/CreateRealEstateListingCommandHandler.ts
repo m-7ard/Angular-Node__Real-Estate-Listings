@@ -6,10 +6,10 @@ import IClientDomainService from "application/interfaces/domainServices/IClientD
 import CannotCreateNewClient from "application/errors/services/clientDomainService/CannotCreateNewClient";
 import ApplicationError from "application/errors/ApplicationError";
 
-export type CreateClientCommandResult = ICommandResult<ApplicationError[]>;
+export type CreateRealEstateListingCommandResult = ICommandResult<ApplicationError[]>;
 
-export class CreateClientCommand implements ICommand<CreateClientCommandResult> {
-    __returnType: CreateClientCommandResult = null!;
+export class CreateRealEstateListingCommand implements ICommand<CreateRealEstateListingCommandResult> {
+    __returnType: CreateRealEstateListingCommandResult = null!;
 
     constructor({ id, name, type }: { id: string; name: string; type: string }) {
         this.id = id;
@@ -22,10 +22,10 @@ export class CreateClientCommand implements ICommand<CreateClientCommandResult> 
     public type: string;
 }
 
-export default class CreateClientCommandHandler implements IRequestHandler<CreateClientCommand, CreateClientCommandResult> {
+export default class CreateRealEstateListingCommandHandler implements IRequestHandler<CreateRealEstateListingCommand, CreateRealEstateListingCommandResult> {
     constructor(private readonly unitOfWork: IUnitOfWork, private readonly clientDomainService: IClientDomainService) {}
 
-    async handle(command: CreateClientCommand): Promise<CreateClientCommandResult> {
+    async handle(command: CreateRealEstateListingCommand): Promise<CreateRealEstateListingCommandResult> {
         try {
             const createResult = await this.clientDomainService.tryOrchestractCreateNewClient({ id: command.id, name: command.name, type: command.type });
             if (createResult.isErr()) return err(new CannotCreateNewClient({ message: createResult.error.message }).asList());

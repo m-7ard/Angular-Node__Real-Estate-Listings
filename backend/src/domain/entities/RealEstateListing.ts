@@ -6,7 +6,7 @@ import RealEstateListingAddress from "domain/valueObjects/RealEstateListing/Real
 import RealEstateListingId from "domain/valueObjects/RealEstateListing/RealEstateListingId";
 import RealEstateListingType from "domain/valueObjects/RealEstateListing/RealEstateListingType";
 
-interface CreateRealEstateListingContract {
+export interface CreateRealEstateListingContract {
     id: string;
     type: string;
     price: number;
@@ -16,6 +16,7 @@ interface CreateRealEstateListingContract {
     zip: string;
     country: string;
     clientId: ClientId;
+    dateCreated: Date;
 }
 
 class RealEstateListing {
@@ -26,10 +27,11 @@ class RealEstateListing {
         public type: RealEstateListingType,
         public price: Money,
         public address: RealEstateListingAddress,
-        public clientId: ClientId
+        public clientId: ClientId,
+        public dateCreated: Date
     ) {}
 
-    public canCreate(contract: CreateRealEstateListingContract): DomainValidationResult {
+    public static canCreate(contract: CreateRealEstateListingContract): DomainValidationResult {
         const id = RealEstateListingId.canCreate(contract.id);
         if (id.isError()) return DomainValidationResult.AsError({ message: id.error.message, code: REAL_ESTATE_LISTING_ERROR_CODES.CANNOT_CREATE_ID });
 
@@ -45,7 +47,7 @@ class RealEstateListing {
         return DomainValidationResult.AsOk();
     }
 
-    public executeCreate(contract: CreateRealEstateListingContract) {
+    public static executeCreate(contract: CreateRealEstateListingContract) {
         const canCreate = this.canCreate(contract);
         if (canCreate.isError()) throw new Error(canCreate.error.message);
 
@@ -54,7 +56,7 @@ class RealEstateListing {
         const price = Money.executeCreate(contract.price);
         const address = RealEstateListingAddress.executeCreate({ street: contract.street, city: contract.city, state: contract.state, zip: contract.zip, country: contract.country });
 
-        return new RealEstateListing(id, type, price, address, contract.clientId);
+        return new RealEstateListing(id, type, price, address, contract.clientId, contract.dateCreated);
     }
 }
 

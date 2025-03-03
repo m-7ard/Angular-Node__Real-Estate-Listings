@@ -1,7 +1,7 @@
 import { IRequestHandler } from "../IRequestHandler";
 import ICommand, { ICommandResult } from "../ICommand";
 import { err, ok } from "neverthrow";
-import IUnitOfWork from "application/interfaces/IUnitOfWork";
+import IUnitOfWork from "application/interfaces/persistence/IUnitOfWork";
 import IUserDomainService from "application/interfaces/domainServices/IUserDomainService";
 import ApplicationError from "application/errors/ApplicationError";
 import CannotCreateClientUserServiceError from "application/errors/services/userDomainService/CannotCreateClientUserServiceError";

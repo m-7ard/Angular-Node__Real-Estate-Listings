@@ -1,5 +1,5 @@
 import IApiModelService from "api/interfaces/IApiModelService";
-import IClientRepository from "application/interfaces/IClientRepository";
+import IClientRepository from "application/interfaces/persistence/IClientRepository";
 import Client from "domain/entities/Client";
 
 class ApiModelService implements IApiModelService {

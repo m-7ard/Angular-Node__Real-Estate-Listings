@@ -1,9 +1,9 @@
 import IDatabaseConnection from "api/interfaces/IDatabaseConnection";
-import IClientRepository from "application/interfaces/persistence/IClientRepository";
+import IRealEstateListingRepository from "application/interfaces/persistence/IRealEstateListingRepository";
 import Client from "domain/entities/Client";
 import IMapperRegistry from "infrastructure/mappers/IMapperRegistry";
 
-class ClientRepository implements IClientRepository {
+class RealEstateListingRepository implements IRealEstateListingRepository {
 
     constructor(private readonly db: IDatabaseConnection, private readonly mapper: IMapperRegistry) {}
 
@@ -15,4 +15,4 @@ class ClientRepository implements IClientRepository {
     };
 }
 
-export default ClientRepository;
+export default RealEstateListingRepository;

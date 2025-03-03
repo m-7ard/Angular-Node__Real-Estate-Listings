@@ -1,4 +1,6 @@
+import Client from "domain/entities/Client";
 import User from "domain/entities/User";
+import ClientType from "domain/valueObjects/Client/ClientType";
 
 class Mixins {
     static createUser(seed: number, isAdmin: boolean) {
@@ -15,6 +17,15 @@ class Mixins {
         return { user, password };
     }
 
+    static createClient(seed: number) {
+        const client = Client.executeCreate({
+            id: `${seed}`,
+            name: `client_${seed}`,
+            type: ClientType.PRIVATE.value
+        });
+
+        return client
+    }
 }
 
 export default Mixins;

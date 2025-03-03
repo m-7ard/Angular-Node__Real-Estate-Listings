@@ -5,11 +5,11 @@ import IPasswordHasher from "application/interfaces/IPasswordHasher";
 import IJwtTokenService from "application/interfaces/IJwtTokenService";
 import { Knex } from "knex";
 import IClientDomainService from "application/interfaces/domainServices/IClientDomainService";
-import IClientRepository from "application/interfaces/IClientRepository";
+import IClientRepository from "application/interfaces/persistence/IClientRepository";
 import IMapperRegistry from "infrastructure/mappers/IMapperRegistry";
 import IDatabaseConnection from "api/interfaces/IDatabaseConnection";
-import IUnitOfWork from "application/interfaces/IUnitOfWork";
-import IUserRepository from "application/interfaces/IUserRepository";
+import IUnitOfWork from "application/interfaces/persistence/IUnitOfWork";
+import IUserRepository from "application/interfaces/persistence/IUserRepository";
 import { AsyncLocalStorage } from "async_hooks";
 import IUserDomainService from "application/interfaces/domainServices/IUserDomainService";
 
