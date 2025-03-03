@@ -6,7 +6,7 @@ import ILoginUserResponseDTO from "api/DTOs/users/login/ILoginUserResponseDTO";
 
 export default async function loginUser(user: User, plainPassword: string): Promise<string> {
     const request: ILoginUserRequestDTO = {
-        email: user.email,
+        email: user.email.value,
         password: plainPassword
     }
 

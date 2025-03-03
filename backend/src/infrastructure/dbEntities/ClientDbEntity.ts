@@ -17,7 +17,7 @@ class ClientDbEntity {
     public getInsertEntry() {
         return sql`
             INSERT INTO ${raw(ClientDbEntity.TABLE_NAME)} 
-            (id, name, email)
+            (id, type, name)
             VALUES 
             (${this.id}, ${this.type}, ${this.name})
         `;

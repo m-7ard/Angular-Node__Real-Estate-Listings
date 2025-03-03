@@ -83,7 +83,7 @@ export default function createApplication(config: {
 
 
     // Request Dispatcher
-    const dispatcher = createRequestDispatcher();
+    const dispatcher = createRequestDispatcher(diContainer);
     diContainer.register(DI_TOKENS.REQUEST_DISPATCHER, dispatcher);
 
     app.use(express.json({ limit: 1028 ** 2 * 100 }));

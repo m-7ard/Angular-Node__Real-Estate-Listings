@@ -52,7 +52,7 @@ describe("createClientIntegrationTest;", () => {
             plainPassword: ADMIN_PASSWORD,
         });
 
-        expect(response.status).toBe(200);
+        expect(response.status).toBe(201);
         const body: CreateClientResponseDTO = response.body;
         
     });

@@ -4,13 +4,9 @@ import { DI_TOKENS } from "api/services/DIContainer";
 import Mixins from "__utils__/integrationTests/Mixins";
 import { RegisterUserRequestDTO } from "../../../../types/api/contracts/users/register/RegisterUserRequestDTO";
 import { RegisterUserResponseDTO } from "../../../../types/api/contracts/users/register/RegisterUserResponseDTO";
-import IUserDomainService from "application/interfaces/domainServices/IUserDomainService";
-
-let userDomainService: IUserDomainService;
 
 beforeAll(async () => {
     await setUpIntegrationTest();
-    userDomainService = testingDIContainer.resolve(DI_TOKENS.USER_DOMAIN_SERVICE);
 });
 
 afterAll(async () => {
@@ -34,6 +30,7 @@ describe("Register User Integration Test;", () => {
         const body: RegisterUserResponseDTO = response.body;
         expect(response.status).toBe(201);
 
+        const userDomainService = testingDIContainer.testResolve(DI_TOKENS.USER_DOMAIN_SERVICE);
         const userExists = await userDomainService.tryGetUserByEmail(request.email);
         expect(userExists.isOk());
     });

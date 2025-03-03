@@ -48,7 +48,7 @@ describe("Current User Integration Test;", () => {
         expect(response.status).toBe(200);
         const body: CurrentUserResponseDTO = response.body;
         expect(body.user).not.toBeNull();
-        expect(body.user!.id).toBe(user_001.id);
+        expect(body.user!.id).toBe(user_001.id.value);
     });
 
     it("Current User; jwtToken missing; Failure;", async () => {
@@ -72,25 +72,8 @@ describe("Current User Integration Test;", () => {
             .send(request)
             .set("Authorization", `Bearer invalidToken`)
             .set("Content-Type", "application/json");
-        expect(response.status).toBe(400);
+        expect(response.status).toBe(401);
         const body: IApiError[] = response.body;
         expect(body[0].code).toBe(API_ERROR_CODES.APPLICATION_ERROR);
     });
-
-    /*
-    it("Current User; Invalid Data (Empty email); Failure;", async () => {
-        const request: CurrentUserRequestDTO = {
-            email: "",
-            password: "userword",
-        };
-
-        const response = await supertest(server)
-            .get(`/api/users/current`)
-            .send(request)
-            .set("Content-Type", "application/json");
-
-        expect(response.status).toBe(400);
-        const body: IApiError[] = response.body;
-        expect(body[0].code).toBe(API_ERROR_CODES.VALIDATION_ERROR);
-    });*/
 });

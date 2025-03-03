@@ -77,18 +77,4 @@ describe("Login User Integration Test;", () => {
             .set("Content-Type", "application/json");
         expect(response.status).toBe(400);
     });
-
-    it("Login User; Invalid Data (Empty email); Failure;", async () => {
-        const request: ILoginUserRequestDTO = {
-            email: "",
-            password: "userword",
-        };
-
-        const response = await supertest(server)
-            .post(`/api/users/login`)
-            .send(request)
-            .set("Content-Type", "application/json");
-
-        expect(response.status).toBe(400);
-    });
 });

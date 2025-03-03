@@ -30,13 +30,6 @@ class LoginUserAction implements IAction<ActionRequest, ActionResponse> {
         if (result.isErr()) {
             const [firstError] = result.error;
 
-            if (firstError instanceof UserDoesNotExist) {
-                return new JsonResponse({
-                    status: StatusCodes.UNAUTHORIZED,
-                    body: ApiErrorFactory.mapApplicationErrors(result.error),
-                });
-            }
-
             return new JsonResponse({
                 status: StatusCodes.BAD_REQUEST,
                 body: ApiErrorFactory.mapApplicationErrors(result.error),

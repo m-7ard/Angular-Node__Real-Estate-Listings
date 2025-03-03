@@ -1,4 +1,4 @@
-import { DI_TOKENS, ProductionDIContainer, IDIContainer } from "api/services/DIContainer";
+import { DI_TOKENS, IDIContainer } from "api/services/DIContainer";
 import { NextFunction, Request, Response } from "express";
 
 export function createRequestScopeMiddleware(container: IDIContainer) {
@@ -19,14 +19,14 @@ function connectionProviderMiddlewareFactory(diContainer: IDIContainer) {
             const connection = await db.getConnection();
         
             res.on("finish", () => {
-                connection.dispose().then(_ => console.log("disposed")).catch(err => console.error('Error releasing DB connection:', err));
+                connection.dispose().then(_ => null).catch(err => console.error('Error releasing DB connection:', err));
             });
     
             res.on("close", () => {
-                connection.dispose().then(_ => console.log("disposed")).catch(err => console.error('Error releasing DB connection:', err));
+                connection.dispose().then(_ => null).catch(err => console.error('Error releasing DB connection:', err));
             });
     
-            diContainer.registerScoped(DI_TOKENS.DATABASE_CONNECTION, () => connection);
+            diContainer.registerScopedInstance(DI_TOKENS.DATABASE_CONNECTION, connection);
     
             next();
         } catch (err) {

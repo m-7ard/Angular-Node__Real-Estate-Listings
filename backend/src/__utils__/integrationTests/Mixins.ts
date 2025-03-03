@@ -9,8 +9,8 @@ class Mixins {
     private readonly _passwordHasher: IPasswordHasher;
 
     constructor() {
-        this._userRepository = testingDIContainer.resolve(DI_TOKENS.USER_REPOSITORY);
-        this._passwordHasher = testingDIContainer.resolve(DI_TOKENS.PASSWORD_HASHER);
+        this._userRepository = testingDIContainer.testResolve(DI_TOKENS.USER_REPOSITORY);
+        this._passwordHasher = testingDIContainer.testResolve(DI_TOKENS.PASSWORD_HASHER);
     }
 
     async createClientUser(seed: number) {
