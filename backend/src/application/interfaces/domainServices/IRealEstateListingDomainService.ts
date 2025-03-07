@@ -15,6 +15,19 @@ export interface OrchestrateCreateNewListingContract {
     clientId: ClientId;
 } 
 
+export interface OrchestrateUpdateListingContract {
+    type: string;
+    price: number;
+    street: string;
+    city: string;
+    state: string;
+    zip: string;
+    country: string;
+    clientId: ClientId;
+} 
+
 export default interface IRealEstateListingDomainService {
     tryOrchestractCreateNewListing(contract: OrchestrateCreateNewListingContract): Promise<Result<RealEstateListing, ApplicationError>>
+    tryOrchestractUpdateListing(listing: RealEstateListing, contract: OrchestrateUpdateListingContract): Promise<Result<boolean, ApplicationError>>
+    tryGetById(id: string): Promise<Result<RealEstateListing, ApplicationError>>
 }

@@ -12,6 +12,9 @@ import IUnitOfWork from "application/interfaces/persistence/IUnitOfWork";
 import IUserRepository from "application/interfaces/persistence/IUserRepository";
 import { AsyncLocalStorage } from "async_hooks";
 import IUserDomainService from "application/interfaces/domainServices/IUserDomainService";
+import IRealEstateListingRepository from "application/interfaces/persistence/IRealEstateListingRepository";
+import IRealEstateListingDomainService from "application/interfaces/domainServices/IRealEstateListingDomainService";
+import IDatabaseProviderSingleton from "api/interfaces/IDatabaseProviderSingleton";
 
 type TokenType<T> = T extends { __service: infer S } ? S : never;
 
@@ -30,6 +33,7 @@ const makeToken = <Service>(literal: string) => literal as string & { __service:
 
 export const DI_TOKENS = {
     DATABASE: makeToken<IDatabaseService>("DATABASE"),
+    DATABASE_PROVIDER_SINGLETON: makeToken<IDatabaseProviderSingleton>("DATABASE_PROVIDER_SINGLETON"),
     KNEX_QUERY_BUILDER: makeToken<Knex>("KNEX_QUERY_BUILDER"),
     REQUEST_DISPATCHER: makeToken<IRequestDispatcher>("REQUEST_DISPATCHER"),
     PASSWORD_HASHER: makeToken<IPasswordHasher>("PASSWORD_HASHER"),
@@ -37,11 +41,13 @@ export const DI_TOKENS = {
     API_MODEL_SERVICE: makeToken<IApiModelService>("API_MODEL_SERVICE"),
     CLIENT_DOMAIN_SERVICE: makeToken<IClientDomainService>("CLIENT_DOMAIN_SERVICE"),
     CLIENT_REPOSITORY: makeToken<IClientRepository>("CLIENT_REPOSITORY"),
+    REAL_ESTATE_LISTING_REPOSITORY: makeToken<IRealEstateListingRepository>("REAL_ESTATE_LISTING_REPOSITORY"),
     MAPPER_REGISTRY: makeToken<IMapperRegistry>("MAPPER_REGISTRY"),
     DATABASE_CONNECTION: makeToken<IDatabaseConnection>("DATABASE_CONNECTION"),
     UNIT_OF_WORK: makeToken<IUnitOfWork>("UNIT_OF_WORK"),
     USER_REPOSITORY: makeToken<IUserRepository>("USER_REPOSITORY"),
     USER_DOMAIN_SERVICE: makeToken<IUserDomainService>("USER_DOMAIN_SERVICE"),
+    REAL_ESTATE_LISTING_DOMAIN_SERVICE: makeToken<IRealEstateListingDomainService>("REAL_ESTATE_LISTING_DOMAIN_SERVICE"),
 } as const;
 
 const scopeContext = new AsyncLocalStorage<Map<string, unknown>>();

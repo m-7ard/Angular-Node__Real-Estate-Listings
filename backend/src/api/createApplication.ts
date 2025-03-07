@@ -19,6 +19,9 @@ import UserDomainService from "application/services/domainServices/UserDomainSer
 import { DI_TOKENS, IDIContainer } from "./services/DIContainer";
 import { createUsersRouter } from "./routers/usersRouter";
 import { createClientsRouter } from "./routers/clientsRouter";
+import MySQLRealEstateListingMapper from "infrastructure/mappers/MySQL/MySQLRealEstateListingMapper";
+import RealEstateListingRepository from "infrastructure/persistence/RealEstateListingRepository";
+import RealEstateListingDomainService from "application/services/domainServices/RealEstateListingDomainService";
 
 export default function createApplication(config: {
     port: 3000 | 4200;
@@ -40,8 +43,9 @@ export default function createApplication(config: {
         const connection = container.resolve(DI_TOKENS.DATABASE_CONNECTION);
         const userRepo = container.resolve(DI_TOKENS.USER_REPOSITORY);
         const clientRepo = container.resolve(DI_TOKENS.CLIENT_REPOSITORY);
+        const realEstateListingRepo = container.resolve(DI_TOKENS.REAL_ESTATE_LISTING_REPOSITORY);
 
-        return new UnitOfWork(connection, userRepo, clientRepo);
+        return new UnitOfWork(connection, userRepo, clientRepo, realEstateListingRepo);
     })
 
     // Query Builder
@@ -51,6 +55,7 @@ export default function createApplication(config: {
     // Services
     diContainer.register(DI_TOKENS.JWT_TOKEN_SERVICE, new JsonWebTokenService("super_secret_key"));
     diContainer.register(DI_TOKENS.PASSWORD_HASHER, new BcryptPasswordHasher());
+    
     diContainer.registerFactory(DI_TOKENS.API_MODEL_SERVICE, (container) => {
         const clientRepository = container.resolve(DI_TOKENS.CLIENT_REPOSITORY);
         return new ApiModelService(clientRepository);
@@ -60,15 +65,21 @@ export default function createApplication(config: {
         const unitOfWork = container.resolve(DI_TOKENS.UNIT_OF_WORK);
         return new ClientDomainService(unitOfWork); 
     })
+
     diContainer.registerFactory(DI_TOKENS.USER_DOMAIN_SERVICE, (container) => {
         const unitOfWork = container.resolve(DI_TOKENS.UNIT_OF_WORK);
         const passwordHasher = container.resolve(DI_TOKENS.PASSWORD_HASHER);
         return new UserDomainService(unitOfWork, passwordHasher); 
     })
 
-    // Repositories
-    diContainer.register(DI_TOKENS.MAPPER_REGISTRY, { clientMapper: new MySQLClientMapper(), userMapper: new MySQLUserMapper() }); 
+    diContainer.registerFactory(DI_TOKENS.REAL_ESTATE_LISTING_DOMAIN_SERVICE, (container) => {
+        const unitOfWork = container.resolve(DI_TOKENS.UNIT_OF_WORK);
+        return new RealEstateListingDomainService(unitOfWork); 
+    })
 
+    diContainer.register(DI_TOKENS.MAPPER_REGISTRY, { clientMapper: new MySQLClientMapper(), userMapper: new MySQLUserMapper(), realEstateListingMapper: new MySQLRealEstateListingMapper() }); 
+    
+    // Repositories
     diContainer.registerFactory(DI_TOKENS.CLIENT_REPOSITORY, (container) => {
         const connection = container.resolve(DI_TOKENS.DATABASE_CONNECTION);
         const registry = container.resolve(DI_TOKENS.MAPPER_REGISTRY);
@@ -76,9 +87,15 @@ export default function createApplication(config: {
     });
 
     diContainer.registerFactory(DI_TOKENS.USER_REPOSITORY, (container) => {
-        const connection = diContainer.resolve(DI_TOKENS.DATABASE_CONNECTION);
-        const registry = diContainer.resolve(DI_TOKENS.MAPPER_REGISTRY);
+        const connection = container.resolve(DI_TOKENS.DATABASE_CONNECTION);
+        const registry = container.resolve(DI_TOKENS.MAPPER_REGISTRY);
         return new UserRepository(connection, registry);
+    });
+
+    diContainer.registerFactory(DI_TOKENS.REAL_ESTATE_LISTING_REPOSITORY, (container) => {
+        const connection = container.resolve(DI_TOKENS.DATABASE_CONNECTION);
+        const registry = container.resolve(DI_TOKENS.MAPPER_REGISTRY);
+        return new RealEstateListingRepository(connection, registry);
     });
 
 

@@ -2,18 +2,17 @@ import { IRequestHandler } from "../IRequestHandler";
 import ICommand, { ICommandResult } from "../ICommand";
 import { err, ok } from "neverthrow";
 import IUnitOfWork from "application/interfaces/persistence/IUnitOfWork";
-import CannotCreateNewClient from "application/errors/services/clientDomainService/CannotCreateNewClient";
 import ApplicationError from "application/errors/ApplicationError";
 import IRealEstateListingDomainService from "application/interfaces/domainServices/IRealEstateListingDomainService";
-import CannotCreateRealEstateListingError from "application/errors/domain/realEstateListings/CannotCreateRealEstateListingError";
-import CannotCreateNewListingServiceError from "application/errors/services/realEstateListingDomainService/CannotCreateNewListingServiceError";
 import IClientDomainService from "application/interfaces/domainServices/IClientDomainService";
 import ClientDoesNotExistError from "application/errors/application/clients/ClientDoesNotExistError";
+import RealEstateListingDoesNotExistError from "application/errors/application/realEstateListings/RealEstateListingDoesNotExistError";
+import CannotUpdateListingServiceError from "application/errors/services/realEstateListingDomainService/CannotUpdateListingServiceError";
 
-export type CreateRealEstateListingCommandResult = ICommandResult<ApplicationError[]>;
+export type UpdateRealEstateListingCommandResult = ICommandResult<ApplicationError[]>;
 
-export class CreateRealEstateListingCommand implements ICommand<CreateRealEstateListingCommandResult> {
-    __returnType: CreateRealEstateListingCommandResult = null!;
+export class UpdateRealEstateListingCommand implements ICommand<UpdateRealEstateListingCommandResult> {
+    __returnType: UpdateRealEstateListingCommandResult = null!;
 
     constructor(params: { 
         id: string;
@@ -48,20 +47,26 @@ export class CreateRealEstateListingCommand implements ICommand<CreateRealEstate
     clientId: string;
 }
 
-export default class CreateRealEstateListingCommandHandler implements IRequestHandler<CreateRealEstateListingCommand, CreateRealEstateListingCommandResult> {
+export default class UpdateRealEstateListingCommandHandler implements IRequestHandler<UpdateRealEstateListingCommand, UpdateRealEstateListingCommandResult> {
     constructor(private readonly unitOfWork: IUnitOfWork, private readonly realEstateListingDomainService: IRealEstateListingDomainService, private readonly clientDomainService: IClientDomainService) {}
 
-    async handle(command: CreateRealEstateListingCommand): Promise<CreateRealEstateListingCommandResult> {
+    async handle(command: UpdateRealEstateListingCommand): Promise<UpdateRealEstateListingCommandResult> {
         try {
+            // Listing Exists
+            const listingExists = await this.realEstateListingDomainService.tryGetById(command.id);
+            if (listingExists.isErr()) return err(new RealEstateListingDoesNotExistError({ message: listingExists.error.message }).asList());
+
+            const listing = listingExists.value;
+
             // Client Exists
             const clientExists = await this.clientDomainService.tryGetById(command.id);
             if (clientExists.isErr()) return err(new ClientDoesNotExistError({ message: clientExists.error.message }).asList());
 
             const client = clientExists.value;
 
-            // Try Create New
-            const createResult = await this.realEstateListingDomainService.tryOrchestractCreateNewListing({ id: command.id, "city": command.city, "clientId": client.id, "country": command.country, "price": command.price, "state": command.state, "street": command.street, "type": command.type, "zip": command.zip });
-            if (createResult.isErr()) return err(new CannotCreateNewListingServiceError({ message: createResult.error.message }).asList());
+            // Try Update
+            const updateResult = await this.realEstateListingDomainService.tryOrchestractUpdateListing(listing, { "city": command.city, "clientId": client.id, "country": command.country, "price": command.price, "state": command.state, "street": command.street, "type": command.type, "zip": command.zip });
+            if (updateResult.isErr()) return err(new CannotUpdateListingServiceError({ message: updateResult.error.message }).asList());
     
             await this.unitOfWork.commitTransaction();
             return ok(undefined);

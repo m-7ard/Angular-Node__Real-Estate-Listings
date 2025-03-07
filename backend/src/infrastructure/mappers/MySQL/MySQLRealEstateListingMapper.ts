@@ -39,7 +39,7 @@ class MySQLRealEstateListingMapper implements IRealEstateListingMapper {
         return RealEstateListing.executeCreate({
             "id": source.id,
             "city": source.city,
-            "clientId": ClientId.executeCreate(source.client_Id),
+            "clientId": ClientId.executeCreate(source.client_id),
             "country": source.country,
             "dateCreated": source.date_created,
             "price": source.price,

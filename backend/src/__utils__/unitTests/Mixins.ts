@@ -1,6 +1,8 @@
 import Client from "domain/entities/Client";
+import RealEstateListing from "domain/entities/RealEstateListing";
 import User from "domain/entities/User";
 import ClientType from "domain/valueObjects/Client/ClientType";
+import RealEstateListingType from "domain/valueObjects/RealEstateListing/RealEstateListingType";
 
 class Mixins {
     static createUser(seed: number, isAdmin: boolean) {
@@ -11,7 +13,7 @@ class Mixins {
             email: `user_${seed}@email.com`,
             hashedPassword: password,
             isAdmin: isAdmin,
-            dateCreated: new Date()
+            dateCreated: new Date(),
         });
 
         return { user, password };
@@ -21,10 +23,27 @@ class Mixins {
         const client = Client.executeCreate({
             id: `${seed}`,
             name: `client_${seed}`,
-            type: ClientType.PRIVATE.value
+            type: ClientType.PRIVATE.value,
         });
 
-        return client
+        return client;
+    }
+
+    static createRealEstateListing(seed: number, client: Client) {
+        const listing = RealEstateListing.executeCreate({
+            city: `city_${seed}`,
+            clientId: client.id,
+            country: `country_${seed}`,
+            dateCreated: new Date(),
+            id: `${seed}`,
+            price: seed,
+            state: `state_${seed}`,
+            street: `street_${seed}`,
+            type: RealEstateListingType.HOUSE.value,
+            zip: `zip_${seed}`,
+        });
+
+        return listing;
     }
 }
 

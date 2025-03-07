@@ -6,7 +6,7 @@ import { err, ok } from "neverthrow";
 import { JWT_ROLES } from "application/other/jwt-payload";
 import IUserDomainService from "application/interfaces/domainServices/IUserDomainService";
 import ApplicationError from "application/errors/ApplicationError";
-import UserDoesNotExist from "application/errors/services/userDomainService/UserDoesNotExist";
+import UserDoesNotExist from "application/errors/application/users/UserDoesNotExist";
 import PasswordsDoNotMatchError from "application/errors/other/PasswordsDoNotMatchError";
 import CannotCreateJwtTokenError from "application/errors/other/CannotCreateJwtTokenError";
 

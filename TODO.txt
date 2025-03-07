@@ -1,2 +1,1 @@
-fix player element not having min width on the frontpage;
-fix matches not being align start in matches;
+Potentially add a registry made of services to create db strings, since right now it is locked into one single table structure 

@@ -6,7 +6,7 @@ import ApplicationError from "application/errors/ApplicationError";
 import CannotCreateUserError from "application/errors/domain/users/CannotCreateUserError";
 import Email from "domain/valueObjects/Common/Email";
 import { err, ok, Result } from "neverthrow";
-import UserDoesNotExist from "application/errors/services/userDomainService/UserDoesNotExist";
+import UserDoesNotExist from "application/errors/application/users/UserDoesNotExist";
 import IPasswordHasher from "application/interfaces/IPasswordHasher";
 
 class UserDomainService implements IUserDomainService {

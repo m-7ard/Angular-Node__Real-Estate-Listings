@@ -9,7 +9,7 @@ import { LoginUserQuery } from "application/handlers/users/LoginUserQueryHandler
 import { Request } from "express";
 import { StatusCodes } from "http-status-codes";
 import IAction from "../IAction";
-import UserDoesNotExist from "application/errors/services/userDomainService/UserDoesNotExist";
+import UserDoesNotExist from "application/errors/application/users/UserDoesNotExist";
 
 
 type ActionRequest = { dto: ILoginUserRequestDTO };

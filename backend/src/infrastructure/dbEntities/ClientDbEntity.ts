@@ -29,6 +29,18 @@ class ClientDbEntity {
             WHERE id = ${id}
         `;
     }
+
+    public getUpdateEntry() {
+        return sql`
+            UPDATE ${raw(ClientDbEntity.TABLE_NAME)} 
+            SET 
+                id = ${this.id}, 
+                name = ${this.name},
+                type = ${this.type}
+            WHERE
+                id = ${this.id}
+        `;
+    }
 }
 
 export default ClientDbEntity;

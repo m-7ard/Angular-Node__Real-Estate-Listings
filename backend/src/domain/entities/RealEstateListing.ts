@@ -19,6 +19,18 @@ export interface CreateRealEstateListingContract {
     dateCreated: Date;
 }
 
+export interface UpdateRealEstateListingContract {
+    id: string;
+    type: string;
+    price: number;
+    street: string;
+    city: string;
+    state: string;
+    zip: string;
+    country: string;
+    clientId: ClientId;
+}
+
 class RealEstateListing {
     private readonly __type: "RealEstateListing" = null!;
 
@@ -57,6 +69,32 @@ class RealEstateListing {
         const address = RealEstateListingAddress.executeCreate({ street: contract.street, city: contract.city, state: contract.state, zip: contract.zip, country: contract.country });
 
         return new RealEstateListing(id, type, price, address, contract.clientId, contract.dateCreated);
+    }
+
+    public canUpdate(contract: UpdateRealEstateListingContract): DomainValidationResult {
+        const id = RealEstateListingId.canCreate(contract.id);
+        if (id.isError()) return DomainValidationResult.AsError({ message: id.error.message, code: REAL_ESTATE_LISTING_ERROR_CODES.CANNOT_CREATE_ID });
+
+        const type = RealEstateListingType.canCreate(contract.type);
+        if (type.isError()) return DomainValidationResult.AsError({ message: type.error.message, code: REAL_ESTATE_LISTING_ERROR_CODES.CANNOT_CREATE_TYPE });
+
+        const price = Money.canCreate(contract.price);
+        if (price.isError()) return DomainValidationResult.AsError({ message: price.error.message, code: REAL_ESTATE_LISTING_ERROR_CODES.CANNOT_CREATE_PRICE });
+
+        const address = RealEstateListingAddress.canCreate({ street: contract.street, city: contract.city, state: contract.state, zip: contract.zip, country: contract.country });
+        if (address.isError()) return DomainValidationResult.AsError({ message: address.error.message, code: REAL_ESTATE_LISTING_ERROR_CODES.CANNOT_CREATE_ADDRESS });
+
+        return DomainValidationResult.AsOk();
+    }
+
+    public executeUpdate(contract: UpdateRealEstateListingContract) {
+        const canUpdate = this.canUpdate(contract);
+        if (canUpdate.isError()) throw new Error(canUpdate.error.message);
+
+        this.id = RealEstateListingId.executeCreate(contract.id);
+        this.type = RealEstateListingType.executeCreate(contract.type);
+        this.price = Money.executeCreate(contract.price);
+        this.address = RealEstateListingAddress.executeCreate({ street: contract.street, city: contract.city, state: contract.state, zip: contract.zip, country: contract.country });
     }
 }
 
