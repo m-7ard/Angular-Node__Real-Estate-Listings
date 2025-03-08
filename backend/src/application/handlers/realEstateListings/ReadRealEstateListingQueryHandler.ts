@@ -1,6 +1,5 @@
 import { IRequestHandler } from "../IRequestHandler";
 import { err, ok } from "neverthrow";
-import IUnitOfWork from "application/interfaces/persistence/IUnitOfWork";
 import ApplicationError from "application/errors/ApplicationError";
 import IRealEstateListingDomainService from "application/interfaces/domainServices/IRealEstateListingDomainService";
 import IQuery, { IQueryResult } from "../IQuery";

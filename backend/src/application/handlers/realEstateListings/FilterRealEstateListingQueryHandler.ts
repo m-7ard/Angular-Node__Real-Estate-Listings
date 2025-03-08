@@ -13,24 +13,24 @@ export type FilterRealEstateListingQueryResult = IQueryResult<RealEstateListing[
 export class FilterRealEstateListingQuery implements IQuery<FilterRealEstateListingQueryResult> {
     __returnType: FilterRealEstateListingQueryResult = null!;
 
-    constructor(params: { 
-        type: string | null;
-        minPrice: number | null;
-        maxPrice: number | null;
-        country: string | null;
-        state: string | null;
-        city: string | null;
-        zip: string | null;
-        clientId: string | null;
+    constructor(params: {
+        type?: string | null;
+        minPrice?: number | null;
+        maxPrice?: number | null;
+        country?: string | null;
+        state?: string | null;
+        city?: string | null;
+        zip?: string | null;
+        clientId?: string | null;
     }) {
-        this.type = params.type;
-        this.minPrice = params.minPrice;
-        this.maxPrice = params.maxPrice;
-        this.country = params.country;
-        this.state = params.state;
-        this.city = params.city;
-        this.zip = params.zip;
-        this.clientId = params.clientId;
+        this.type = params.type ?? null;
+        this.minPrice = params.minPrice ?? null;
+        this.maxPrice = params.maxPrice ?? null;
+        this.country = params.country ?? null;
+        this.state = params.state ?? null;
+        this.city = params.city ?? null;
+        this.zip = params.zip ?? null;
+        this.clientId = params.clientId ?? null;
     }
 
     type: string | null;
@@ -46,41 +46,41 @@ export class FilterRealEstateListingQuery implements IQuery<FilterRealEstateList
 export default class FilterRealEstateListingQueryHandler implements IRequestHandler<FilterRealEstateListingQuery, FilterRealEstateListingQueryResult> {
     constructor(private readonly realEstateListingRepository: IRealEstateListingRepository) {}
 
-    async handle(command: FilterRealEstateListingQuery): Promise<FilterRealEstateListingQueryResult> {
+    async handle(query: FilterRealEstateListingQuery): Promise<FilterRealEstateListingQueryResult> {
         // Clean Input
-        if (command.clientId != null && !ClientId.canCreate(command.clientId)) {
-            command.clientId = null
+        if (query.clientId != null && ClientId.canCreate(query.clientId).isErr()) {
+            query.clientId = null;
         }
 
-        if (command.maxPrice != null && !Money.canCreate(command.maxPrice)) {
-            command.maxPrice = null
+        if (query.maxPrice != null && Money.canCreate(query.maxPrice).isError()) {
+            query.maxPrice = null;
         }
 
-        if (command.minPrice != null && !Money.canCreate(command.minPrice)) {
-            command.minPrice = null
-        }
-        
-        if (command.type != null && !RealEstateListingType.canCreate(command.type)) {
-            command.type = null
+        if (query.minPrice != null && Money.canCreate(query.minPrice).isError()) {
+            query.minPrice = null;
         }
 
-        if ((command.minPrice != null && command.maxPrice != null) && (command.maxPrice < command.minPrice)) {
-            command.minPrice = null;
-            command.maxPrice = null;
+        if (query.type != null && RealEstateListingType.canCreate(query.type).isError()) {
+            query.type = null;
         }
 
-        const criteria: FilterRealEstateListingsCriteria = { 
-            "city": command.city, 
-            "clientId": command.clientId == null ? null : ClientId.executeCreate(command.clientId),
-            "country": command.country,
-            "maxPrice": command.maxPrice == null ? null : Money.executeCreate(command.maxPrice),
-            "minPrice": command.minPrice == null ? null : Money.executeCreate(command.minPrice),
-            "state": command.state,
-            "type": command.type == null ? null : RealEstateListingType.executeCreate(command.type),
-            "zip": command.zip
+        if (query.minPrice != null && query.maxPrice != null && query.maxPrice < query.minPrice) {
+            query.minPrice = null;
+            query.maxPrice = null;
         }
 
         // Lookup
+        const criteria = new FilterRealEstateListingsCriteria({
+            city: query.city,
+            clientId: query.clientId == null ? null : ClientId.executeCreate(query.clientId),
+            country: query.country,
+            maxPrice: query.maxPrice == null ? null : Money.executeCreate(query.maxPrice),
+            minPrice: query.minPrice == null ? null : Money.executeCreate(query.minPrice),
+            state: query.state,
+            type: query.type == null ? null : RealEstateListingType.executeCreate(query.type),
+            zip: query.zip,
+        });
+        
         const listings = await this.realEstateListingRepository.filterAsync(criteria);
 
         return ok(listings);

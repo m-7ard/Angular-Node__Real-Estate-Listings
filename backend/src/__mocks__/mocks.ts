@@ -9,7 +9,9 @@ export function createClientRepositoryMock(): jest.Mocked<IClientRepository> {
     return {
         createAsync: jest.fn(),
         getByIdAsync: jest.fn(),
-        updateAsync: jest.fn()
+        updateAsync: jest.fn(),
+        deleteAsync: jest.fn(),
+        filterAsync: jest.fn()
     };
 }
 

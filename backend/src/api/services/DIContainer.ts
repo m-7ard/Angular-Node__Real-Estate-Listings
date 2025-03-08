@@ -15,6 +15,8 @@ import IUserDomainService from "application/interfaces/domainServices/IUserDomai
 import IRealEstateListingRepository from "application/interfaces/persistence/IRealEstateListingRepository";
 import IRealEstateListingDomainService from "application/interfaces/domainServices/IRealEstateListingDomainService";
 import IDatabaseProviderSingleton from "api/interfaces/IDatabaseProviderSingleton";
+import RealEstateListingQueryService from "infrastructure/services/RealEstateListingQueryService";
+import ClientQueryService from "infrastructure/services/ClientQueryService";
 
 type TokenType<T> = T extends { __service: infer S } ? S : never;
 
@@ -34,7 +36,7 @@ const makeToken = <Service>(literal: string) => literal as string & { __service:
 export const DI_TOKENS = {
     DATABASE: makeToken<IDatabaseService>("DATABASE"),
     DATABASE_PROVIDER_SINGLETON: makeToken<IDatabaseProviderSingleton>("DATABASE_PROVIDER_SINGLETON"),
-    KNEX_QUERY_BUILDER: makeToken<Knex>("KNEX_QUERY_BUILDER"),
+    KNEX_CLIENT: makeToken<Knex>("KNEX_CLIENT"),
     REQUEST_DISPATCHER: makeToken<IRequestDispatcher>("REQUEST_DISPATCHER"),
     PASSWORD_HASHER: makeToken<IPasswordHasher>("PASSWORD_HASHER"),
     JWT_TOKEN_SERVICE: makeToken<IJwtTokenService>("JWT_TOKEN_SERVICE"),
@@ -48,6 +50,8 @@ export const DI_TOKENS = {
     USER_REPOSITORY: makeToken<IUserRepository>("USER_REPOSITORY"),
     USER_DOMAIN_SERVICE: makeToken<IUserDomainService>("USER_DOMAIN_SERVICE"),
     REAL_ESTATE_LISTING_DOMAIN_SERVICE: makeToken<IRealEstateListingDomainService>("REAL_ESTATE_LISTING_DOMAIN_SERVICE"),
+    REAL_ESTATE_LISTING_QUERY_SERVICE: makeToken<RealEstateListingQueryService>("REAL_ESTATE_LISTING_QUERY_SERVICE"),
+    CLIENT_QUERY_SERVICE: makeToken<ClientQueryService>("CLIENT_QUERY_SERVICE"),
 } as const;
 
 const scopeContext = new AsyncLocalStorage<Map<string, unknown>>();

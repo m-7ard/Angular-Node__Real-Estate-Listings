@@ -41,6 +41,13 @@ class ClientDbEntity {
                 id = ${this.id}
         `;
     }
+    
+    public getDeleteStatement() {
+        return sql`
+            DELETE FROM ${raw(ClientDbEntity.TABLE_NAME)} 
+            WHERE id = ${this.id}
+        `;
+    }
 }
 
 export default ClientDbEntity;

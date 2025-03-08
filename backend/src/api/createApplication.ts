@@ -22,6 +22,11 @@ import { createClientsRouter } from "./routers/clientsRouter";
 import MySQLRealEstateListingMapper from "infrastructure/mappers/MySQL/MySQLRealEstateListingMapper";
 import RealEstateListingRepository from "infrastructure/persistence/RealEstateListingRepository";
 import RealEstateListingDomainService from "application/services/domainServices/RealEstateListingDomainService";
+import RealEstateListingQueryService from "infrastructure/services/RealEstateListingQueryService";
+import MySQLDatabaseService from "infrastructure/services/MySQLDatabaseService";
+import DatabaseProviderSingleton from "./services/DatabaseProviderSingleton";
+import DatabaseProviderSingletonValue from "infrastructure/values/DatabaseProviderSingletonValue";
+import ClientQueryService from "infrastructure/services/ClientQueryService";
 
 export default function createApplication(config: {
     port: 3000 | 4200;
@@ -38,7 +43,13 @@ export default function createApplication(config: {
 
     // Database
     diContainer.register(DI_TOKENS.DATABASE, database);
-    
+
+    if (config.database instanceof MySQLDatabaseService) {
+        diContainer.register(DI_TOKENS.DATABASE_PROVIDER_SINGLETON, new DatabaseProviderSingleton(DatabaseProviderSingletonValue.MySQL));
+    } else {
+        throw new Error(`No DatabaseProviderSingleton configuration has been set up for database of type "${config.database.constructor.name}".`);
+    }
+
     diContainer.registerFactory(DI_TOKENS.UNIT_OF_WORK, (container) => {
         const connection = container.resolve(DI_TOKENS.DATABASE_CONNECTION);
         const userRepo = container.resolve(DI_TOKENS.USER_REPOSITORY);
@@ -50,7 +61,7 @@ export default function createApplication(config: {
 
     // Query Builder
     const queryBuilder = knex({ client: "mysql2" });
-    diContainer.register(DI_TOKENS.KNEX_QUERY_BUILDER, queryBuilder);
+    diContainer.register(DI_TOKENS.KNEX_CLIENT, queryBuilder);
 
     // Services
     diContainer.register(DI_TOKENS.JWT_TOKEN_SERVICE, new JsonWebTokenService("super_secret_key"));
@@ -79,11 +90,28 @@ export default function createApplication(config: {
 
     diContainer.register(DI_TOKENS.MAPPER_REGISTRY, { clientMapper: new MySQLClientMapper(), userMapper: new MySQLUserMapper(), realEstateListingMapper: new MySQLRealEstateListingMapper() }); 
     
+    diContainer.registerFactory(DI_TOKENS.REAL_ESTATE_LISTING_QUERY_SERVICE, (container) => {
+        const connection = container.resolve(DI_TOKENS.DATABASE_CONNECTION);
+        const databaseProviderSingleton = container.resolve(DI_TOKENS.DATABASE_PROVIDER_SINGLETON);
+        const knex = container.resolve(DI_TOKENS.KNEX_CLIENT);
+        const mapperRegistry = container.resolve(DI_TOKENS.MAPPER_REGISTRY);
+        return new RealEstateListingQueryService(connection, databaseProviderSingleton, knex, mapperRegistry); 
+    });
+
+    diContainer.registerFactory(DI_TOKENS.CLIENT_QUERY_SERVICE, (container) => {
+        const connection = container.resolve(DI_TOKENS.DATABASE_CONNECTION);
+        const databaseProviderSingleton = container.resolve(DI_TOKENS.DATABASE_PROVIDER_SINGLETON);
+        const knex = container.resolve(DI_TOKENS.KNEX_CLIENT);
+        const mapperRegistry = container.resolve(DI_TOKENS.MAPPER_REGISTRY);
+        return new ClientQueryService(connection, databaseProviderSingleton, knex, mapperRegistry); 
+    });
+
     // Repositories
     diContainer.registerFactory(DI_TOKENS.CLIENT_REPOSITORY, (container) => {
         const connection = container.resolve(DI_TOKENS.DATABASE_CONNECTION);
         const registry = container.resolve(DI_TOKENS.MAPPER_REGISTRY);
-        return new ClientRepository(connection, registry);
+        const queryService = container.resolve(DI_TOKENS.CLIENT_QUERY_SERVICE);
+        return new ClientRepository(connection, registry, queryService);
     });
 
     diContainer.registerFactory(DI_TOKENS.USER_REPOSITORY, (container) => {
@@ -95,7 +123,8 @@ export default function createApplication(config: {
     diContainer.registerFactory(DI_TOKENS.REAL_ESTATE_LISTING_REPOSITORY, (container) => {
         const connection = container.resolve(DI_TOKENS.DATABASE_CONNECTION);
         const registry = container.resolve(DI_TOKENS.MAPPER_REGISTRY);
-        return new RealEstateListingRepository(connection, registry);
+        const queryService = container.resolve(DI_TOKENS.REAL_ESTATE_LISTING_QUERY_SERVICE);
+        return new RealEstateListingRepository(connection, registry, queryService);
     });
 
 

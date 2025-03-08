@@ -4,14 +4,13 @@ import RealEstateListing from "domain/entities/RealEstateListing";
 import RealEstateListingId from "domain/valueObjects/RealEstateListing/RealEstateListingId";
 import RealEstateListingDbEntity from "infrastructure/dbEntities/RealEstateListingDbEntity";
 import IMapperRegistry from "infrastructure/mappers/IMapperRegistry";
-import { Knex } from "knex";
+import RealEstateListingQueryService from "infrastructure/services/RealEstateListingQueryService";
 
 class RealEstateListingRepository implements IRealEstateListingRepository {
-
-    constructor(private readonly db: IDatabaseConnection, private readonly mapper: IMapperRegistry, private readonly knexQueryBuilder: Knex) {}
+    constructor(private readonly db: IDatabaseConnection, private readonly mapperRegistry: IMapperRegistry, private readonly queryService: RealEstateListingQueryService) {}
 
     async createAsync(listing: RealEstateListing) {
-        const dbEntity = this.mapper.realEstateListingMapper.domainToDbEntity(listing);
+        const dbEntity = this.mapperRegistry.realEstateListingMapper.domainToDbEntity(listing);
         const insertEntry = dbEntity.getInsertEntry();
 
         await this.db.executeHeaders({ statement: insertEntry.sql, parameters: insertEntry.values });
@@ -19,7 +18,7 @@ class RealEstateListingRepository implements IRealEstateListingRepository {
 
 
     async updateAsync(listing: RealEstateListing): Promise<void> {
-        const writeDbEntity = this.mapper.realEstateListingMapper.domainToDbEntity(listing);
+        const writeDbEntity = this.mapperRegistry.realEstateListingMapper.domainToDbEntity(listing);
         const entry = writeDbEntity.getUpdateEntry();
 
         const headers = await this.db.executeHeaders({ statement: entry.sql, parameters: entry.values });
@@ -37,12 +36,12 @@ class RealEstateListingRepository implements IRealEstateListingRepository {
             return null;
         }
         
-        const listing = this.mapper.realEstateListingMapper.schemaToDbEntity(row);
-        return listing == null ? null : this.mapper.realEstateListingMapper.dbEntityToDomain(listing);
+        const listing = this.mapperRegistry.realEstateListingMapper.schemaToDbEntity(row);
+        return listing == null ? null : this.mapperRegistry.realEstateListingMapper.dbEntityToDomain(listing);
     };
 
     async deleteAsync(listing: RealEstateListing): Promise<void> {
-        const dbEntity = this.mapper.realEstateListingMapper.domainToDbEntity(listing);
+        const dbEntity = this.mapperRegistry.realEstateListingMapper.domainToDbEntity(listing);
         const entry = dbEntity.getDeleteStatement();
 
         const headers = await this.db.executeHeaders({ statement: entry.sql, parameters: entry.values });
@@ -53,7 +52,8 @@ class RealEstateListingRepository implements IRealEstateListingRepository {
     };
     
     async filterAsync(criteria: FilterRealEstateListingsCriteria): Promise<RealEstateListing[]> {
-        const query = 
+        const dbEntities = await this.queryService.filter({ city: criteria.city, clientId: criteria.clientId == null ? null : criteria.clientId.value, country: criteria.country, maxPrice: criteria.maxPrice == null ? null : criteria.maxPrice.value, minPrice: criteria.minPrice == null ? null : criteria.minPrice.value, state: criteria.state, type: criteria.type == null ? null : criteria.type.value, zip: criteria.zip })
+        return dbEntities.map(this.mapperRegistry.realEstateListingMapper.dbEntityToDomain);
     };
 }
 
