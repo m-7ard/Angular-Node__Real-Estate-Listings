@@ -20,4 +20,8 @@ export default class UserId implements IValueObject {
         if (!(other instanceof UserId)) return false;
         return other.value === this.value;
     }
+
+    toString() {
+        return this.value;
+    }
 }

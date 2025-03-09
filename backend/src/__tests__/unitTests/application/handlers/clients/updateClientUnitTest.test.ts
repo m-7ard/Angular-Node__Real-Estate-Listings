@@ -16,11 +16,9 @@ let mockUnitOfWork: jest.Mocked<IUnitOfWork>;
 let mockClientDomainService: jest.Mocked<IClientDomainService>;
 let handler: UpdateClientCommandHandler;
 
-beforeAll(() => {
-});
+beforeAll(() => {});
 
-afterAll(() => {
-});
+afterAll(() => {});
 
 beforeEach(() => {
     DEFAULT_REQUEST = new UpdateClientCommand({ id: "id", name: "name", type: ClientType.CORPORATE.value });
@@ -36,10 +34,10 @@ describe("updateClientUnitTest.test;", () => {
         // Setup
         mockClientDomainService.tryGetById.mockImplementationOnce(async () => ok(CLIENT_001));
         mockClientDomainService.tryOrchestractUpdateClient.mockImplementationOnce(async () => ok(true));
-        
+
         // Act
         const result = await handler.handle(DEFAULT_REQUEST);
-        
+
         // Assert
         expect(result.isOk());
     });
@@ -47,10 +45,10 @@ describe("updateClientUnitTest.test;", () => {
     it("Update Client; Client Does Not Exist; Failure;", async () => {
         // Setup
         mockClientDomainService.tryGetById.mockImplementationOnce(async () => err(emptyApplicationError));
-        
+
         // Act
         const result = await handler.handle(DEFAULT_REQUEST);
-        
+
         // Assert
         expect(result.isErr());
         const error = result.isErr() && result.error;
@@ -61,10 +59,10 @@ describe("updateClientUnitTest.test;", () => {
         // Setup
         mockClientDomainService.tryGetById.mockImplementationOnce(async () => ok(CLIENT_001));
         mockClientDomainService.tryOrchestractUpdateClient.mockImplementationOnce(async () => err(emptyApplicationError));
-        
+
         // Act
         const result = await handler.handle(DEFAULT_REQUEST);
-        
+
         // Assert
         expect(result.isErr());
         const error = result.isErr() && result.error;

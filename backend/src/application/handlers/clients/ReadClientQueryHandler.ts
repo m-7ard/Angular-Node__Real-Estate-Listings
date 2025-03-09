@@ -19,19 +19,15 @@ export class ReadClientQuery implements IQuery<ReadClientQueryResult> {
 }
 
 export default class ReadClientQueryHandler implements IRequestHandler<ReadClientQuery, ReadClientQueryResult> {
-    constructor(private readonly unitOfWork: IUnitOfWork, private readonly clientDomainService: IClientDomainService) {}
+    constructor(private readonly clientDomainService: IClientDomainService) {}
 
     async handle(Query: ReadClientQuery): Promise<ReadClientQueryResult> {
-        try {
-            // Client Exists
-            const clientExists = await this.clientDomainService.tryGetById(Query.id);
-            if (clientExists.isErr()) return ok(null);
+        // Client Exists
+        const clientExists = await this.clientDomainService.tryGetById(Query.id);
+        if (clientExists.isErr()) return ok(null);
 
-            const client = clientExists.value;
+        const client = clientExists.value;
 
-            return ok(client);
-        } finally {
-            await this.unitOfWork.rollbackTransaction();
-        }
+        return ok(client);
     }
 }

@@ -3,7 +3,6 @@ import ICommand, { ICommandResult } from "../ICommand";
 import { err, ok } from "neverthrow";
 import IUnitOfWork from "application/interfaces/persistence/IUnitOfWork";
 import IClientDomainService from "application/interfaces/domainServices/IClientDomainService";
-import CannotCreateNewClient from "application/errors/services/clientDomainService/CannotCreateNewClient";
 import ApplicationError from "application/errors/ApplicationError";
 import ClientDoesNotExistError from "application/errors/application/clients/ClientDoesNotExistError";
 import CannotUpdateClient from "application/errors/services/clientDomainService/CannotUpdateClient";

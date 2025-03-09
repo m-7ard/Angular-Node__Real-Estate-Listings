@@ -16,11 +16,9 @@ let LISTING_001: RealEstateListing;
 let handler: FilterRealEstateListingQueryHandler;
 let mockRealEstateListingRepository: jest.Mocked<IRealEstateListingRepository>;
 
-beforeAll(() => {
-});
+beforeAll(() => {});
 
-afterAll(() => {
-});
+afterAll(() => {});
 
 beforeEach(() => {
     CLIENT_001 = Mixins.createClient(1);
@@ -36,31 +34,31 @@ describe("filterRealEstateListingUnitTest.test;", () => {
         // Setup
         const expectedContract = new FilterRealEstateListingsCriteria({});
         mockRealEstateListingRepository.filterAsync.mockImplementationOnce(async () => []);
-        
+
         // Act
         const result = await handler.handle(DEFAULT_REQUEST);
-        
+
         // Assert
         expect(result.isOk());
-        expect(expectedContract.equal(mockRealEstateListingRepository.filterAsync.mock.calls[0]))
+        expect(expectedContract.equal(mockRealEstateListingRepository.filterAsync.mock.calls[0]));
     });
 
     it("Filter Listing; Full Data; Success;", async () => {
         // Setup
         const expectedContract = new FilterRealEstateListingsCriteria({
-            "city": "city",
-            "clientId": ClientId.executeCreate("ClientId"),
-            "country": "country",
-            "maxPrice": Money.executeCreate(100),
-            "minPrice": Money.executeCreate(0),
-            "state": "state",
-            "type": RealEstateListingType.HOUSE,
-            "zip": "zip"
+            city: "city",
+            clientId: ClientId.executeCreate("ClientId"),
+            country: "country",
+            maxPrice: Money.executeCreate(100),
+            minPrice: Money.executeCreate(0),
+            state: "state",
+            type: RealEstateListingType.HOUSE,
+            zip: "zip",
         });
         mockRealEstateListingRepository.filterAsync.mockImplementationOnce(async () => []);
-        
+
         DEFAULT_REQUEST.city = expectedContract.city;
-        DEFAULT_REQUEST.clientId = expectedContract.clientId == null ? null : expectedContract.clientId.value
+        DEFAULT_REQUEST.clientId = expectedContract.clientId == null ? null : expectedContract.clientId.value;
         DEFAULT_REQUEST.country = expectedContract.country;
         DEFAULT_REQUEST.maxPrice = expectedContract.maxPrice == null ? null : expectedContract.maxPrice.value;
         DEFAULT_REQUEST.minPrice = expectedContract.minPrice == null ? null : expectedContract.minPrice.value;
@@ -70,10 +68,10 @@ describe("filterRealEstateListingUnitTest.test;", () => {
 
         // Act
         const result = await handler.handle(DEFAULT_REQUEST);
-        
+
         // Assert
         expect(result.isOk());
-        expect(expectedContract.equal(mockRealEstateListingRepository.filterAsync.mock.calls[0]))
+        expect(expectedContract.equal(mockRealEstateListingRepository.filterAsync.mock.calls[0]));
     });
 
     it("Filter Listing; Negative Prices Are Nulled; Success;", async () => {
@@ -83,11 +81,13 @@ describe("filterRealEstateListingUnitTest.test;", () => {
         DEFAULT_REQUEST.minPrice = -0.01;
 
         mockRealEstateListingRepository.filterAsync.mockImplementationOnce(async () => []);
+
         // Act
         const result = await handler.handle(DEFAULT_REQUEST);
+
         // Assert
         expect(result.isOk());
-        expect(expectedContract.equal(mockRealEstateListingRepository.filterAsync.mock.calls[0]))
+        expect(expectedContract.equal(mockRealEstateListingRepository.filterAsync.mock.calls[0]));
     });
 
     it("Filter Listing; Invalid Prices Are Nulled; Success;", async () => {
@@ -97,13 +97,13 @@ describe("filterRealEstateListingUnitTest.test;", () => {
         DEFAULT_REQUEST.minPrice = 100;
 
         mockRealEstateListingRepository.filterAsync.mockImplementationOnce(async () => []);
-        
+
         // Act
         const result = await handler.handle(DEFAULT_REQUEST);
-        
+
         // Assert
         expect(result.isOk());
-        expect(expectedContract.equal(mockRealEstateListingRepository.filterAsync.mock.calls[0]))
+        expect(expectedContract.equal(mockRealEstateListingRepository.filterAsync.mock.calls[0]));
     });
 
     it("Filter Listing; Invalid Type Is Nulled; Success;", async () => {
@@ -118,6 +118,6 @@ describe("filterRealEstateListingUnitTest.test;", () => {
         // Assert
 
         expect(result.isOk());
-        expect(expectedContract.equal(mockRealEstateListingRepository.filterAsync.mock.calls[0]))
+        expect(expectedContract.equal(mockRealEstateListingRepository.filterAsync.mock.calls[0]));
     });
 });

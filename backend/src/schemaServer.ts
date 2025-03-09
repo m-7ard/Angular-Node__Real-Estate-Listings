@@ -144,7 +144,7 @@ async function processSchemas() {
     
     // First check if the server is responding
     try {
-        const testResponse = await fetch("http://127.0.0.1:3000/schemas/api/models/Client.json");
+        const testResponse = await fetch("http://127.0.0.1:3000/schemas/api/models/ClientApiModel.json");
         if (!testResponse.ok) {
             console.error(`Server test failed: ${testResponse.status} ${testResponse.statusText}`);
         } else {

@@ -15,11 +15,9 @@ let mockUnitOfWork: jest.Mocked<IUnitOfWork>;
 let mockClientDomainService: jest.Mocked<IClientDomainService>;
 let handler: CreateClientCommandHandler;
 
-beforeAll(() => {
-});
+beforeAll(() => {});
 
-afterAll(() => {
-});
+afterAll(() => {});
 
 beforeEach(() => {
     DEFAULT_REQUEST = new CreateClientCommand({ id: "id", name: "name", type: ClientType.CORPORATE.value });

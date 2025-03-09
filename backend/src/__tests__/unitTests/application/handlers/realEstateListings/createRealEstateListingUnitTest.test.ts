@@ -20,14 +20,22 @@ let mockClientDomainService: jest.Mocked<IClientDomainService>;
 let mockRealEstateListingDomainService: jest.Mocked<IRealEstateListingDomainService>;
 let handler: CreateRealEstateListingCommandHandler;
 
-beforeAll(() => {
-});
+beforeAll(() => {});
 
-afterAll(() => {
-});
+afterAll(() => {});
 
 beforeEach(() => {
-    DEFAULT_REQUEST = new CreateRealEstateListingCommand({ id: "id", "city": "city", "clientId": "clientId", "country": "country", "price": 1, "state": "state", "street": "street", "type": RealEstateListingType.APARTMENT.value, "zip": "zip" });
+    DEFAULT_REQUEST = new CreateRealEstateListingCommand({
+        id: "id",
+        city: "city",
+        clientId: "clientId",
+        country: "country",
+        price: 1,
+        state: "state",
+        street: "street",
+        type: RealEstateListingType.APARTMENT.value,
+        zip: "zip",
+    });
     mockUnitOfWork = createUnitOfWorkMock();
     mockClientDomainService = createClientDomainServiceMock();
     mockRealEstateListingDomainService = createRealEstateListingDomainServiceMock();
@@ -40,7 +48,7 @@ beforeEach(() => {
 describe("createRealEstateListingUnitTest.test;", () => {
     it("Create Listing; Valid Data; Success;", async () => {
         mockClientDomainService.tryGetById.mockImplementationOnce(async () => ok(CLIENT_001));
-        mockRealEstateListingDomainService.tryOrchestractCreateNewListing.mockImplementationOnce(async () => ok(LISTING_001))
+        mockRealEstateListingDomainService.tryOrchestractCreateNewListing.mockImplementationOnce(async () => ok(LISTING_001));
         const result = await handler.handle(DEFAULT_REQUEST);
         expect(result.isOk());
     });

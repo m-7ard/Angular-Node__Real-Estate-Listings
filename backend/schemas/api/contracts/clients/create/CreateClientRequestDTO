@@ -8,7 +8,7 @@
         "name": { "type": "string" },
         "ads": {
             "type": "array",
-            "items": { "$ref": "http://127.0.0.1:3000/schemas/api/models/Client.json" }
+            "items": { "$ref": "http://127.0.0.1:3000/schemas/api/models/ClientApiModel.json" }
         }
     },
     "required": ["userId", "name"]

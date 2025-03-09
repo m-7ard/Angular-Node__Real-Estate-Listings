@@ -22,14 +22,22 @@ let mockClientDomainService: jest.Mocked<IClientDomainService>;
 let mockRealEstateListingDomainService: jest.Mocked<IRealEstateListingDomainService>;
 let handler: UpdateRealEstateListingCommandHandler;
 
-beforeAll(() => {
-});
+beforeAll(() => {});
 
-afterAll(() => {
-});
+afterAll(() => {});
 
 beforeEach(() => {
-    DEFAULT_REQUEST = new CreateRealEstateListingCommand({ id: "id", "city": "city", "clientId": "clientId", "country": "country", "price": 1, "state": "state", "street": "street", "type": RealEstateListingType.APARTMENT.value, "zip": "zip" });
+    DEFAULT_REQUEST = new CreateRealEstateListingCommand({
+        id: "id",
+        city: "city",
+        clientId: "clientId",
+        country: "country",
+        price: 1,
+        state: "state",
+        street: "street",
+        type: RealEstateListingType.APARTMENT.value,
+        zip: "zip",
+    });
     mockUnitOfWork = createUnitOfWorkMock();
     mockClientDomainService = createClientDomainServiceMock();
     mockRealEstateListingDomainService = createRealEstateListingDomainServiceMock();
@@ -43,7 +51,7 @@ describe("updateRealEstateListingUnitTest.test;", () => {
     it("Update Listing; Valid Data; Success;", async () => {
         mockRealEstateListingDomainService.tryGetById.mockImplementationOnce(async () => ok(LISTING_001));
         mockClientDomainService.tryGetById.mockImplementationOnce(async () => ok(CLIENT_001));
-        mockRealEstateListingDomainService.tryOrchestractUpdateListing.mockImplementationOnce(async () => ok(true))
+        mockRealEstateListingDomainService.tryOrchestractUpdateListing.mockImplementationOnce(async () => ok(true));
         const result = await handler.handle(DEFAULT_REQUEST);
         expect(result.isOk());
     });
@@ -68,7 +76,7 @@ describe("updateRealEstateListingUnitTest.test;", () => {
     it("Update Listing; Cannot Update Listing; Failure;", async () => {
         mockRealEstateListingDomainService.tryGetById.mockImplementationOnce(async () => ok(LISTING_001));
         mockClientDomainService.tryGetById.mockImplementationOnce(async () => ok(CLIENT_001));
-        mockRealEstateListingDomainService.tryOrchestractUpdateListing.mockImplementationOnce(async () => err(emptyApplicationError))
+        mockRealEstateListingDomainService.tryOrchestractUpdateListing.mockImplementationOnce(async () => err(emptyApplicationError));
         const result = await handler.handle(DEFAULT_REQUEST);
         expect(result.isErr());
         const error = result.isErr() && result.error;

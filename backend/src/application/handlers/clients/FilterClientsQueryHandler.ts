@@ -7,10 +7,10 @@ import IClientRepository, { FilterClientsCriteria } from "application/interfaces
 import ClientId from "domain/valueObjects/Client/ClientId";
 import ClientType from "domain/valueObjects/Client/ClientType";
 
-export type FilterClientQueryResult = IQueryResult<Client[], ApplicationError[]>;
+export type FilterClientsQueryResult = IQueryResult<Client[], ApplicationError[]>;
 
-export class FilterClientQuery implements IQuery<FilterClientQueryResult> {
-    __returnType: FilterClientQueryResult = null!;
+export class FilterClientsQuery implements IQuery<FilterClientsQueryResult> {
+    __returnType: FilterClientsQueryResult = null!;
 
     constructor(params: { id?: string | null; type?: string | null; name?: string | null }) {
         this.id = params.id ?? null;
@@ -23,10 +23,10 @@ export class FilterClientQuery implements IQuery<FilterClientQueryResult> {
     public name: string | null;
 }
 
-export default class FilterClientQueryHandler implements IRequestHandler<FilterClientQuery, FilterClientQueryResult> {
+export default class FilterClientsQueryHandler implements IRequestHandler<FilterClientsQuery, FilterClientsQueryResult> {
     constructor(private readonly clientRepository: IClientRepository) {}
 
-    async handle(query: FilterClientQuery): Promise<FilterClientQueryResult> {
+    async handle(query: FilterClientsQuery): Promise<FilterClientsQueryResult> {
         // Clean Input
         if (query.id != null && ClientId.canCreate(query.id).isErr()) {
             query.id = null;

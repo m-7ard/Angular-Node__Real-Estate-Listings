@@ -1,0 +1,9 @@
+{
+    "$id": "http://127.0.0.1:3000/schemas/api/contracts/clients/read/ReadClientRequestDTO.json",
+    "title": "ReadClientRequestDTO",
+    "type": "object",
+    "properties": {
+        "_": { "type": "null" }
+    },
+    "required": []
+}

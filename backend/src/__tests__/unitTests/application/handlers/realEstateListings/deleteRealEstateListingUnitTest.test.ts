@@ -16,11 +16,9 @@ let mockUnitOfWork: jest.Mocked<IUnitOfWork>;
 let mockRealEstateListingDomainService: jest.Mocked<IRealEstateListingDomainService>;
 let handler: DeleteRealEstateListingCommandHandler;
 
-beforeAll(() => {
-});
+beforeAll(() => {});
 
-afterAll(() => {
-});
+afterAll(() => {});
 
 beforeEach(() => {
     mockUnitOfWork = createUnitOfWorkMock();

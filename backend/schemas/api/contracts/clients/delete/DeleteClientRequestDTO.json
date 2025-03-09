@@ -1,0 +1,9 @@
+{
+    "$id": "http://127.0.0.1:3000/schemas/api/contracts/clients/create/DeleteClientRequestDTO.json",
+    "title": "DeleteClientRequestDTO",
+    "type": "object",
+    "properties": {
+        "force": { "type": "boolean" }
+    },
+    "required": ["force"]
+}

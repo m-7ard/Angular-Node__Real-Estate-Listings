@@ -20,4 +20,8 @@ export default class ClientId implements IValueObject {
         if (!(other instanceof ClientId)) return false;
         return other.value === this.value;
     }
+
+    toString() {
+        return this.value;
+    }
 }

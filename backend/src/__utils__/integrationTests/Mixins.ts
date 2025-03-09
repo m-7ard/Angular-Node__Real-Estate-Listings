@@ -3,14 +3,24 @@ import IPasswordHasher from "application/interfaces/IPasswordHasher";
 import IUserRepository from "application/interfaces/persistence/IUserRepository";
 import User from "domain/entities/User";
 import { testingDIContainer } from "./integrationTest.setup";
+import Client from "domain/entities/Client";
+import ClientType from "domain/valueObjects/Client/ClientType";
+import IClientRepository from "application/interfaces/persistence/IClientRepository";
+import RealEstateListing from "domain/entities/RealEstateListing";
+import RealEstateListingType from "domain/valueObjects/RealEstateListing/RealEstateListingType";
+import IRealEstateListingRepository from "application/interfaces/persistence/IRealEstateListingRepository";
 
 class Mixins {
-    private readonly _userRepository: IUserRepository;
-    private readonly _passwordHasher: IPasswordHasher;
+    private readonly userRepository: IUserRepository;
+    private readonly passwordHasher: IPasswordHasher;
+    private readonly clientRepository: IClientRepository;
+    private readonly realEstateListingRepository: IRealEstateListingRepository;
 
     constructor() {
-        this._userRepository = testingDIContainer.testResolve(DI_TOKENS.USER_REPOSITORY);
-        this._passwordHasher = testingDIContainer.testResolve(DI_TOKENS.PASSWORD_HASHER);
+        this.userRepository = testingDIContainer.testResolve(DI_TOKENS.USER_REPOSITORY);
+        this.passwordHasher = testingDIContainer.testResolve(DI_TOKENS.PASSWORD_HASHER);
+        this.clientRepository = testingDIContainer.testResolve(DI_TOKENS.CLIENT_REPOSITORY);
+        this.realEstateListingRepository = testingDIContainer.testResolve(DI_TOKENS.REAL_ESTATE_LISTING_REPOSITORY);
     }
 
     async createClientUser(seed: number) {
@@ -19,12 +29,12 @@ class Mixins {
             id: `${seed}`,
             name: `user_${seed}`,
             email: `user_${seed}@email.com`,
-            hashedPassword: await this._passwordHasher.hashPassword(password),
+            hashedPassword: await this.passwordHasher.hashPassword(password),
             isAdmin: false,
-            dateCreated: new Date()
+            dateCreated: new Date(),
         });
 
-        await this._userRepository.createAsync(user);
+        await this.userRepository.createAsync(user);
         return { user, password };
     }
 
@@ -34,13 +44,38 @@ class Mixins {
             id: `${seed}`,
             name: `user_${seed}`,
             email: `user_${seed}@email.com`,
-            hashedPassword: await this._passwordHasher.hashPassword(password),
+            hashedPassword: await this.passwordHasher.hashPassword(password),
             isAdmin: true,
-            dateCreated: new Date()
+            dateCreated: new Date(),
         });
 
-        await this._userRepository.createAsync(user);
+        await this.userRepository.createAsync(user);
         return { user, password };
+    }
+
+    async createPrivateClient(seed: number) {
+        const client = Client.executeCreate({ id: seed.toString(), name: `client_${seed}`, type: ClientType.PRIVATE.value });
+
+        await this.clientRepository.createAsync(client);
+        return client;
+    }
+
+    async createHouseRealEstateListing(seed: number, client: Client) {
+        const listing = RealEstateListing.executeCreate({
+            city: `city_${seed}`,
+            clientId: client.id,
+            country: `country_${seed}`,
+            dateCreated: new Date(),
+            id: `${seed}`,
+            price: seed,
+            state: `state_${seed}`,
+            street: `street_${seed}`,
+            type: RealEstateListingType.HOUSE.value,
+            zip: `zip_${seed}`,
+        });
+
+        await this.realEstateListingRepository.createAsync(listing);
+        return client;
     }
 }
 

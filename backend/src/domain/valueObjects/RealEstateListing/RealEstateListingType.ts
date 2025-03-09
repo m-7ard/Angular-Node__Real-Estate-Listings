@@ -31,4 +31,8 @@ export default class RealEstateListingType implements IValueObject {
         if (!(other instanceof RealEstateListingType)) return false;
         return other.value === this.value;
     }
+
+    toString() {
+        return this.value;
+    }
 }

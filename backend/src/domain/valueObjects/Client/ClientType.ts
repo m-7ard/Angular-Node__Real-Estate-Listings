@@ -31,4 +31,8 @@ export default class ClientType implements IValueObject {
         if (!(other instanceof ClientType)) return false;
         return other.value === this.value;
     }
+
+    toString() {
+        return this.value;
+    }
 }

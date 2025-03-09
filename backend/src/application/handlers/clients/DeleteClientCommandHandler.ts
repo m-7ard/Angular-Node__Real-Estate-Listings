@@ -7,6 +7,7 @@ import ApplicationError from "application/errors/ApplicationError";
 import ClientDoesNotExistError from "application/errors/application/clients/ClientDoesNotExistError";
 import IRealEstateListingDomainService from "application/interfaces/domainServices/IRealEstateListingDomainService";
 import { FilterRealEstateListingsCriteria } from "application/interfaces/persistence/IRealEstateListingRepository";
+import CannotDeleteClientError from "application/errors/application/clients/CannotDeleteClientError";
 
 export type DeleteClientCommandResult = ICommandResult<ApplicationError[]>;
 
@@ -44,7 +45,7 @@ export default class DeleteClientCommandHandler implements IRequestHandler<Delet
                         await this.unitOfWork.realEstateListingRepo.deleteAsync(listing);
                     }
                 } else {
-                    return err(new ClientDoesNotExistError({ message: `Cannot delete a Client while they have existing Real Estate Listings (Amount: ${listings.length})` }).asList());
+                    return err(new CannotDeleteClientError({ message: `Cannot delete a Client while they have existing Real Estate Listings (Amount: ${listings.length})` }).asList());
                 }
             }
 

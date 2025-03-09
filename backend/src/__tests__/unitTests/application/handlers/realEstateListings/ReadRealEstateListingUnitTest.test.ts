@@ -13,11 +13,9 @@ let LISTING_001: RealEstateListing;
 let mockRealEstateListingDomainService: jest.Mocked<IRealEstateListingDomainService>;
 let handler: ReadRealEstateListingQueryHandler;
 
-beforeAll(() => {
-});
+beforeAll(() => {});
 
-afterAll(() => {
-});
+afterAll(() => {});
 
 beforeEach(() => {
     mockRealEstateListingDomainService = createRealEstateListingDomainServiceMock();

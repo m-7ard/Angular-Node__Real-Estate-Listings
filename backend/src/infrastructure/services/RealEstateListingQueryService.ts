@@ -59,7 +59,7 @@ class RealEstateListingQueryService {
 
         if (contract.clientId != null) {
             if (this.databaseProviderSingleton.isMySQL) {
-                this.query = this.mySQLQuery.whereILike("clientId", contract.clientId);
+                this.query = this.mySQLQuery.whereILike("client_id", contract.clientId);
             }
 
             this.mySQLQuery = this.query;

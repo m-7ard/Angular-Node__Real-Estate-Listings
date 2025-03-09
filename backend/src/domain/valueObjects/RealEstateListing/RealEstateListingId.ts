@@ -20,4 +20,8 @@ export default class RealEstateListingId implements IValueObject {
         if (!(other instanceof RealEstateListingId)) return false;
         return other.value === this.value;
     }
+
+    toString() {
+        return this.value;
+    }
 }

@@ -22,4 +22,8 @@ export default class Money implements IValueObject {
         if (!(other instanceof Money)) return false;
         return other.value === this.value;
     }
+
+    toString() {
+        return this.value;
+    }
 }

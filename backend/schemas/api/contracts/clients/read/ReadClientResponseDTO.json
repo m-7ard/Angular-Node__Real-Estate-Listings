@@ -1,0 +1,9 @@
+{
+    "$id": "http://127.0.0.1:3000/schemas/api/contracts/clients/read/ReadClientResponseDTO.json",
+    "title": "ReadClientResponseDTO",
+    "type": "object",
+    "properties": {
+        "client": { "$ref": "http://127.0.0.1:3000/schemas/api/models/ClientApiModel.json" }
+    },
+    "required": ["client"]
+}

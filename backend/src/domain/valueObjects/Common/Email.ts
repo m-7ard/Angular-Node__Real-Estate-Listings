@@ -26,4 +26,8 @@ export default class Email implements IValueObject {
         if (!(other instanceof Email)) return false;
         return other.value === this.value;
     }
+
+    toString() {
+        return this.value;
+    }
 }
