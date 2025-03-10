@@ -112,9 +112,9 @@ describe("updateRealEstateListingsIntegrationTest;", () => {
         expect(response.status).toBe(404);
     });
 
-    it("Update Real Estate Listing; Invalid Status; Failure;", async () => {        
+    it("Update Real Estate Listing; Invalid Type; Failure;", async () => {        
         // Setup
-        DEFAULT_REQUEST.state = "bunk status";
+        DEFAULT_REQUEST.type = "bunk status";
                 
         // Act
         const response = await authSupertest({

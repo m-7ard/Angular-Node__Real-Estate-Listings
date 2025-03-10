@@ -1,4 +1,4 @@
-import { Request, response } from "express";
+import { Request } from "express";
 import IAction from "../IAction";
 import IRequestDispatcher from "../../../application/handlers/IRequestDispatcher";
 import JsonResponse from "../../responses/JsonResponse";

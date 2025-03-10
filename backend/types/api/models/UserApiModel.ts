@@ -3,5 +3,4 @@ export interface UserAPIModel {
     id:      string;
     isAdmin: boolean;
     name:    string;
-    [property: string]: any;
 }

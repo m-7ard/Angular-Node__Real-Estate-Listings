@@ -51,7 +51,7 @@ beforeEach(async () => {
     ADMIN_PASSWORD = admin.password;
 });
 
-describe("listRealEstateListingsIntegrationTest.test.test;", () => {
+describe("listRealEstateListingsIntegrationTest.test;", () => {
     it("List Real Estate Listing; Empty Params; Success;", async () => {
         // Setup
 
@@ -95,7 +95,7 @@ describe("listRealEstateListingsIntegrationTest.test.test;", () => {
 
     it("List Real Estate Listing; By House Type Success;", async () => {
         // Setup
-        DEFAULT_REQUEST.clientId = RealEstateListingType.HOUSE.value;
+        DEFAULT_REQUEST.type = RealEstateListingType.HOUSE.value;
 
         // Act
         const response = await authSupertest({
@@ -116,7 +116,7 @@ describe("listRealEstateListingsIntegrationTest.test.test;", () => {
 
     it("List Real Estate Listing; By Apartment Type Success;", async () => {
         // Setup
-        DEFAULT_REQUEST.clientId = RealEstateListingType.APARTMENT.value;
+        DEFAULT_REQUEST.type = RealEstateListingType.APARTMENT.value;
 
         // Act
         const response = await authSupertest({
@@ -132,6 +132,6 @@ describe("listRealEstateListingsIntegrationTest.test.test;", () => {
         expect(response.status).toBe(200);
 
         const body: ListRealEstateListingsResponseDTO = response.body;
-        expect(body.listings.length).toBe(1);
+        expect(body.listings.length).toBe(0);
     });
 });

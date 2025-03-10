@@ -14,5 +14,6 @@
         "clientId": { "type": "string" },
         "dateCreated": { "type": "string", "format": "date-time" }
     },
-    "required": ["id", "type", "price", "street", "city", "state", "zip", "country", "clientId", "dateCreated"]
+    "required": ["id", "type", "price", "street", "city", "state", "zip", "country", "clientId", "dateCreated"],
+    "additionalProperties": false
 }

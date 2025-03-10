@@ -12,7 +12,6 @@ import Mixins from "__utils__/integrationTests/Mixins";
 import Client from "domain/entities/Client";
 import { DI_TOKENS } from "api/services/DIContainer";
 import RealEstateListingId from "domain/valueObjects/RealEstateListing/RealEstateListingId";
-import { CreateRealEstateListingResponseDTO } from "../../../../types/api/contracts/realEstateListings/create/CreateRealEstateListingResponseDTO";
 import RealEstateListing from "domain/entities/RealEstateListing";
 import { DeleteRealEstateListingRequestDTO } from "../../../../types/api/contracts/realEstateListings/delete/DeleteRealEstateListingRequestDTO";
 
@@ -61,9 +60,9 @@ describe("deleteRealEstateListingsIntegrationTest.test;", () => {
         // Assert
         expect(response.status).toBe(200);
 
-        const body: CreateRealEstateListingResponseDTO = response.body;
+        const body: DeleteRealEstateListingRequestDTO = response.body;
         const repo = testingDIContainer.testResolve(DI_TOKENS.REAL_ESTATE_LISTING_REPOSITORY);
-        const listing = await repo.getByIdAsync(RealEstateListingId.executeCreate(body.id));
+        const listing = await repo.getByIdAsync(LISTING_001.id);
         expect(listing).toBeNull();
     });
 

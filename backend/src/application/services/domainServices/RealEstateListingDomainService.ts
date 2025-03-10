@@ -36,7 +36,7 @@ class RealEstateListingDomainService implements IRealEstateListingDomainService 
     }
 
     async tryOrchestractUpdateListing(listing: RealEstateListing, contract: OrchestrateUpdateListingContract): Promise<Result<boolean, ApplicationError>> {
-        const canUpdate = listing.canUpdate({
+        const updateContract = {
             city: contract.city,
             clientId: contract.clientId,
             country: contract.country,
@@ -46,10 +46,12 @@ class RealEstateListingDomainService implements IRealEstateListingDomainService 
             street: contract.street,
             type: contract.type,
             zip: contract.zip,
-        });
+        };
+        const canUpdate = listing.canUpdate(updateContract);
 
         if (canUpdate.isError()) return err(new CannotUpdateRealEstateListingError({ message: canUpdate.error.message }));
-        
+
+        listing.executeUpdate(updateContract);
         await this.unitOfWork.realEstateListingRepo.updateAsync(listing);
         return ok(true);
     }
@@ -64,7 +66,7 @@ class RealEstateListingDomainService implements IRealEstateListingDomainService 
         // Fetch Listing
         const listing = await this.unitOfWork.realEstateListingRepo.getByIdAsync(clientId);
         if (listing == null) return err(new RealEstateListingDoesNotExistError({ message: `Real Estate of Id "${id} does not exist."` }));
-        
+
         return ok(listing);
     }
 }

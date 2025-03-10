@@ -1,4 +1,4 @@
-import { createClientDomainServiceMock, createRealEstateListingDomainServiceMock, createUnitOfWorkMock } from "__mocks__/mocks";
+import { createRealEstateListingDomainServiceMock, createUnitOfWorkMock } from "__mocks__/mocks";
 import Mixins from "__utils__/unitTests/Mixins";
 import { emptyApplicationError } from "__utils__/values/emptyApplicationError";
 import RealEstateListingDoesNotExistError from "application/errors/application/realEstateListings/RealEstateListingDoesNotExistError";

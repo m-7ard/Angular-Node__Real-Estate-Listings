@@ -1,6 +1,5 @@
 export interface CurrentUserResponseDTO {
-    user: null | UserAPIModel;
-    [property: string]: any;
+    user: UserAPIModel | null;
 }
 
 export interface UserAPIModel {
@@ -8,5 +7,4 @@ export interface UserAPIModel {
     id:      string;
     isAdmin: boolean;
     name:    string;
-    [property: string]: any;
 }

@@ -1,5 +1,5 @@
 import { Request } from "express";
-import IAction, { TValidateResult } from "../IAction";
+import IAction from "../IAction";
 import IRequestDispatcher from "../../../application/handlers/IRequestDispatcher";
 import JsonResponse from "../../responses/JsonResponse";
 import { StatusCodes } from "http-status-codes";
@@ -9,6 +9,7 @@ import { UpdateClientCommand } from "application/handlers/clients/UpdateClientCo
 import { UpdateClientRequestDTO } from "../../../../types/api/contracts/clients/update/UpdateClientRequestDTO";
 import { UpdateClientResponseDTO } from "../../../../types/api/contracts/clients/update/UpdateClientResponseDTO";
 import ClientDoesNotExistError from "application/errors/application/clients/ClientDoesNotExistError";
+import { UpdateClientRequestDTOValidator } from "api/utils/validators";
 
 type ActionRequest = { id: string; dto: UpdateClientRequestDTO;  };
 type ActionResponse = JsonResponse<UpdateClientResponseDTO | IApiError[]>;
@@ -18,6 +19,14 @@ class UpdateClientAction implements IAction<ActionRequest, ActionResponse> {
 
     async handle(request: ActionRequest): Promise<ActionResponse> {
         const { dto, id } = request;
+
+        const isValid = UpdateClientRequestDTOValidator(dto);
+        if (!isValid) {
+            return new JsonResponse({
+                status: StatusCodes.BAD_REQUEST,
+                body: ApiErrorFactory.mapAjvErrors(UpdateClientRequestDTOValidator.errors),
+            });
+        }
 
         const command = new UpdateClientCommand({
             id: id,

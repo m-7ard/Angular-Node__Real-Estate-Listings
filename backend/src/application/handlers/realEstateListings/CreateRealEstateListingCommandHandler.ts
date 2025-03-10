@@ -45,7 +45,7 @@ export default class CreateRealEstateListingCommandHandler implements IRequestHa
 
     async handle(command: CreateRealEstateListingCommand): Promise<CreateRealEstateListingCommandResult> {
         // Client Exists
-        const clientExists = await this.clientDomainService.tryGetById(command.id);
+        const clientExists = await this.clientDomainService.tryGetById(command.clientId);
         if (clientExists.isErr()) return err(new ClientDoesNotExistError({ message: clientExists.error.message }).asList());
 
         const client = clientExists.value;

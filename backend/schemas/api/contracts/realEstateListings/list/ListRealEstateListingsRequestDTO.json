@@ -13,5 +13,6 @@
         "country": { "type": "string" },
         "clientId": { "type": "string" }
     },
-    "required": []
+    "required": [],
+    "additionalProperties": false
 }

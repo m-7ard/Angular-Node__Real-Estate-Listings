@@ -5,7 +5,6 @@ import JsonResponse from "../../responses/JsonResponse";
 import { StatusCodes } from "http-status-codes";
 import IApiError from "api/errors/IApiError";
 import ApiErrorFactory from "api/errors/ApiErrorFactory";
-import RealEstateListingDoesNotExistError from "application/errors/application/realEstateListings/RealEstateListingDoesNotExistError";
 import { ReadRealEstateListingQuery } from "application/handlers/realEstateListings/ReadRealEstateListingQueryHandler";
 import { ReadRealEstateListingRequestDTO } from "../../../../types/api/contracts/realEstateListings/read/ReadRealEstateListingRequestDTO";
 import { ReadRealEstateListingResponseDTO } from "../../../../types/api/contracts/realEstateListings/read/ReadRealEstateListingResponseDTO";

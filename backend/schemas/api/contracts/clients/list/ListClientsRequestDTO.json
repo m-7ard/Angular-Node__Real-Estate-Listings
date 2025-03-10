@@ -7,5 +7,6 @@
         "type": { "type": "string" },
         "name": { "type": "string" }
     },
-    "required": []
+    "required": [],
+    "additionalProperties": false
 }

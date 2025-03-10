@@ -11,7 +11,7 @@ class MySQLRealEstateListingMapper implements IRealEstateListingMapper {
             "city": source.city,
             "client_id": source.client_id,
             "country": source.country,
-            "date_created": source.date_Created,
+            "date_created": source.date_created,
             "price": source.price,
             "state": source.state,
             "street": source.street,

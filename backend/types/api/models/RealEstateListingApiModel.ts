@@ -9,5 +9,4 @@ export interface RealEstateListingAPIModel {
     street:      string;
     type:        string;
     zip:         string;
-    [property: string]: any;
 }

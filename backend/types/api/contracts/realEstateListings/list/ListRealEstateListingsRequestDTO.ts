@@ -8,5 +8,4 @@ export interface ListRealEstateListingsRequestDTO {
     street?:   string;
     type?:     string;
     zip?:      string;
-    [property: string]: any;
 }

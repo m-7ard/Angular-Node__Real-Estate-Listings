@@ -29,9 +29,7 @@ afterAll(async () => {
 beforeEach(async () => {
     await resetIntegrationTest();
 
-    DEFAULT_REQUEST = {
-        force: false,
-    };
+    DEFAULT_REQUEST = {};
 
     const mixins = new Mixins();
 
@@ -57,7 +55,7 @@ describe("readClientIntegrationTest;", () => {
 
         // Assert
         expect(response.status).toBe(200);
-        
+
         const repo = testingDIContainer.testResolve(DI_TOKENS.CLIENT_REPOSITORY);
         const client = await repo.getByIdAsync(CLIENT_001.id);
         expect(client == null);

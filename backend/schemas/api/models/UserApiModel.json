@@ -8,5 +8,6 @@
         "email": { "type": "string" },
         "isAdmin": { "type": "boolean" }
     },
-    "required": ["id",  "name", "email", "isAdmin"]
+    "required": ["id",  "name", "email", "isAdmin"],
+    "additionalProperties": false
 }

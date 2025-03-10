@@ -8,5 +8,6 @@
             "items": { "$ref": "http://127.0.0.1:3000/schemas/api/models/ClientApiModel.json" }
         }
     },
-    "required": ["clients"]
+    "required": ["clients"],
+    "additionalProperties": false
 }

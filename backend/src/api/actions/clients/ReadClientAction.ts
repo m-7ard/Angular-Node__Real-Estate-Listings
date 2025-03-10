@@ -32,7 +32,7 @@ class ReadClientAction implements IAction<ActionRequest, ActionResponse> {
         }
 
         const client = result.value;
-        
+
         if (client == null) {
             return new JsonResponse({
                 status: StatusCodes.NOT_FOUND,
@@ -51,9 +51,7 @@ class ReadClientAction implements IAction<ActionRequest, ActionResponse> {
     bind(request: Request): ActionRequest {
         return {
             id: request.params.id,
-            dto: {
-                force: request.body.force,
-            },
+            dto: {},
         };
     }
 }

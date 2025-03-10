@@ -1,6 +1,5 @@
 export interface ListRealEstateListingsResponseDTO {
     listings: RealEstateListingAPIModel[];
-    [property: string]: any;
 }
 
 export interface RealEstateListingAPIModel {
@@ -14,5 +13,4 @@ export interface RealEstateListingAPIModel {
     street:      string;
     type:        string;
     zip:         string;
-    [property: string]: any;
 }

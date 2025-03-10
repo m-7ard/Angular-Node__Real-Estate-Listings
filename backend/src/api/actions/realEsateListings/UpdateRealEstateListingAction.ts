@@ -69,14 +69,14 @@ class UpdateRealEstateListingAction implements IAction<ActionRequest, ActionResp
         return {
             id: request.params.id,
             dto: {
-                city: JSON.stringify(request.body.city),
-                clientId: JSON.stringify(request.body.clientId),
-                country: JSON.stringify(request.body.country),
+                city: request.body.city,
+                clientId: request.body.clientId,
+                country: request.body.country,
                 price: typeof request.body.price === "number" && Number.isFinite(request.body.price) ? request.body.price : -1,
-                state: JSON.stringify(request.body.state),
-                street: JSON.stringify(request.body.street),
-                type: JSON.stringify(request.body.type),
-                zip: JSON.stringify(request.body.zip),
+                state: request.body.state,
+                street: request.body.street,
+                type: request.body.type,
+                zip: request.body.zip,
             },
         };
     }

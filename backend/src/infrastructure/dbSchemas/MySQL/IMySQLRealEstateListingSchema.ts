@@ -10,5 +10,5 @@ export default interface IMySQLRealEstateListingSchema {
     zip: string;
     country: string;
     client_id: IMySQLClientSchema["id"];
-    date_Created: Date;
+    date_created: Date;
 }

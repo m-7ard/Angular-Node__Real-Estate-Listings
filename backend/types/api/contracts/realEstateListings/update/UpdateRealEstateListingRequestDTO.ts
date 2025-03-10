@@ -7,5 +7,4 @@ export interface UpdateRealEstateListingRequestDTO {
     street:   string;
     type:     string;
     zip:      string;
-    [property: string]: any;
 }

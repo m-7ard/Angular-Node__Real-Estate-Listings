@@ -8,5 +8,6 @@
             "items": { "$ref": "http://127.0.0.1:3000/schemas/api/models/RealEstateListingApiModel.json" }
         }
     },
-    "required": ["listings"]
+    "required": ["listings"],
+    "additionalProperties": false
 }

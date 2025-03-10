@@ -41,7 +41,7 @@ beforeEach(async () => {
     ADMIN_PASSWORD = admin.password;
 });
 
-describe("readRealEstateListingsIntegrationTest.test.test;", () => {
+describe("readRealEstateListingsIntegrationTest.test;", () => {
     it("Read Real Estate Listing; Valid Data; Success;", async () => {
         // Setup
 

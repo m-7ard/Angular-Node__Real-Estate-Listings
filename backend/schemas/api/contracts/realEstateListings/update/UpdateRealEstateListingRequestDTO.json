@@ -12,5 +12,6 @@
         "country": { "type": "string" },
         "clientId": { "type": "string" }
     },
-    "required": ["type", "price", "street", "city", "state", "zip", "country", "clientId"]
+    "required": ["type", "price", "street", "city", "state", "zip", "country", "clientId"],
+    "additionalProperties": false
 }

@@ -14,7 +14,7 @@ type ActionRequest = { id: string; dto: DeleteClientRequestDTO };
 type ActionResponse = JsonResponse<DeleteClientResponseDTO | IApiError[]>;
 
 class DeleteClientAction implements IAction<ActionRequest, ActionResponse> {
-    constructor(private readonly _requestDispatcher: IRequestDispatcher) {}
+    constructor(private readonly requestDispatcher: IRequestDispatcher) {}
 
     async handle(request: ActionRequest): Promise<ActionResponse> {
         const { dto, id } = request;
@@ -23,7 +23,7 @@ class DeleteClientAction implements IAction<ActionRequest, ActionResponse> {
             id: id,
             force: dto.force,
         });
-        const result = await this._requestDispatcher.dispatch(command);
+        const result = await this.requestDispatcher.dispatch(command);
 
         if (result.isErr()) {
             const [firstError] = result.error;
@@ -43,9 +43,7 @@ class DeleteClientAction implements IAction<ActionRequest, ActionResponse> {
 
         return new JsonResponse({
             status: StatusCodes.OK,
-            body: {
-                id: id,
-            },
+            body: {},
         });
     }
 

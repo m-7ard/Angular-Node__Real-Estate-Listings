@@ -5,5 +5,6 @@
     "properties": {
         "listing": { "$ref": "http://127.0.0.1:3000/schemas/api/models/RealEstateListingApiModel.json" }
     },
-    "required": ["listing"]
+    "required": ["listing"],
+    "additionalProperties": false
 }

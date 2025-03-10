@@ -23,14 +23,17 @@ export class CreateClientCommand implements ICommand<CreateClientCommandResult> 
 }
 
 export default class CreateClientCommandHandler implements IRequestHandler<CreateClientCommand, CreateClientCommandResult> {
-    constructor(private readonly unitOfWork: IUnitOfWork, private readonly clientDomainService: IClientDomainService) {}
+    constructor(
+        private readonly unitOfWork: IUnitOfWork,
+        private readonly clientDomainService: IClientDomainService,
+    ) {}
 
     async handle(command: CreateClientCommand): Promise<CreateClientCommandResult> {
-            const createResult = await this.clientDomainService.tryOrchestractCreateNewClient({ id: command.id, name: command.name, type: command.type });
-            if (createResult.isErr()) return err(new CannotCreateNewClient({ message: createResult.error.message }).asList());
-    
-            await this.unitOfWork.commitTransaction();
-            
-            return ok(undefined);
+        const createResult = await this.clientDomainService.tryOrchestractCreateNewClient({ id: command.id, name: command.name, type: command.type });
+        if (createResult.isErr()) return err(new CannotCreateNewClient({ message: createResult.error.message }).asList());
+
+        await this.unitOfWork.commitTransaction();
+
+        return ok(undefined);
     }
 }

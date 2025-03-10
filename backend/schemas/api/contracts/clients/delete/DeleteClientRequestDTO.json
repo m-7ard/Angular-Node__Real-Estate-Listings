@@ -5,5 +5,6 @@
     "properties": {
         "force": { "type": "boolean" }
     },
-    "required": ["force"]
+    "required": ["force"],
+    "additionalProperties": false
 }

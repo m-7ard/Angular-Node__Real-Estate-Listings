@@ -24,6 +24,7 @@ class ListClientsAction implements IAction<ActionRequest, ActionResponse> {
             name: dto.name,
             type: dto.type,
         });
+        
         const result = await this._requestDispatcher.dispatch(command);
 
         if (result.isErr()) {

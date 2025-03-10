@@ -19,6 +19,14 @@ class CreateClientAction implements IAction<ActionRequest, ActionResponse> {
     async handle(request: ActionRequest): Promise<ActionResponse> {
         const { dto } = request;
 
+        const isValid = CreateClientRequestDTOValidator(dto);
+        if (!isValid) {
+            return new JsonResponse({
+                status: StatusCodes.BAD_REQUEST,
+                body: ApiErrorFactory.mapAjvErrors(CreateClientRequestDTOValidator.errors),
+            });
+        }
+
         const guid = crypto.randomUUID();
 
         const command = new CreateClientCommand({
