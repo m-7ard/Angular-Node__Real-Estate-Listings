@@ -1,0 +1,16 @@
+{
+    "$id": "http://127.0.0.1:3000/schemas/api/contracts/realEstateListings/update/UpdateRealEstateListingRequestDTO.json",
+    "title": "UpdateRealEstateListingRequestDTO",
+    "type": "object",
+    "properties": {
+        "type": { "type": "string" },
+        "price": { "type": "number" },
+        "street": { "type": "string" },
+        "city": { "type": "string" },
+        "state": { "type": "string" },
+        "zip": { "type": "string" },
+        "country": { "type": "string" },
+        "clientId": { "type": "string" }
+    },
+    "required": ["type", "price", "street", "city", "state", "zip", "country", "clientId"]
+}

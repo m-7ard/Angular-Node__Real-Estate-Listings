@@ -26,7 +26,7 @@ class Mixins {
     async createClientUser(seed: number) {
         const password = `hashed_password_${seed}`;
         const user = User.executeCreate({
-            id: `${seed}`,
+            id: `client_user_id_${seed}`,
             name: `user_${seed}`,
             email: `user_${seed}@email.com`,
             hashedPassword: await this.passwordHasher.hashPassword(password),
@@ -41,7 +41,7 @@ class Mixins {
     async createAdminUser(seed: number) {
         const password = `hashed_password_${seed}`;
         const user = User.executeCreate({
-            id: `${seed}`,
+            id: `admin_user_id_${seed}`,
             name: `user_${seed}`,
             email: `user_${seed}@email.com`,
             hashedPassword: await this.passwordHasher.hashPassword(password),
@@ -54,7 +54,7 @@ class Mixins {
     }
 
     async createPrivateClient(seed: number) {
-        const client = Client.executeCreate({ id: seed.toString(), name: `client_${seed}`, type: ClientType.PRIVATE.value });
+        const client = Client.executeCreate({ id: `client_id_${seed}`, name: `client_${seed}`, type: ClientType.PRIVATE.value });
 
         await this.clientRepository.createAsync(client);
         return client;
@@ -66,7 +66,7 @@ class Mixins {
             clientId: client.id,
             country: `country_${seed}`,
             dateCreated: new Date(),
-            id: `${seed}`,
+            id: `listing_id_${seed}`,
             price: seed,
             state: `state_${seed}`,
             street: `street_${seed}`,
@@ -75,7 +75,7 @@ class Mixins {
         });
 
         await this.realEstateListingRepository.createAsync(listing);
-        return client;
+        return listing;
     }
 }
 

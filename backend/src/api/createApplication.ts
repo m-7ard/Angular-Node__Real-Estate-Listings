@@ -27,6 +27,7 @@ import MySQLDatabaseService from "infrastructure/services/MySQLDatabaseService";
 import DatabaseProviderSingleton from "./services/DatabaseProviderSingleton";
 import DatabaseProviderSingletonValue from "infrastructure/values/DatabaseProviderSingletonValue";
 import ClientQueryService from "infrastructure/services/ClientQueryService";
+import { createRealEstateListingsRouter } from "./routers/realEstateListingsRouter";
 
 export default function createApplication(config: {
     port: 3000 | 4200;
@@ -143,6 +144,7 @@ export default function createApplication(config: {
 
     app.use("/api/users/", createUsersRouter(diContainer));
     app.use("/api/clients/", createClientsRouter(diContainer));
+    app.use("/api/real-estate-listings/", createRealEstateListingsRouter(diContainer));
 
     app.use("/media", express.static("media"));
     app.use("/static", express.static("static"));

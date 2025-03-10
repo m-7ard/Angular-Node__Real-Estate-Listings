@@ -41,7 +41,7 @@ beforeEach(async () => {
 });
 
 describe("createClientIntegrationTest;", () => {
-    it("Current Client; Valid Data; Success;", async () => {
+    it("Create Client; Valid Data; Success;", async () => {
 
         const response = await authSupertest({
             agent: supertest(server)

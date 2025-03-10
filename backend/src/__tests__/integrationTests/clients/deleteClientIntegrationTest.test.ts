@@ -8,7 +8,6 @@ import {
 } from "../../../__utils__/integrationTests/integrationTest.setup";
 import User from "domain/entities/User";
 import authSupertest from "__utils__/integrationTests/authSupertest";
-import ClientType from "domain/valueObjects/Client/ClientType";
 import Mixins from "__utils__/integrationTests/Mixins";
 import Client from "domain/entities/Client";
 import { DI_TOKENS } from "api/services/DIContainer";

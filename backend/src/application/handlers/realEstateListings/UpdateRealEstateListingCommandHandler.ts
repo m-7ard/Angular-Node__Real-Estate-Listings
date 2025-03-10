@@ -14,17 +14,7 @@ export type UpdateRealEstateListingCommandResult = ICommandResult<ApplicationErr
 export class UpdateRealEstateListingCommand implements ICommand<UpdateRealEstateListingCommandResult> {
     __returnType: UpdateRealEstateListingCommandResult = null!;
 
-    constructor(params: { 
-        id: string;
-        type: string;
-        price: number;
-        street: string;
-        city: string;
-        state: string;
-        zip: string;
-        country: string;
-        clientId: string;
-    }) {
+    constructor(params: { id: string; type: string; price: number; street: string; city: string; state: string; zip: string; country: string; clientId: string }) {
         this.id = params.id;
         this.type = params.type;
         this.price = params.price;
@@ -48,30 +38,39 @@ export class UpdateRealEstateListingCommand implements ICommand<UpdateRealEstate
 }
 
 export default class UpdateRealEstateListingCommandHandler implements IRequestHandler<UpdateRealEstateListingCommand, UpdateRealEstateListingCommandResult> {
-    constructor(private readonly unitOfWork: IUnitOfWork, private readonly realEstateListingDomainService: IRealEstateListingDomainService, private readonly clientDomainService: IClientDomainService) {}
+    constructor(
+        private readonly unitOfWork: IUnitOfWork,
+        private readonly realEstateListingDomainService: IRealEstateListingDomainService,
+        private readonly clientDomainService: IClientDomainService,
+    ) {}
 
     async handle(command: UpdateRealEstateListingCommand): Promise<UpdateRealEstateListingCommandResult> {
-        try {
-            // Listing Exists
-            const listingExists = await this.realEstateListingDomainService.tryGetById(command.id);
-            if (listingExists.isErr()) return err(new RealEstateListingDoesNotExistError({ message: listingExists.error.message }).asList());
+        // Listing Exists
+        const listingExists = await this.realEstateListingDomainService.tryGetById(command.id);
+        if (listingExists.isErr()) return err(new RealEstateListingDoesNotExistError({ message: listingExists.error.message }).asList());
 
-            const listing = listingExists.value;
+        const listing = listingExists.value;
 
-            // Client Exists
-            const clientExists = await this.clientDomainService.tryGetById(command.id);
-            if (clientExists.isErr()) return err(new ClientDoesNotExistError({ message: clientExists.error.message }).asList());
+        // Client Exists
+        const clientExists = await this.clientDomainService.tryGetById(command.clientId);
+        if (clientExists.isErr()) return err(new ClientDoesNotExistError({ message: clientExists.error.message }).asList());
 
-            const client = clientExists.value;
+        const client = clientExists.value;
 
-            // Try Update
-            const updateResult = await this.realEstateListingDomainService.tryOrchestractUpdateListing(listing, { "city": command.city, "clientId": client.id, "country": command.country, "price": command.price, "state": command.state, "street": command.street, "type": command.type, "zip": command.zip });
-            if (updateResult.isErr()) return err(new CannotUpdateListingServiceError({ message: updateResult.error.message }).asList());
-    
-            await this.unitOfWork.commitTransaction();
-            return ok(undefined);
-        } finally {
-            await this.unitOfWork.rollbackTransaction();
-        }
+        // Try Update
+        const updateResult = await this.realEstateListingDomainService.tryOrchestractUpdateListing(listing, {
+            city: command.city,
+            clientId: client.id,
+            country: command.country,
+            price: command.price,
+            state: command.state,
+            street: command.street,
+            type: command.type,
+            zip: command.zip,
+        });
+        if (updateResult.isErr()) return err(new CannotUpdateListingServiceError({ message: updateResult.error.message }).asList());
+
+        await this.unitOfWork.commitTransaction();
+        return ok(undefined);
     }
 }

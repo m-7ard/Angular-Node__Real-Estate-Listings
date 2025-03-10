@@ -8,10 +8,10 @@ import ClientId from "domain/valueObjects/Client/ClientId";
 import Money from "domain/valueObjects/Common/Money";
 import RealEstateListingType from "domain/valueObjects/RealEstateListing/RealEstateListingType";
 
-export type FilterRealEstateListingQueryResult = IQueryResult<RealEstateListing[], ApplicationError[]>;
+export type FilterRealEstateListingsQueryResult = IQueryResult<RealEstateListing[], ApplicationError[]>;
 
-export class FilterRealEstateListingQuery implements IQuery<FilterRealEstateListingQueryResult> {
-    __returnType: FilterRealEstateListingQueryResult = null!;
+export class FilterRealEstateListingsQuery implements IQuery<FilterRealEstateListingsQueryResult> {
+    __returnType: FilterRealEstateListingsQueryResult = null!;
 
     constructor(params: {
         type?: string | null;
@@ -43,10 +43,10 @@ export class FilterRealEstateListingQuery implements IQuery<FilterRealEstateList
     clientId: string | null;
 }
 
-export default class FilterRealEstateListingQueryHandler implements IRequestHandler<FilterRealEstateListingQuery, FilterRealEstateListingQueryResult> {
+export default class FilterRealEstateListingsQueryHandler implements IRequestHandler<FilterRealEstateListingsQuery, FilterRealEstateListingsQueryResult> {
     constructor(private readonly realEstateListingRepository: IRealEstateListingRepository) {}
 
-    async handle(query: FilterRealEstateListingQuery): Promise<FilterRealEstateListingQueryResult> {
+    async handle(query: FilterRealEstateListingsQuery): Promise<FilterRealEstateListingsQueryResult> {
         // Clean Input
         if (query.clientId != null && ClientId.canCreate(query.clientId).isErr()) {
             query.clientId = null;

@@ -4,13 +4,11 @@ import {
     resetIntegrationTest,
     server,
     setUpIntegrationTest,
-    testingDIContainer,
 } from "../../../__utils__/integrationTests/integrationTest.setup";
 import User from "domain/entities/User";
 import authSupertest from "__utils__/integrationTests/authSupertest";
 import Mixins from "__utils__/integrationTests/Mixins";
 import Client from "domain/entities/Client";
-import { DI_TOKENS } from "api/services/DIContainer";
 import { ListClientsRequestDTO } from "../../../../types/api/contracts/clients/list/ListClientsRequestDTO";
 import urlWithQuery from "__utils__/integrationTests/urlWithQuery";
 import { ListClientsResponseDTO } from "../../../../types/api/contracts/clients/list/ListClientsResponseDTO";
@@ -54,7 +52,7 @@ describe("filterClientsIntegrationTest;", () => {
         const response = await authSupertest({
             agent: supertest(server)
                 .get(urlWithQuery(`/api/clients/`, DEFAULT_REQUEST))
-                .send(DEFAULT_REQUEST)
+                .send()
                 .set("Content-Type", "application/json"),
             user: ADMIN,
             plainPassword: ADMIN_PASSWORD,
@@ -75,7 +73,7 @@ describe("filterClientsIntegrationTest;", () => {
         const response = await authSupertest({
             agent: supertest(server)
                 .get(urlWithQuery(`/api/clients/`, DEFAULT_REQUEST))
-                .send(DEFAULT_REQUEST)
+                .send()
                 .set("Content-Type", "application/json"),
             user: ADMIN,
             plainPassword: ADMIN_PASSWORD,
@@ -97,7 +95,7 @@ describe("filterClientsIntegrationTest;", () => {
         const response = await authSupertest({
             agent: supertest(server)
                 .get(urlWithQuery(`/api/clients/`, DEFAULT_REQUEST))
-                .send(DEFAULT_REQUEST)
+                .send()
                 .set("Content-Type", "application/json"),
             user: ADMIN,
             plainPassword: ADMIN_PASSWORD,
@@ -118,7 +116,7 @@ describe("filterClientsIntegrationTest;", () => {
         const response = await authSupertest({
             agent: supertest(server)
                 .get(urlWithQuery(`/api/clients/`, DEFAULT_REQUEST))
-                .send(DEFAULT_REQUEST)
+                .send()
                 .set("Content-Type", "application/json"),
             user: ADMIN,
             plainPassword: ADMIN_PASSWORD,

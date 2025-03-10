@@ -9,6 +9,11 @@ import DeleteClientCommandHandler, { DeleteClientCommand } from "application/han
 import FilterClientsQueryHandler, { FilterClientsQuery } from "application/handlers/clients/FilterClientsQueryHandler";
 import ReadClientQueryHandler, { ReadClientQuery } from "application/handlers/clients/ReadClientQueryHandler";
 import UpdateClientCommandHandler, { UpdateClientCommand } from "application/handlers/clients/UpdateClientCommandHandler";
+import CreateRealEstateListingCommandHandler, { CreateRealEstateListingCommand } from "application/handlers/realEstateListings/CreateRealEstateListingCommandHandler";
+import UpdateRealEstateListingCommandHandler, { UpdateRealEstateListingCommand } from "application/handlers/realEstateListings/UpdateRealEstateListingCommandHandler";
+import DeleteRealEstateListingCommandHandler, { DeleteRealEstateListingCommand } from "application/handlers/realEstateListings/DeleteRealEstateListingCommandHandler";
+import ReadRealEstateListingQueryHandler, { ReadRealEstateListingQuery } from "application/handlers/realEstateListings/ReadRealEstateListingQueryHandler";
+import FilterRealEstateListingsQueryHandler, { FilterRealEstateListingsQuery } from "application/handlers/realEstateListings/FilterRealEstateListingsQueryHandler";
 
 function registerClientHandlers(requestDispatcher: IRequestDispatcher, diContainer: IDIContainer) {
     // Create
@@ -46,6 +51,43 @@ function registerClientHandlers(requestDispatcher: IRequestDispatcher, diContain
     });
 }
 
+function registerRealEstateListingHandlers(requestDispatcher: IRequestDispatcher, diContainer: IDIContainer) {
+    // Create
+    requestDispatcher.registerHandler(CreateRealEstateListingCommand, () => {
+        const realEstateListingDomainService = diContainer.resolve(DI_TOKENS.REAL_ESTATE_LISTING_DOMAIN_SERVICE);
+        const clientDomainService = diContainer.resolve(DI_TOKENS.CLIENT_DOMAIN_SERVICE);
+        const unitOfWork = diContainer.resolve(DI_TOKENS.UNIT_OF_WORK);
+        return new CreateRealEstateListingCommandHandler(unitOfWork, realEstateListingDomainService, clientDomainService);
+    });
+
+    // Update
+    requestDispatcher.registerHandler(UpdateRealEstateListingCommand, () => {
+        const clientDomainService = diContainer.resolve(DI_TOKENS.CLIENT_DOMAIN_SERVICE);
+        const realEstateListingDomainService = diContainer.resolve(DI_TOKENS.REAL_ESTATE_LISTING_DOMAIN_SERVICE);
+        const unitOfWork = diContainer.resolve(DI_TOKENS.UNIT_OF_WORK);
+        return new UpdateRealEstateListingCommandHandler(unitOfWork, realEstateListingDomainService, clientDomainService);
+    });
+
+    // Delete
+    requestDispatcher.registerHandler(DeleteRealEstateListingCommand, () => {
+        const realEstateListingDomainService = diContainer.resolve(DI_TOKENS.REAL_ESTATE_LISTING_DOMAIN_SERVICE);
+        const unitOfWork = diContainer.resolve(DI_TOKENS.UNIT_OF_WORK);
+        return new DeleteRealEstateListingCommandHandler(unitOfWork, realEstateListingDomainService);
+    });
+
+    // Read
+    requestDispatcher.registerHandler(ReadRealEstateListingQuery, () => {
+        const realEstateListingDomainService = diContainer.resolve(DI_TOKENS.REAL_ESTATE_LISTING_DOMAIN_SERVICE);
+        return new ReadRealEstateListingQueryHandler(realEstateListingDomainService);
+    });
+
+    // Filter
+    requestDispatcher.registerHandler(FilterRealEstateListingsQuery, () => {
+        const realEstateListingRepo = diContainer.resolve(DI_TOKENS.REAL_ESTATE_LISTING_REPOSITORY);
+        return new FilterRealEstateListingsQueryHandler(realEstateListingRepo);
+    });
+}
+
 function registerUserHandlers(requestDispatcher: IRequestDispatcher, diContainer: IDIContainer) {
     requestDispatcher.registerHandler(RegisterUserCommand, () => {
         const userDomainService = diContainer.resolve(DI_TOKENS.USER_DOMAIN_SERVICE);
@@ -72,6 +114,7 @@ function createRequestDispatcher(diContainer: IDIContainer) {
 
     registerClientHandlers(requestDispatcher, diContainer);
     registerUserHandlers(requestDispatcher, diContainer);
+    registerRealEstateListingHandlers(requestDispatcher, diContainer);
 
     return requestDispatcher;
 }

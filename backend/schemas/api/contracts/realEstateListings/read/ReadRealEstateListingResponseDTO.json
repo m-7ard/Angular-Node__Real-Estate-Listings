@@ -1,0 +1,9 @@
+{
+    "$id": "http://127.0.0.1:3000/schemas/api/contracts/realEstateListings/read/ReadRealEstateListingResponseDTO.json",
+    "title": "ReadRealEstateListingResponseDTO",
+    "type": "object",
+    "properties": {
+        "listing": { "$ref": "http://127.0.0.1:3000/schemas/api/models/RealEstateListingApiModel.json" }
+    },
+    "required": ["listing"]
+}

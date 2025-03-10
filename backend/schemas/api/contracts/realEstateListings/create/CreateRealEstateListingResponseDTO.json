@@ -1,0 +1,9 @@
+{
+    "$id": "http://127.0.0.1:3000/schemas/api/contracts/realEstateListings/create/CreateRealEstateListingResponseDTO.json",
+    "title": "CreateRealEstateListingResponseDTO",
+    "type": "object",
+    "properties": {
+        "id": { "type": "string" }
+    },
+    "required": ["id"]
+}

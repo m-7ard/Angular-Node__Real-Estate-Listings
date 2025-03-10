@@ -1,7 +1,6 @@
 import { IRequestHandler } from "../IRequestHandler";
 import IQuery, { IQueryResult } from "../IQuery";
 import { err, ok } from "neverthrow";
-import IUnitOfWork from "application/interfaces/persistence/IUnitOfWork";
 import IClientDomainService from "application/interfaces/domainServices/IClientDomainService";
 import ApplicationError from "application/errors/ApplicationError";
 import Client from "domain/entities/Client";

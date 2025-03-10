@@ -19,9 +19,6 @@ class ListClientsAction implements IAction<ActionRequest, ActionResponse> {
     async handle(request: ActionRequest): Promise<ActionResponse> {
         const { dto } = request;
 
-        console.log("-------------------------------");
-        console.log(dto.id);
-
         const command = new FilterClientsQuery({
             id: dto.id,
             name: dto.name,

@@ -1,0 +1,17 @@
+{
+    "$id": "http://127.0.0.1:3000/schemas/api/contracts/realEstateListings/list/ListRealEstateListingsRequestDTO.json",
+    "title": "ListRealEstateListingsRequestDTO",
+    "type": "object",
+    "properties": {
+        "type": { "type": "string" },
+        "minPrice": { "type": "number", "maximum": 1e9 },
+        "maxPrice": { "type": "number", "maximum": 1e9 },
+        "street": { "type": "string" },
+        "city": { "type": "string" },
+        "state": { "type": "string" },
+        "zip": { "type": "string" },
+        "country": { "type": "string" },
+        "clientId": { "type": "string" }
+    },
+    "required": []
+}

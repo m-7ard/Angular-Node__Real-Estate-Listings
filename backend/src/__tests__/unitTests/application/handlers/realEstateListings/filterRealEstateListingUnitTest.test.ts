@@ -1,19 +1,17 @@
 import { createRealEstateListingRepositoryMock } from "__mocks__/mocks";
 import Mixins from "__utils__/unitTests/Mixins";
-import { emptyApplicationError } from "__utils__/values/emptyApplicationError";
-import FilterRealEstateListingQueryHandler, { FilterRealEstateListingQuery } from "application/handlers/realEstateListings/FilterRealEstateListingQueryHandler";
+import FilterRealEstateListingsQueryHandler, { FilterRealEstateListingsQuery } from "application/handlers/realEstateListings/FilterRealEstateListingsQueryHandler";
 import IRealEstateListingRepository, { FilterRealEstateListingsCriteria } from "application/interfaces/persistence/IRealEstateListingRepository";
 import Client from "domain/entities/Client";
 import RealEstateListing from "domain/entities/RealEstateListing";
 import ClientId from "domain/valueObjects/Client/ClientId";
 import Money from "domain/valueObjects/Common/Money";
 import RealEstateListingType from "domain/valueObjects/RealEstateListing/RealEstateListingType";
-import { err, ok } from "neverthrow";
 
-let DEFAULT_REQUEST: FilterRealEstateListingQuery;
+let DEFAULT_REQUEST: FilterRealEstateListingsQuery;
 let CLIENT_001: Client;
 let LISTING_001: RealEstateListing;
-let handler: FilterRealEstateListingQueryHandler;
+let handler: FilterRealEstateListingsQueryHandler;
 let mockRealEstateListingRepository: jest.Mocked<IRealEstateListingRepository>;
 
 beforeAll(() => {});
@@ -23,10 +21,10 @@ afterAll(() => {});
 beforeEach(() => {
     CLIENT_001 = Mixins.createClient(1);
     LISTING_001 = Mixins.createRealEstateListing(1, CLIENT_001);
-    DEFAULT_REQUEST = new FilterRealEstateListingQuery({});
+    DEFAULT_REQUEST = new FilterRealEstateListingsQuery({});
 
     mockRealEstateListingRepository = createRealEstateListingRepositoryMock();
-    handler = new FilterRealEstateListingQueryHandler(mockRealEstateListingRepository);
+    handler = new FilterRealEstateListingsQueryHandler(mockRealEstateListingRepository);
 });
 
 describe("filterRealEstateListingUnitTest.test;", () => {

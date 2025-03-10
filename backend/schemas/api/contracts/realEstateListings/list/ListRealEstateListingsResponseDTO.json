@@ -1,0 +1,12 @@
+{
+    "$id": "http://127.0.0.1:3000/schemas/api/contracts/realEstateListings/list/ListRealEstateListingsResponseDTO.json",
+    "title": "ListRealEstateListingsResponseDTO",
+    "type": "object",
+    "properties": {
+        "listings": {
+            "type": "array",
+            "items": { "$ref": "http://127.0.0.1:3000/schemas/api/models/RealEstateListingApiModel.json" }
+        }
+    },
+    "required": ["listings"]
+}

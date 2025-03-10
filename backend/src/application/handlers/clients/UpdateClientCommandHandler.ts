@@ -24,25 +24,24 @@ export class UpdateClientCommand implements ICommand<UpdateClientCommandResult> 
 }
 
 export default class UpdateClientCommandHandler implements IRequestHandler<UpdateClientCommand, UpdateClientCommandResult> {
-    constructor(private readonly unitOfWork: IUnitOfWork, private readonly clientDomainService: IClientDomainService) {}
+    constructor(
+        private readonly unitOfWork: IUnitOfWork,
+        private readonly clientDomainService: IClientDomainService,
+    ) {}
 
     async handle(command: UpdateClientCommand): Promise<UpdateClientCommandResult> {
-        try {
-            // Client Exists
-            const clientExists = await this.clientDomainService.tryGetById(command.id);
-            if (clientExists.isErr()) return err(new ClientDoesNotExistError({ message: clientExists.error.message }).asList());
+        // Client Exists
+        const clientExists = await this.clientDomainService.tryGetById(command.id);
+        if (clientExists.isErr()) return err(new ClientDoesNotExistError({ message: clientExists.error.message }).asList());
 
-            const client = clientExists.value;
+        const client = clientExists.value;
 
-            // Update Client
-            const createResult = await this.clientDomainService.tryOrchestractUpdateClient(client, { name: command.name, type: command.type });
-            if (createResult.isErr()) return err(new CannotUpdateClient({ message: createResult.error.message }).asList());
-    
-            await this.unitOfWork.commitTransaction();
-            
-            return ok(undefined);
-        } finally {
-            await this.unitOfWork.rollbackTransaction();
-        }
+        // Update Client
+        const createResult = await this.clientDomainService.tryOrchestractUpdateClient(client, { name: command.name, type: command.type });
+        if (createResult.isErr()) return err(new CannotUpdateClient({ message: createResult.error.message }).asList());
+
+        await this.unitOfWork.commitTransaction();
+
+        return ok(undefined);
     }
 }

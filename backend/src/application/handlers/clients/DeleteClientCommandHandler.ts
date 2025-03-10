@@ -14,7 +14,7 @@ export type DeleteClientCommandResult = ICommandResult<ApplicationError[]>;
 export class DeleteClientCommand implements ICommand<DeleteClientCommandResult> {
     __returnType: DeleteClientCommandResult = null!;
 
-    constructor({ id, force }: { id: string; force: boolean; }) {
+    constructor({ id, force }: { id: string; force: boolean }) {
         this.id = id;
         this.force = force;
     }
@@ -24,38 +24,38 @@ export class DeleteClientCommand implements ICommand<DeleteClientCommandResult> 
 }
 
 export default class DeleteClientCommandHandler implements IRequestHandler<DeleteClientCommand, DeleteClientCommandResult> {
-    constructor(private readonly unitOfWork: IUnitOfWork, private readonly clientDomainService: IClientDomainService, private readonly realEstateListingDomainService: IRealEstateListingDomainService) {}
+    constructor(
+        private readonly unitOfWork: IUnitOfWork,
+        private readonly clientDomainService: IClientDomainService,
+        private readonly realEstateListingDomainService: IRealEstateListingDomainService,
+    ) {}
 
     async handle(command: DeleteClientCommand): Promise<DeleteClientCommandResult> {
-        try {
-            // Client Exists
-            const clientExists = await this.clientDomainService.tryGetById(command.id);
-            if (clientExists.isErr()) return err(new ClientDoesNotExistError({ message: clientExists.error.message }).asList());
+        // Client Exists
+        const clientExists = await this.clientDomainService.tryGetById(command.id);
+        if (clientExists.isErr()) return err(new ClientDoesNotExistError({ message: clientExists.error.message }).asList());
 
-            const client = clientExists.value;
+        const client = clientExists.value;
 
-            // Get Client's Listings
-            const listings = await this.unitOfWork.realEstateListingRepo.filterAsync(new FilterRealEstateListingsCriteria({ clientId: client.id }));
+        // Get Client's Listings
+        const listings = await this.unitOfWork.realEstateListingRepo.filterAsync(new FilterRealEstateListingsCriteria({ clientId: client.id }));
 
-            // Delete
-            if (listings.length > 0) {
-                if (command.force) {
-                    for (let i = 0; i < listings.length; i++) {
-                        const listing = listings[i];
-                        await this.unitOfWork.realEstateListingRepo.deleteAsync(listing);
-                    }
-                } else {
-                    return err(new CannotDeleteClientError({ message: `Cannot delete a Client while they have existing Real Estate Listings (Amount: ${listings.length})` }).asList());
+        // Delete
+        if (listings.length > 0) {
+            if (command.force) {
+                for (let i = 0; i < listings.length; i++) {
+                    const listing = listings[i];
+                    await this.unitOfWork.realEstateListingRepo.deleteAsync(listing);
                 }
+            } else {
+                return err(new CannotDeleteClientError({ message: `Cannot delete a Client while they have existing Real Estate Listings (Amount: ${listings.length})` }).asList());
             }
-
-            await this.unitOfWork.clientRepo.deleteAsync(client);
-
-            await this.unitOfWork.commitTransaction();
-            
-            return ok(undefined);
-        } finally {
-            await this.unitOfWork.rollbackTransaction();
         }
+
+        await this.unitOfWork.clientRepo.deleteAsync(client);
+
+        await this.unitOfWork.commitTransaction();
+
+        return ok(undefined);
     }
 }

@@ -1,0 +1,18 @@
+{
+    "$id": "http://127.0.0.1:3000/schemas/api/models/RealEstateListingApiModel.json",
+    "title": "RealEstateListingApiModel",
+    "type": "object",
+    "properties": {
+        "id": { "type": "string" },
+        "type": { "type": "string" },
+        "price": { "type": "number" },
+        "street": { "type": "string" },
+        "city": { "type": "string" },
+        "state": { "type": "string" },
+        "zip": { "type": "string" },
+        "country": { "type": "string" },
+        "clientId": { "type": "string" },
+        "dateCreated": { "type": "string", "format": "date-time" }
+    },
+    "required": ["id", "type", "price", "street", "city", "state", "zip", "country", "clientId", "dateCreated"]
+}
