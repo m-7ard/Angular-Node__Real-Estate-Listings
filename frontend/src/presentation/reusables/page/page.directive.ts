@@ -2,6 +2,7 @@ import { Directive, ElementRef, Input, Renderer2, OnInit, HostBinding } from '@a
 
 @Directive({
     selector: '[appPageDirective]',
+    standalone: true
 })
 export class PageDirective implements OnInit {
     @Input() appPageDirective!: {

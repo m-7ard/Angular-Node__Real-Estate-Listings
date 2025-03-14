@@ -1,7 +1,8 @@
-import { Directive, ElementRef, Input, Renderer2, OnInit } from '@angular/core';
+import { Directive, ElementRef, Renderer2, OnInit } from '@angular/core';
 
 @Directive({
     selector: '[appMixinStyledCardSection]',
+    standalone: true
 })
 export class MixinStyledCardSectionDirective implements OnInit {
     constructor(

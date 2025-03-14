@@ -2,6 +2,7 @@ import { Directive, ElementRef, Input, Renderer2, OnInit } from '@angular/core';
 
 @Directive({
     selector: '[appMixinStyledCard]',
+    standalone: true
 })
 export class MixinStyledCardDirective implements OnInit {
     @Input() appMixinStyledCard!: {

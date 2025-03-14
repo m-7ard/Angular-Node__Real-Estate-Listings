@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { tap, catchError, map, switchMap } from 'rxjs/operators';
-import User from '../models/User';
 import { UserDataAccessService } from './data-access/user-data-access.service';
-import ILoginUserRequestDTO from '../contracts/users/login/ILoginUserRequestDTO';
-import UserMapper from '../mappers/UserMapper';
-import IRegisterUserRequestDTO from '../contracts/users/register/IRegisterUserRequestDTO';
-import IRegisterUserResponseDTO from '../contracts/users/register/IRegisterUserResponseDTO';
 import { Router } from '@angular/router';
+import User from '../models/User';
+import { RegisterUserRequestDTO } from '../contracts/users/register/RegisterUserRequestDTO';
+import { LoginUserRequestDTO } from '../contracts/users/login/LoginUserRequestDTO';
+import { RegisterUserResponseDTO } from '../contracts/users/register/RegisterUserResponseDTO';
+import ApiModelMappers from '../mappers/ApiModelMappers';
 
 @Injectable({
     providedIn: 'root',
@@ -26,11 +26,11 @@ export class AuthService {
         this.loadCurrentUser().subscribe();
     }
 
-    register(userData: IRegisterUserRequestDTO): Observable<IRegisterUserResponseDTO> {
+    register(userData: RegisterUserRequestDTO): Observable<RegisterUserResponseDTO> {
         return this.userDataAccess.register(userData);
     }
 
-    login(request: ILoginUserRequestDTO) {
+    login(request: LoginUserRequestDTO) {
         return this.userDataAccess.login(request).pipe(
             switchMap((response) => {
                 localStorage.setItem('auth_token', response.token);
@@ -51,7 +51,7 @@ export class AuthService {
 
         return this.userDataAccess.getCurrentUser().pipe(
             map((dto) => {
-                return dto.user == null ? null : UserMapper.apiModelToDomain(dto.user);
+                return dto.user == null ? null : ApiModelMappers.userApiModelToDomain(dto.user);
             }),
             tap((user) => {
                 this.currentUserSubject.next(user);

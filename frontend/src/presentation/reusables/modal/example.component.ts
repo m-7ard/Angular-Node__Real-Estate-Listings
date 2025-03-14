@@ -2,11 +2,12 @@ import { Component, Input } from '@angular/core';
 import { ModalComponent } from './modal.component';
 import { AbstractModalDirective } from './abstract-modal.directive';
 import { MixinStyledButtonDirective } from '../styled-button/styled-button.directive';
-import { MixinStyledCardDirectivesModule } from '../styled-card/styled-card.module';
+import { MixinStyledCardDirective } from '../styled-card/styled-card.directive';
+import { MixinStyledCardSectionDirective } from '../styled-card/styled-card-section.directive';
 
 @Component({
     selector: 'app-drawer-modal',
-    imports: [ModalComponent, MixinStyledCardDirectivesModule, MixinStyledButtonDirective],
+    imports: [ModalComponent, MixinStyledCardDirective, MixinStyledCardSectionDirective, MixinStyledButtonDirective],
     template: `
         <app-modal>
             <div

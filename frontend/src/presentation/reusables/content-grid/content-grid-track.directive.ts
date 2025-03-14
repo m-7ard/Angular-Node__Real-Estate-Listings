@@ -2,6 +2,7 @@ import { Directive, HostBinding, Input } from '@angular/core';
 
 @Directive({
     selector: '[appContentGridTrack]',
+    standalone: true
 })
 export class ContentGridTrackDirective {
     @Input() appContentGridTrack!: {

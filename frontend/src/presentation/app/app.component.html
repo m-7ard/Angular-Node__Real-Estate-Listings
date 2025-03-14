@@ -1,93 +1,52 @@
 <!-- App -->
-<header class="relative shrink-0 token-header-section" appContentGrid>
-    <nav class="token-default-flex-row overflow-x-auto" [appContentGridTrack]="{ contentGridTrack: 'base' }">
-        <ng-content *ngIf="isAuthenticated; else unauthenticatedBlock">
-            <button
-                [appMixinStyledButton]="{
-                    size: 'mixin-Sbutton-sm',
-                    theme: 'theme-Sbutton-generic-red'
-                }"
-                type="button"
-                (mouseup)="authService.logout()"
-            >
-                Logout
-            </button>
-        </ng-content>
-        <ng-template #unauthenticatedBlock>
-            <a
-                routerLink="/users/login"
-                routerLinkActive="active"
-                ariaCurrentWhenActive="page"
-                [appMixinStyledButton]="{
-                    size: 'mixin-Sbutton-sm',
-                    theme: 'theme-Sbutton-generic-yellow'
-                }"
-                [routerLinkActiveOptions]="{ exact: true }"
-            >
-                Login
-            </a>
-            <a
-                routerLink="/users/register"
-                routerLinkActive="active"
-                ariaCurrentWhenActive="page"
-                [appMixinStyledButton]="{
-                    size: 'mixin-Sbutton-sm',
-                    theme: 'theme-Sbutton-generic-green'
-                }"
-                [routerLinkActiveOptions]="{ exact: true }"
-            >
-                Register
-            </a>
-        </ng-template>
+<header class="flex flex-row relative shrink-0 p-4 gap-4 bg-white items-center">
+    <div class="w-28">
+        <app-char-field></app-char-field>
+    </div>
+    <button
+        [appMixinStyledButton]="{
+            size: 'mixin-Sbutton-base',
+            theme: 'theme-Sbutton-generic-white'
+        }"
+        type="button"
+        class="ml-auto"
+    >
+        H
+    </button>
+    <app-divider class="h-full" [isVertical]="true" />
+    <button
+        [appMixinStyledButton]="{
+            size: 'mixin-Sbutton-base',
+            theme: 'theme-Sbutton-generic-yellow'
+        }"
+        type="button"
+    >
+        A
+    </button>
+    <!--    
+    <button
+            [appMixinStyledButton]="{
+                size: 'mixin-Sbutton-sm',
+                theme: 'theme-Sbutton-generic-red'
+            }"
+            type="button"
+            (mouseup)="authService.logout()"
+        >
+            Logout
+        </button>
         <a
-            class="ml-auto"
-            routerLink="/"
+            routerLink="/users/login"
             routerLinkActive="active"
             ariaCurrentWhenActive="page"
             [appMixinStyledButton]="{
                 size: 'mixin-Sbutton-sm',
-                theme: 'theme-Sbutton-generic-white'
+                theme: 'theme-Sbutton-generic-yellow'
             }"
             [routerLinkActiveOptions]="{ exact: true }"
         >
-            Frontpage
+            Login
         </a>
-        <a
-            routerLink="/players"
-            routerLinkActive="active"
-            ariaCurrentWhenActive="page"
-            [appMixinStyledButton]="{
-                size: 'mixin-Sbutton-sm',
-                theme: 'theme-Sbutton-generic-white'
-            }"
-            [routerLinkActiveOptions]="{ exact: true }"
-        >
-            Players
-        </a>
-        <a
-            routerLink="/teams"
-            routerLinkActive="active"
-            ariaCurrentWhenActive="page"
-            [appMixinStyledButton]="{
-                size: 'mixin-Sbutton-sm',
-                theme: 'theme-Sbutton-generic-white'
-            }"
-            [routerLinkActiveOptions]="{ exact: true }"
-        >
-            Teams
-        </a>
-        <a
-            routerLink="/matches"
-            routerLinkActive="active"
-            ariaCurrentWhenActive="page"
-            [appMixinStyledButton]="{
-                size: 'mixin-Sbutton-sm',
-                theme: 'theme-Sbutton-generic-white'
-            }"
-            [routerLinkActiveOptions]="{ exact: true }"
-        >
-            Matches
-        </a>
+
         <div
             *ngIf="false"
             [appMixinStyledButton]="{
@@ -100,32 +59,13 @@
             class="truncate shrink-0"
         >
             Modal Sample
-        </div>
-    </nav>
+        </div>-->
 </header>
 <app-divider />
-<main class="flex flex-col grow bg-white" appContentGrid>
-    <app-breadcrumb />
-    <app-divider />
+<main class="flex flex-col grow bg-white">
     <router-outlet></router-outlet>
 </main>
-<app-divider class="z-10" />
-<footer appContentGrid class="relative shrink-0 token-header-section">
-    <nav class="token-default-flex-row overflow-x-auto" [appContentGridTrack]="{ contentGridTrack: 'base' }">
-        <a
-            [appMixinStyledButton]="{
-                theme: 'theme-Sbutton-generic-yellow',
-                size: 'mixin-Sbutton-sm',
-                hasShadow: true,
-                isSharp: true
-            }"
-            class="grow select-text justify-center"
-            href="https://github.com/m-7ard"
-        >
-            https://github.com/m-7ard
-        </a>
-    </nav>
-</footer>
+<footer class="relative shrink-0 token-header-section"></footer>
 <ng-content *ngIf="error != null">
     <app-exception-notice-popover
         [error]="error"

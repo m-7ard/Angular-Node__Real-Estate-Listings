@@ -2,6 +2,7 @@ import { Directive, ElementRef, Renderer2, OnInit } from '@angular/core';
 
 @Directive({
     selector: '[appContentGrid]',
+    standalone: true
 })
 export class ContentGridDirective implements OnInit {
     constructor(

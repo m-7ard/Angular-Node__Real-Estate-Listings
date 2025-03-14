@@ -1,13 +1,14 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MixinStyledButtonDirective } from '../../reusables/styled-button/styled-button.directive';
-import { MixinStyledCardDirectivesModule } from '../../reusables/styled-card/styled-card.module';
 import { PanelDirectivesModule } from '../../reusables/panel/panel.directive.module';
 import { DividerComponent } from "../../reusables/divider/divider.component";
+import { MixinStyledCardDirective } from '../../reusables/styled-card/styled-card.directive';
+import { MixinStyledCardSectionDirective } from '../../reusables/styled-card/styled-card-section.directive';
 
 @Component({
     selector: 'app-exception-notice-popover',
     standalone: true,
-    imports: [MixinStyledCardDirectivesModule, MixinStyledButtonDirective, PanelDirectivesModule, DividerComponent],
+    imports: [MixinStyledCardDirective, MixinStyledCardSectionDirective, MixinStyledButtonDirective, PanelDirectivesModule, DividerComponent],
     template: `
         <div
             [appPanelDirective]="{ panelSize: 'mixin-panel-base', panelTheme: 'theme-panel-generic-white', panelHasShadow: true, panelHasBorder: true }"
