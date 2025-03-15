@@ -2,12 +2,12 @@ import { Routes } from "@angular/router";
 import { RegisterUserPageComponent } from "./users/register/register-page.component";
 import { LoginUserPageComponent } from "./users/pages/login/login-page.component";
 
-export const usersRoutes: Routes = [
+export const adminRoutes: Routes = [
     {
-        path: 'users',
+        path: 'admin',
         children: [
             {
-                path: 'register',
+                path: '',
                 component: RegisterUserPageComponent
             },
             {

@@ -7,6 +7,14 @@
         }
     }
 
+    .theme-input-generic-gray {
+        @apply border flex flex-grow border-zinc-200;
+
+        > input {
+            @apply text-gray-900 bg-zinc-200 focus:bg-zinc-300;
+        }
+    }
+
     .theme-checkbox-generic-white {
         $root: &;
         @apply border border-gray-900 bg-white hover:bg-zinc-300;

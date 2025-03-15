@@ -1,29 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { FormFieldComponent } from '../../../reusables/form-field/form-field.component';
 import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import IPresentationError from '../../../errors/IPresentationError';
 import { catchError, of } from 'rxjs';
-import PresentationErrorFactory from '../../../errors/PresentationErrorFactory';
 import { HttpErrorResponse } from '@angular/common/http';
-import { MixinStyledButtonDirective } from '../../../reusables/styled-button/styled-button.directive';
-import { ExceptionNoticeService } from '../../../services/exception-notice.service';
-import { FormErrorsComponent } from '../../../reusables/form-errors/form-errors';
-import { DividerComponent } from '../../../reusables/divider/divider.component';
+import { CommonModule } from '@angular/common';
 
 interface IFormControls {
+    email: FormControl<string>;
+    password: FormControl<string>;
     name: FormControl<string>;
-    dateFounded: FormControl<string>;
 }
 
 type IErrorSchema = IPresentationError<{
-    dateFounded: string[];
+    email: string[];
+    password: string[];
     name: string[];
 }>;
 
 @Component({
-    selector: 'app-create-team-page',
+    selector: 'app-register-page',
     standalone: true,
     imports: [
         ReactiveFormsModule,
@@ -31,46 +26,58 @@ type IErrorSchema = IPresentationError<{
         FormFieldComponent,
         CommonModule,
         MixinStyledButtonDirective,
-        MixinStyledCardDirectivesModule,
         FormErrorsComponent,
-        PageDirectivesModule,
-        ContentGridDirectivesModule,
+        PageDirective,
+        PageSectionDirective,
+        ContentGridDirective,
+        ContentGridTrackDirective,
         DividerComponent,
     ],
-    templateUrl: './create-team-page.component.html',
+    templateUrl: './register-page.component.html',
+    hostDirectives: [ContentGridDirective],
 })
-export class CreateTeamPageComponent implements OnInit {
-    form!: FormGroup<IFormControls>;
+export class RegisterUserPageComponent {
+    form: FormGroup<IFormControls>;
     errors: IErrorSchema = {};
 
     constructor(
         private router: Router,
-        private teamDataAccess: TeamDataAccessService,
+        private authService: AuthService,
         private exceptionNoticeService: ExceptionNoticeService,
-    ) {}
-
-    ngOnInit(): void {
+    ) {
         this.form = new FormGroup<IFormControls>({
-            name: new FormControl('', {
+            email: new FormControl('', {
                 nonNullable: true,
                 validators: [Validators.required],
             }),
-            dateFounded: new FormControl('', {
+            password: new FormControl('', {
+                nonNullable: true,
+                validators: [Validators.required],
+            }),
+            name: new FormControl('', {
                 nonNullable: true,
                 validators: [Validators.required],
             }),
         });
     }
 
+    onReset(): void {
+        this.form.reset({
+            email: '',
+            password: '',
+            name: '',
+        });
+    }
+
     onSubmit(): void {
         const rawValue = this.form.getRawValue();
 
-        const requestObserver = this.teamDataAccess.createTeam({
-            dateFounded: new Date(rawValue.dateFounded),
-            name: rawValue.name,
-        });
-
-        requestObserver
+        this.authService
+            .register({
+                email: rawValue.email,
+                password: rawValue.password,
+                name: rawValue.name,
+            })
             .pipe(
                 catchError((err: HttpErrorResponse) => {
                     if (err.status === 400) {
@@ -83,20 +90,13 @@ export class CreateTeamPageComponent implements OnInit {
                 }),
             )
             .subscribe({
-                next: (body) => {
-                    if (body == null) {
+                next: (response) => {
+                    if (response === null) {
                         return;
                     }
 
-                    this.router.navigate(['/teams']);
+                    this.router.navigate(['/users/login']);
                 },
             });
-    }
-
-    onReset(): void {
-        this.form.reset({
-            dateFounded: '',
-            name: '',
-        });
     }
 }

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 
 type CharFieldSize = 'mixin-char-input-sm' | 'mixin-char-input-base';
-type CharFieldTheme = 'theme-input-generic-white';
+type CharFieldTheme = 'theme-input-generic-white' | 'theme-input-generic-gray';
 
 interface CharFieldOptions {
     size: CharFieldSize;

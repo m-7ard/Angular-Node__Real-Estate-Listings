@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
 import { ExceptionNoticeService } from '../services/exception-notice.service';
 import { ExceptionNoticePopover } from './other/exception-notice-popover.component';
 import { DividerComponent } from '../reusables/divider/divider.component';
-import { CharFieldComponent } from "../reusables/char-field/char-field.component";
+import { CharFieldComponent } from '../reusables/widgets/char-field/char-field.component';
 
 @Component({
     selector: 'app-root',
