@@ -3,11 +3,18 @@
     [formGroup]="form"
     (ngSubmit)="onSubmit()"
     (reset)="onReset()"
-    [appContentGridTrack]="{ contentGridTrack: 'base' }"
+    [appPageDirective]="{ pageSize: 'mixin-page-base' }"
 >
     <section appPageSectionDirective class="token-default-flex-col token-body-section">
         <header>
-            <div class="token-default-title">Register User</div>
+            <div class="text-lg font-bold">Register User</div>
+            <button
+                type="button"
+                routerLink="/users/login"
+                class="mixin-Sbutton-like text-sm font-bold text-blue-600"
+            >
+                Login ➟
+            </button>
         </header>
     </section>
     <app-divider />
@@ -52,12 +59,22 @@
     </section>
     <section class="token-default-flex-row justify-end token-body-section" appPageSectionDirective>
         <button
-            [appMixinStyledButton]="{ size: 'mixin-Sbutton-base', theme: 'theme-Sbutton-generic-white' }"
+            [appMixinStyledButton]="{
+                size: 'mixin-Sbutton-base',
+                theme: 'theme-Sbutton-generic-white',
+                hasShadow: true
+            }"
             type="reset"
         >
             Reset
         </button>
-        <button [appMixinStyledButton]="{ size: 'mixin-Sbutton-base', theme: 'theme-Sbutton-generic-green' }">
+        <button
+            [appMixinStyledButton]="{
+                size: 'mixin-Sbutton-base',
+                theme: 'theme-Sbutton-generic-green',
+                hasShadow: true
+            }"
+        >
             Register User
         </button>
     </section>

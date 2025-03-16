@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MixinStyledButtonDirective } from '../../reusables/styled-button/styled-button.directive';
-import { RealEsateListingComponent } from "../../reusables/models/realEstateListing/real-estate-listing.component";
+import { RealEsateListingComponent } from "../../reusables/models/real-estate-listing/real-estate-listing.component";
 
 @Component({
     selector: 'app-frontpage',

@@ -1,13 +1,28 @@
 <!-- App -->
 <header
-    class="flex flex-row relative shrink-0 p-4 gap-1 bg-white items-center token-default-shadow border-b token-default-border-color"
+    class="flex flex-row relative shrink-0 p-4 gap-4 bg-white items-center token-default-shadow border-b token-default-border-color"
 >
+    <a class="border token-default-border-color aspect-square h-full shrink-0 rounded overflow-hidden" routerLink="/">
+        <app-cover-image
+            src="https://img.freepik.com/premium-vector/abstract-house-construction-architecture-logos-with-typography_835895-5894.jpg?semt=ais_hybrid"
+        />
+    </a>
     <div class="max-w-prose w-full">
-        <app-char-field [options]="{ size: 'mixin-char-input-base', theme: 'theme-input-generic-gray' }"></app-char-field>
+        <app-char-field
+            [options]="{ size: 'mixin-char-input-base', theme: 'theme-input-generic-gray' }"
+        ></app-char-field>
     </div>
-    <button type="button" class="ml-auto mixin-Sbutton-base text-sm font-semibold">Home</button>
+    <button type="button" class="ml-auto mixin-Sbutton-like text-sm font-semibold">Home</button>
     <app-divider class="h-full" [isVertical]="true" />
-    <button class="mixin-Sbutton-base text-sm text-emerald-600 font-semibold" type="button">Admin</button>
+    <a
+        class="mixin-Sbutton-like text-sm text-emerald-600 font-semibold"
+        routerLink="/admin/real-estate-listings"
+        routerLinkActive="active"
+        ariaCurrentWhenActive="page"
+        [routerLinkActiveOptions]="{ exact: true }"
+    >
+        Admin
+    </a>
     <!--    
     <button
             [appMixinStyledButton]="{

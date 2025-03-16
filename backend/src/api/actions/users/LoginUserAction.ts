@@ -10,6 +10,7 @@ import { Request } from "express";
 import { StatusCodes } from "http-status-codes";
 import IAction from "../IAction";
 import UserDoesNotExist from "application/errors/application/users/UserDoesNotExist";
+import { LoginUserRequestDTOValidator } from "api/utils/validators";
 
 
 type ActionRequest = { dto: ILoginUserRequestDTO };
@@ -20,6 +21,14 @@ class LoginUserAction implements IAction<ActionRequest, ActionResponse> {
     
     async handle(request: ActionRequest): Promise<ActionResponse> {
         const { dto } = request;
+
+        const isValid = LoginUserRequestDTOValidator(dto);
+        if (!isValid) {
+            return new JsonResponse({
+                status: StatusCodes.BAD_REQUEST,
+                body: ApiErrorFactory.mapAjvErrors(LoginUserRequestDTOValidator.errors),
+            });
+        }
 
         const command = new LoginUserQuery({
             email: dto.email,

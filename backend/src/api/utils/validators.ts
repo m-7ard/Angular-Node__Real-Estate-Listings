@@ -8,9 +8,16 @@ import DeleteClientRequestDTO from "../../../schemas/api/contracts/clients/delet
 import CreateRealEstateListingRequestDTO from "../../../schemas/api/contracts/realEstateListings/create/CreateRealEstateListingRequestDTO.json";
 import UpdateRealEstateListingRequestDTO from "../../../schemas/api/contracts/realEstateListings/update/UpdateRealEstateListingRequestDTO.json";
 
+import LoginUserRequestDTO from "../../../schemas/api/contracts/users/login/LoginUserRequestDTO.json";
+import RegisterUserRequestDTO from "../../../schemas/api/contracts/users/register/RegisterUserRequestDTO.json";
+
 
 const ajv = new Ajv();
 addFormats(ajv);
+
+// Users
+export const LoginUserRequestDTOValidator = ajv.compile(LoginUserRequestDTO);
+export const RegisterUserRequestDTOValidator = ajv.compile(RegisterUserRequestDTO);
 
 // Clients
 export const CreateClientRequestDTOValidator = ajv.compile(CreateClientRequestDTO);

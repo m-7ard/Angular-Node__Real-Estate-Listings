@@ -8,18 +8,20 @@ import { ExceptionNoticeService } from '../services/exception-notice.service';
 import { ExceptionNoticePopover } from './other/exception-notice-popover.component';
 import { DividerComponent } from '../reusables/divider/divider.component';
 import { CharFieldComponent } from '../reusables/widgets/char-field/char-field.component';
+import { CoverImageComponent } from "../reusables/cover-image/cover-image.component";
 
 @Component({
     selector: 'app-root',
     standalone: true,
     imports: [
-    RouterOutlet,
     RouterModule,
+    RouterOutlet,
     MixinStyledButtonDirective,
     CommonModule,
     ExceptionNoticePopover,
     DividerComponent,
-    CharFieldComponent
+    CharFieldComponent,
+    CoverImageComponent
 ],
     templateUrl: './app.component.html',
     host: {

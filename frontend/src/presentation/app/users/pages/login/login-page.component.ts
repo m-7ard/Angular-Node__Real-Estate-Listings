@@ -1,8 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { catchError, of } from 'rxjs';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { catchError, EMPTY, of } from 'rxjs';
 import IPresentationError from '../../../../errors/IPresentationError';
 import PresentationErrorFactory from '../../../../errors/PresentationErrorFactory';
 import { AuthService } from '../../../../services/auth-service';
@@ -40,6 +40,7 @@ type IErrorSchema = IPresentationError<{
         DividerComponent,
         PageDirective,
         PageSectionDirective,
+        RouterModule
     ],
     templateUrl: './login-page.component.html',
     hostDirectives: [ContentGridDirective]
@@ -83,13 +84,14 @@ export class LoginUserPageComponent {
             })
             .pipe(
                 catchError((err: HttpErrorResponse) => {
+                    console.log(err)
                     if (err.status === 400) {
                         this.errors = PresentationErrorFactory.ApiErrorsToPresentationErrors(err.error);
                     } else {
                         this.exceptionNoticeService.dispatchError(new Error(JSON.stringify(err.message)));
                     }
 
-                    return of(null);
+                    return EMPTY;
                 }),
             )
             .subscribe({

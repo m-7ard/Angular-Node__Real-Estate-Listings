@@ -1,9 +1,9 @@
 import { Routes } from "@angular/router";
-import { RESOLVER_DATA_KEY } from "../utils/RESOLVER_DATA";
 import { errorRoutes } from "./app.routes.errors";
 import { FrontpageComponent } from "./frontpage/frontpage.component";
-import { FrontpageResolver } from "./frontpage/frontpage.resolver";
 import { PageDoesNotExistPageComponent } from "./other/page-does-not-exist";
+import { usersRoutes } from "./app.routes.users";
+import { adminRoutes } from "./app.routes.admin";
 
 export const routes: Routes = [
     // Main routes
@@ -13,7 +13,8 @@ export const routes: Routes = [
     },
 
     // Feature modules
-    /// ...matchesRoutes,
+    ...adminRoutes,
+    ...usersRoutes,
     
     // Error routes
     ...errorRoutes,

@@ -3,14 +3,14 @@
     "title": "UpdateRealEstateListingRequestDTO",
     "type": "object",
     "properties": {
-        "type": { "type": "string" },
-        "price": { "type": "number" },
-        "street": { "type": "string" },
-        "city": { "type": "string" },
-        "state": { "type": "string" },
-        "zip": { "type": "string" },
-        "country": { "type": "string" },
-        "clientId": { "type": "string" }
+        "type": { "type": "string", "minLength": 1 },
+        "price": { "type": "number", "minimum": 0 },
+        "street": { "type": "string", "minLength": 1 },
+        "city": { "type": "string", "minLength": 1 },
+        "state": { "type": "string", "minLength": 1 },
+        "zip": { "type": "string", "minLength": 1 },
+        "country": { "type": "string", "minLength": 1 },
+        "clientId": { "type": "string", "minLength": 1 }
     },
     "required": ["type", "price", "street", "city", "state", "zip", "country", "clientId"],
     "additionalProperties": false

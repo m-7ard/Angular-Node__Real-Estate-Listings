@@ -1,0 +1,33 @@
+<div class="flex flex-row">
+    <aside class="p-4 basis-0 border-r token-default-border-color">
+        <ul class="flex flex-col gap-2">
+            <li>
+                <button
+                    [appMixinStyledButton]="{ size: 'mixin-Sbutton-base', theme: 'theme-Sbutton-generic-white' }"
+                    class="aspect-square"
+                    routerLink="/admin/real-estate-listings"
+                    routerLinkActive="active"
+                    ariaCurrentWhenActive="page"
+                    [routerLinkActiveOptions]="{ exact: true }"
+                >
+                    L
+                </button>
+            </li>
+            <li>
+                <button
+                    [appMixinStyledButton]="{ size: 'mixin-Sbutton-base', theme: 'theme-Sbutton-generic-white' }"
+                    class="aspect-square"
+                    routerLink="/admin/clients"
+                    routerLinkActive="active"
+                    ariaCurrentWhenActive="page"
+                    [routerLinkActiveOptions]="{ exact: true }"
+                >
+                    C
+                </button>
+            </li>
+        </ul>
+    </aside>
+    <aside class="flex flex-col grow">
+        <router-outlet></router-outlet>
+    </aside>
+</div>

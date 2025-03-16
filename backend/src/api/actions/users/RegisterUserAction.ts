@@ -8,6 +8,7 @@ import { RegisterUserCommand } from "application/handlers/users/RegisterUserComm
 import { StatusCodes } from "http-status-codes";
 import IAction from "../IAction";
 import { Request } from "express";
+import { RegisterUserRequestDTOValidator } from "api/utils/validators";
 
 type ActionRequest = { dto: IRegisterUserRequestDTO };
 type ActionResponse = JsonResponse<IRegisterUserResponseDTO | IApiError[]>;
@@ -17,6 +18,14 @@ class RegisterUserAction implements IAction<ActionRequest, ActionResponse> {
     
     async handle(request: ActionRequest): Promise<ActionResponse> {
         const { dto } = request;
+
+        const isValid = RegisterUserRequestDTOValidator(dto);
+        if (!isValid) {
+            return new JsonResponse({
+                status: StatusCodes.BAD_REQUEST,
+                body: ApiErrorFactory.mapAjvErrors(RegisterUserRequestDTOValidator.errors),
+            });
+        }
 
         const guid = crypto.randomUUID();
 

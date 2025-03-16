@@ -1,8 +1,20 @@
 <!-- Login User Page -->
-<form [formGroup]="form" (ngSubmit)="onSubmit()" (reset)="onReset()">
+<form
+    [formGroup]="form"
+    (ngSubmit)="onSubmit()"
+    (reset)="onReset()"
+    [appPageDirective]="{ pageSize: 'mixin-page-base' }"
+>
     <section appPageSectionDirective class="token-default-flex-col token-body-section">
         <header>
-            <div class="token-default-title">Login User</div>
+            <div class="text-lg font-bold">Login User</div>
+            <button
+                type="button"
+                routerLink="/users/register"
+                class="mixin-Sbutton-like text-sm font-bold text-blue-600"
+            >
+                Register ➟
+            </button>
         </header>
     </section>
     <app-divider />

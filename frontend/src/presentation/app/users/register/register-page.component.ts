@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { catchError, of } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
@@ -45,6 +45,7 @@ type IErrorSchema = IPresentationError<{
         ContentGridDirective,
         ContentGridTrackDirective,
         DividerComponent,
+        RouterModule
     ],
     templateUrl: './register-page.component.html',
     hostDirectives: [ContentGridDirective],

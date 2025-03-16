@@ -1,11 +1,12 @@
 import { Component, HostBinding, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MixinStyledCardDirectivesModule } from '../styled-card/styled-card.module';
+import { MixinStyledCardDirective } from '../styled-card/styled-card.directive';
+import { MixinStyledCardSectionDirective } from '../styled-card/styled-card-section.directive';
 
 @Component({
     selector: 'app-form-errors',
     standalone: true,
-    imports: [CommonModule, MixinStyledCardDirectivesModule],
+    imports: [CommonModule, MixinStyledCardDirective, MixinStyledCardSectionDirective],
     template: `
         <div
             *ngIf="errors != null"
