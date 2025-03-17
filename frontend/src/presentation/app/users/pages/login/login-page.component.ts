@@ -84,7 +84,6 @@ export class LoginUserPageComponent {
             })
             .pipe(
                 catchError((err: HttpErrorResponse) => {
-                    console.log(err)
                     if (err.status === 400) {
                         this.errors = PresentationErrorFactory.ApiErrorsToPresentationErrors(err.error);
                     } else {

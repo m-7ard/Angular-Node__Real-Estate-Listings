@@ -1,11 +1,11 @@
 import User from "domain/entities/User";
 import supertest from "supertest";
 import { server } from "./integrationTest.setup";
-import ILoginUserRequestDTO from "api/DTOs/users/login/ILoginUserRequestDTO";
-import ILoginUserResponseDTO from "api/DTOs/users/login/ILoginUserResponseDTO";
+import { LoginUserRequestDTO } from "../../../types/api/contracts/users/login/LoginUserRequestDTO";
+import { LoginUserResponseDTO } from "../../../types/api/contracts/users/login/LoginUserResponseDTO";
 
 export default async function loginUser(user: User, plainPassword: string): Promise<string> {
-    const request: ILoginUserRequestDTO = {
+    const request: LoginUserRequestDTO = {
         email: user.email.value,
         password: plainPassword
     }
@@ -15,7 +15,7 @@ export default async function loginUser(user: User, plainPassword: string): Prom
         throw new Error("loginUser.ts failed to log in user.");
     }
 
-    const body: ILoginUserResponseDTO = response.body;
+    const body: LoginUserResponseDTO = response.body;
 
     if (body == null || body.token == null) {
         throw new Error("loginUser.ts response body or token is null.");

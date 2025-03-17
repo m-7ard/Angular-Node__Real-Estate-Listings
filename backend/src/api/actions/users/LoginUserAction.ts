@@ -1,5 +1,3 @@
-import ILoginUserRequestDTO from "api/DTOs/users/login/ILoginUserRequestDTO";
-import ILoginUserResponseDTO from "api/DTOs/users/login/ILoginUserResponseDTO";
 import ApiErrorFactory from "api/errors/ApiErrorFactory";
 import IApiError from "api/errors/IApiError";
 import IHttpService from "api/interfaces/IHttpRequestService";
@@ -9,12 +7,13 @@ import { LoginUserQuery } from "application/handlers/users/LoginUserQueryHandler
 import { Request } from "express";
 import { StatusCodes } from "http-status-codes";
 import IAction from "../IAction";
-import UserDoesNotExist from "application/errors/application/users/UserDoesNotExist";
 import { LoginUserRequestDTOValidator } from "api/utils/validators";
+import { LoginUserRequestDTO } from "../../../../types/api/contracts/users/login/LoginUserRequestDTO";
+import { LoginUserResponseDTO } from "../../../../types/api/contracts/users/login/LoginUserResponseDTO";
 
 
-type ActionRequest = { dto: ILoginUserRequestDTO };
-type ActionResponse = JsonResponse<ILoginUserResponseDTO | IApiError[]>;
+type ActionRequest = { dto: LoginUserRequestDTO };
+type ActionResponse = JsonResponse<LoginUserResponseDTO | IApiError[]>;
 
 class LoginUserAction implements IAction<ActionRequest, ActionResponse> {
     constructor(private readonly _requestDispatcher: IRequestDispatcher, private readonly _httpService: IHttpService) {}

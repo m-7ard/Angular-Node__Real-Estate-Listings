@@ -1,11 +1,11 @@
 import { Component, forwardRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { PrimeNgPopoverDirective } from '../prime-ng-popover/prime-ng-popover.directive';
-import { MixinStyledButtonDirective } from '../styled-button/styled-button.directive';
 import { Popover, PopoverModule } from 'primeng/popover';
 import { CommonModule } from '@angular/common';
+import { PrimeNgPopoverDirective } from '../../prime-ng-popover/prime-ng-popover.directive';
+import { MixinStyledButtonDirective } from '../../styled-button/styled-button.directive';
 
-type Option<T> = { label: string; value: T };
+export type SelectOpt<T> = { label: string; value: T };
 
 @Component({
     selector: 'app-select',
@@ -21,17 +21,17 @@ type Option<T> = { label: string; value: T };
     ],
 })
 export class SelectComponent<T> implements ControlValueAccessor, OnInit {
-    @Input() set options(value: Array<Option<T>>) {
+    @Input() set options(value: Array<SelectOpt<T>>) {
         this._options = value;
         this.labelMap = new Map(value.map((option) => [option.value, option.label]));
         if (this.value) {
             this.label = this.getLabelForValue(this.value);
         }
     }
-    get options(): Array<Option<T>> {
+    get options(): Array<SelectOpt<T>> {
         return this._options;
     }
-    private _options!: Array<Option<T>>;
+    private _options!: Array<SelectOpt<T>>;
 
     @Input() value: T | null = null;
 
@@ -40,7 +40,7 @@ export class SelectComponent<T> implements ControlValueAccessor, OnInit {
 
     @ViewChild('op') op!: Popover;
 
-    onSelect(option: Option<T>) {
+    onSelect(option: SelectOpt<T>) {
         this.value = option.value;
         this.label = option.label;
         this.onChange(option.value);

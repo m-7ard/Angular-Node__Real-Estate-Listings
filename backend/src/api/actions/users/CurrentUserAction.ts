@@ -4,15 +4,16 @@ import JsonResponse from "../../responses/JsonResponse";
 import { StatusCodes } from "http-status-codes";
 import IApiError from "api/errors/IApiError";
 import ApiErrorFactory from "api/errors/ApiErrorFactory";
-import ICurrentUserResponseDTO from "api/DTOs/users/get-current/ICurrentUserResponseDTO";
 import IHttpService from "api/interfaces/IHttpRequestService";
 import { CurrentUserQuery } from "application/handlers/users/CurrentUserQueryHandler";
 import API_ERROR_CODES from "api/errors/API_ERROR_CODES";
 import ApiModelMapper from "api/mappers/ApiModelMapper";
 import InvalidJwtTokenError from "application/errors/other/InvalidJwtTokenError";
+import { CurrentUserResponseDTO } from "../../../../types/api/contracts/users/currentUser/CurrentUserResponseDTO";
+import { CurrentUserRequestDTO } from "../../../../types/api/contracts/users/currentUser/CurrentUserRequestDTO";
 
-type ActionRequest = {};
-type ActionResponse = JsonResponse<ICurrentUserResponseDTO | IApiError[]>;
+type ActionRequest = { dto: CurrentUserRequestDTO };
+type ActionResponse = JsonResponse<CurrentUserResponseDTO | IApiError[]>;
 
 class CurrentUserAction implements IAction<ActionRequest, ActionResponse> {
     constructor(
@@ -57,7 +58,7 @@ class CurrentUserAction implements IAction<ActionRequest, ActionResponse> {
     }
 
     bind(): ActionRequest {
-        return {};
+        return { dto: {} };
     }
 }
 

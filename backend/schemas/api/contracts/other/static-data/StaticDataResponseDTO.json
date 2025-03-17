@@ -1,0 +1,21 @@
+{
+    "$id": "http://127.0.0.1:3000/schemas/api/contracts/other/static-data/StaticDataResponseDTO.json",
+    "title": "StaticDataResponseDTO",
+    "type": "object",
+    "properties": {
+        "clientTypes": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+        },
+        "realEstateListingTypes": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+        }
+    },
+    "required": ["clientTypes", "realEstateListingTypes"],
+    "additionalProperties": false
+}

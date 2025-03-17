@@ -1,5 +1,3 @@
-import IRegisterUserRequestDTO from "api/DTOs/users/register/IRegisterUserRequestDTO";
-import IRegisterUserResponseDTO from "api/DTOs/users/register/IRegisterUserResponseDTO";
 import ApiErrorFactory from "api/errors/ApiErrorFactory";
 import IApiError from "api/errors/IApiError";
 import JsonResponse from "api/responses/JsonResponse";
@@ -9,9 +7,11 @@ import { StatusCodes } from "http-status-codes";
 import IAction from "../IAction";
 import { Request } from "express";
 import { RegisterUserRequestDTOValidator } from "api/utils/validators";
+import { RegisterUserRequestDTO } from "../../../../types/api/contracts/users/register/RegisterUserRequestDTO";
+import { RegisterUserResponseDTO } from "../../../../types/api/contracts/users/register/RegisterUserResponseDTO";
 
-type ActionRequest = { dto: IRegisterUserRequestDTO };
-type ActionResponse = JsonResponse<IRegisterUserResponseDTO | IApiError[]>;
+type ActionRequest = { dto: RegisterUserRequestDTO };
+type ActionResponse = JsonResponse<RegisterUserResponseDTO | IApiError[]>;
 
 class RegisterUserAction implements IAction<ActionRequest, ActionResponse> {
     constructor(private readonly requestDispatcher: IRequestDispatcher) {}
