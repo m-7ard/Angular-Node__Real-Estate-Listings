@@ -4,10 +4,7 @@
         <app-list-clients-controls />
         <ul class="flex flex-row gap-4 items-center px-4">
             <li>
-                <div class="mixin-checkbox-like mixin-checkbox-sm theme-checkbox-generic-white">
-                    <div data-role="inner-part"></div>
-                    <input type="checkbox" />
-                </div>
+                <app-checkbox (checkChange)="selectAllClients($event)" />
             </li>
             <li class="font-bold text-sm grow overflow-hidden shrink-0 basis-1">
                 <div class="truncate">Name</div>
@@ -16,15 +13,15 @@
                 <div class="truncate">Id</div>
             </li>
             <li class="font-bold text-sm grow overflow-hidden shrink-0 basis-1 max-[430px]:hidden">
-                <div class="truncate">Address</div>
+                <div class="truncate">Type</div>
             </li>
             <li class="font-bold text-sm grow overflow-hidden shrink-0 basis-1 max-[485px]:hidden">
-                <div class="truncate">Type</div>
+                <div class="truncate">Address</div>
             </li>
             <li class="font-semibold text-sm shrink-0 invisible">
                 ☰
             </li>
         </ul>
-        <app-list-clients />
+        <app-list-clients [clients]="clients" [selectedClients]="selectedClients" />
     </div>
 </div>

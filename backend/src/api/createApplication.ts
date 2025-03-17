@@ -29,6 +29,14 @@ import DatabaseProviderSingletonValue from "infrastructure/values/DatabaseProvid
 import ClientQueryService from "infrastructure/services/ClientQueryService";
 import { createRealEstateListingsRouter } from "./routers/realEstateListingsRouter";
 import { createOtherRouter } from "./routers/otherRouter";
+import multer from "multer";
+import ApiErrorFactory from "./errors/ApiErrorFactory";
+import API_ERROR_CODES from "./errors/API_ERROR_CODES";
+import IApiError from "./errors/IApiError";
+import { StatusCodes } from "http-status-codes";
+import { writeFileSync } from "fs";
+import { UploadImagesResponseDTO } from "../../types/api/contracts/other/upload-images/UploadImagesResponseDTO";
+import { STATIC_DIR, DIST_DIR, MEDIA_ROOT, MEDIA_FOLDER_NAME } from "config";
 
 export default function createApplication(config: {
     port: 3000 | 4200;
@@ -151,10 +159,68 @@ export default function createApplication(config: {
     app.use("/static", express.static("static"));
     app.use(errorLogger);
 
-    const DIST_DIR = process.cwd();
-    const STATIC_DIR = path.join(DIST_DIR, "static");
-
     app.use(express.static(STATIC_DIR));
+
+    const upload = multer({ storage: multer.memoryStorage() });
+    app.post("/api/upload", upload.array("file"), (req, res) => {
+        // Files
+        const files = req.files as Express.Multer.File[] | null;
+        if (files == null || files.length === 0) {
+            res.status(StatusCodes.BAD_REQUEST).json(ApiErrorFactory.createSingleErrorList({ message: "Must upload at least 1 file.", path: "_", code: API_ERROR_CODES.VALIDATION_ERROR }));
+            return;
+        }
+
+        if (files.length > 8) {
+            res.status(StatusCodes.BAD_REQUEST).json(ApiErrorFactory.createSingleErrorList({ message: "Cannot upload more than 8 files.", path: "_", code: API_ERROR_CODES.VALIDATION_ERROR }));
+            return;
+        }
+
+        // File Formats
+        const mimeTypeErrors: IApiError[] = [];
+        files.forEach((file) => {
+            if (file.mimetype !== "image/jpeg" && file.mimetype !== "image/png") {
+                mimeTypeErrors.push({ message: "Can only upload .jpeg and .png files.", path: file.originalname, code: API_ERROR_CODES.VALIDATION_ERROR });
+            }
+        });
+
+        if (mimeTypeErrors.length > 0) {
+            res.status(StatusCodes.UNSUPPORTED_MEDIA_TYPE).json(mimeTypeErrors);
+            return;
+        }
+
+        // File Size
+        const payloadLengthErrors: IApiError[] = [];
+        files.forEach((file) => {
+            if (file.size > 8_388_608) {
+                payloadLengthErrors.push({ message: "Image size cannot be larger than 8MB.", path: file.originalname, code: API_ERROR_CODES.VALIDATION_ERROR });
+            }
+        });
+
+        if (payloadLengthErrors.length > 0) {
+            res.status(StatusCodes.REQUEST_TOO_LONG).json(payloadLengthErrors);
+            return;
+        }
+
+        // Save Images
+        const response: UploadImagesResponseDTO = { images: [] };
+
+        files.forEach((file) => {
+            const generatedFilename = crypto.randomUUID();
+            const extension = path.extname(file.originalname);
+            const url = generatedFilename + extension;
+
+            const uploadPath = path.join(MEDIA_ROOT, url);
+            try {
+                writeFileSync(uploadPath, file.buffer);
+            } catch (e) {
+                throw e;
+            }
+
+            response.images.push({ url: path.join(MEDIA_FOLDER_NAME, url) });
+        });
+
+        res.json(response);
+    });
 
     app.get("*", (req, res) => {
         res.sendFile(path.join(STATIC_DIR, "index.html"));

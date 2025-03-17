@@ -4,8 +4,9 @@ import { RESOLVER_DATA_KEY } from '../utils/RESOLVER_DATA';
 import { ListRealEstateListingsPageResolver } from './admin/pages/real-estate-listings/real-estate-listings-page.resolver';
 import { ListRealEstateListingsPageComponent } from './admin/pages/real-estate-listings/real-estate-listings-page.component';
 import { AuthGuard } from '../guards/auth-guard';
-import { ListClientsPageComponent } from './admin/pages/clients/clients-page.component';
+import { ClientsPageComponent } from './admin/pages/clients/clients-page.component';
 import { CreateClientPageComponent } from './admin/pages/create-client/create-client-page.component';
+import { ClientsPageResolver } from './admin/pages/clients/clients-page.resolver';
 
 export const adminRoutes: Routes = [
     {
@@ -26,11 +27,12 @@ export const adminRoutes: Routes = [
                         children: [
                             {
                                 path: '',
-                                component: ListClientsPageComponent,
+                                component: ClientsPageComponent,
+                                resolve: { [RESOLVER_DATA_KEY]: ClientsPageResolver }
                             },
                             {
                                 path: "create",
-                                component: CreateClientPageComponent
+                                component: CreateClientPageComponent,
                             }
                         ],
                     },

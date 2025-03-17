@@ -178,10 +178,7 @@ function startServer() {
 
         try {
             const schemaPath = path.join(SCHEMA_DIR, schemaName);
-            console.log(`Serving schema: ${schemaPath}`);
-            
             const schema = readFileSync(schemaPath, "utf-8");
-            console.log(schema);
             
             // Add additional headers to ensure proper content type
             res.set('Content-Type', 'application/json');

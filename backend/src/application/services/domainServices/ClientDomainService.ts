@@ -13,7 +13,7 @@ class ClientDomainService implements IClientDomainService {
     constructor(private readonly unitOfWork: IUnitOfWork) {}
     
     async tryOrchestractCreateNewClient(contract: IOrchestrateCreateNewClientContract): Promise<Result<Client, ApplicationError>> {
-        const createClientContract: CreateClientContract = { id: contract.name, name: contract.name, type: contract.type };
+        const createClientContract: CreateClientContract = { id: contract.id, name: contract.name, type: contract.type };
         
         const canCreateClient = Client.canCreate(createClientContract);
         if (canCreateClient.isError()) return err(new CannotCreateClientError({ message: canCreateClient.error.message, path: [] }));

@@ -1,18 +1,15 @@
 <ul class="flex flex-row gap-4 p-4 border token-default-border-color  rounded-lg items-center">
     <li>
-        <div class="mixin-checkbox-like mixin-checkbox-sm theme-checkbox-generic-white">
-            <div data-role="inner-part"></div>
-            <input type="checkbox" />
-        </div>
+        <app-checkbox (checkChange)="select.emit(client)" [value]="selected"  />
     </li>
     <li class="font-semibold text-sm grow overflow-hidden shrink-0 basis-1">
-        <div class="truncate">John Doe</div>
+        <div class="truncate">{{ client.name }}</div>
     </li>
     <li class="font-semibold text-sm grow overflow-hidden shrink-0 basis-1 max-[375px]:hidden">
-        <div class="truncate">John Doe Street Johnville 123 222299835</div>
+        <div class="truncate">{{ client.id }}</div>
     </li>
     <li class="font-semibold text-sm grow overflow-hidden shrink-0 basis-1 max-[430px]:hidden">
-        <div class="truncate">John Doe</div>
+        <div class="truncate">{{ clientTypeOptions[client.type] }}</div>
     </li>
     <li class="font-semibold text-sm grow overflow-hidden shrink-0 basis-1 max-[485px]:hidden">
         <div class="truncate">John Doe Street Johnville 123 222299835</div>

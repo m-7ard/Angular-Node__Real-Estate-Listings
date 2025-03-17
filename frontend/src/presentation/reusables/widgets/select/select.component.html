@@ -4,7 +4,7 @@
 <p-popover #op class="fixed">
     <ul class="mixin-select-like mixin-select-base theme-select-generic-white fixed w-full flex flex-col">
         <ng-container *ngFor="let option of options; let i = index">
-            <button type="button" (click)="onSelect(option)" data-role="option">
+            <button type="button" (click)="onSelect(option)" data-role="option" [ngClass]="{ 'active': option.value === value}">
                 {{ option.label }}
             </button>
         </ng-container>

@@ -1,13 +1,5 @@
 <section class="flex flex-col gap-2">
-    <app-client />
-    <app-client />
-    <app-client />
-    <app-client />
-    <app-client />
-    <app-client />
-    <app-client />
-    <app-client />
-    <app-client />
-    <app-client />
-    <app-client />
+    <ng-container *ngFor="let client of clients">
+        <app-client [client]="client" (select)="selectClient.emit($event)" [selected]="selectedClients.has(client)" />
+    </ng-container>
 </section>

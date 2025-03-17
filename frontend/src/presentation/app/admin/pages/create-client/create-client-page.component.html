@@ -5,12 +5,8 @@
     (reset)="onReset()"
     [appPageDirective]="{ pageSize: 'mixin-page-base' }"
 >
-    <section appPageSectionDirective class="token-default-flex-col">
-        <header>
-            <div class="text-lg font-bold">Create Client</div>
-        </header>
-    </section>
     <section class="token-default-flex-col grow" appPageSectionDirective>
+        <div class="text-lg font-bold">Create Client</div>
         <section *ngIf="errors['_'] != null">
             <app-form-errors [errors]="errors['_']"></app-form-errors>
         </section>
@@ -28,17 +24,6 @@
         <app-form-field [name]="'type'" [errors]="errors.type">
             <ng-template let-name="name">
                 <app-select [formControlName]="name" [options]="clientTypeOptions"></app-select>
-            </ng-template>
-        </app-form-field>
-        <app-form-field [name]="'name'" [errors]="errors.name">
-            <ng-template let-name="name">
-                <app-char-field
-                    [formControlName]="name"
-                    [options]="{
-                        size: 'mixin-char-input-base',
-                        theme: 'theme-input-generic-white'
-                    }"
-                ></app-char-field>
             </ng-template>
         </app-form-field>
     </section>
@@ -60,7 +45,7 @@
                 hasShadow: true
             }"
         >
-            Register User
+            Create
         </button>
     </section>
 </form>
