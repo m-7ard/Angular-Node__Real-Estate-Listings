@@ -37,6 +37,15 @@ beforeEach(() => {
         street: "street",
         type: RealEstateListingType.APARTMENT.value,
         zip: "zip",
+        info: {
+            squareMeters: 1,
+            yearBuilt: 2025,
+            bathroomNumber: 1,
+            bedroomNumber: 1,
+            description: "description",
+            flooringType: "flooringType",
+        },
+        title: "title"
     });
     mockUnitOfWork = createUnitOfWorkMock();
     mockClientDomainService = createClientDomainServiceMock();

@@ -179,7 +179,7 @@ export default function createApplication(config: {
         const mimeTypeErrors: IApiError[] = [];
         files.forEach((file) => {
             if (file.mimetype !== "image/jpeg" && file.mimetype !== "image/png") {
-                mimeTypeErrors.push({ message: "Can only upload .jpeg and .png files.", path: file.originalname, code: API_ERROR_CODES.VALIDATION_ERROR });
+                mimeTypeErrors.push({ message: `${file.originalname}: Can only upload .jpeg and .png files.`, path: file.originalname, code: API_ERROR_CODES.VALIDATION_ERROR });
             }
         });
 
@@ -192,7 +192,7 @@ export default function createApplication(config: {
         const payloadLengthErrors: IApiError[] = [];
         files.forEach((file) => {
             if (file.size > 8_388_608) {
-                payloadLengthErrors.push({ message: "Image size cannot be larger than 8MB.", path: file.originalname, code: API_ERROR_CODES.VALIDATION_ERROR });
+                payloadLengthErrors.push({ message: `${file.originalname}: Image size cannot be larger than 8MB.`, path: file.originalname, code: API_ERROR_CODES.VALIDATION_ERROR });
             }
         });
 
@@ -216,7 +216,7 @@ export default function createApplication(config: {
                 throw e;
             }
 
-            response.images.push({ url: path.join(MEDIA_FOLDER_NAME, url) });
+            response.images.push({ url: `${req.protocol}://` + path.join(`${req.hostname}:${req.socket.localPort}`.toString(), MEDIA_FOLDER_NAME, url) });
         });
 
         res.json(response);

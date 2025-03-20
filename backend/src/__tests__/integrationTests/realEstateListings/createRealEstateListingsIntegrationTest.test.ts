@@ -43,7 +43,14 @@ beforeEach(async () => {
         state: "state",
         street: "street",
         type: RealEstateListingType.HOUSE.value,
-        zip: "zip"
+        zip: "zip",
+        squareMeters: 1,
+        yearBuilt: 2025,
+        bathroomNumber: 1,
+        bedroomNumber: 1,
+        description: "description",
+        flooringType: "flooringType",
+        title: "title"
     };
 
     const admin =  await mixins.createAdminUser(1);

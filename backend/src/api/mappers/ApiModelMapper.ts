@@ -11,7 +11,7 @@ class ApiModelMapper {
             id: user.id.value,
             email: user.email.value,
             name: user.name,
-            isAdmin: user.isAdmin
+            isAdmin: user.isAdmin,
         };
     }
 
@@ -19,8 +19,8 @@ class ApiModelMapper {
         return {
             id: client.id.value,
             name: client.name,
-            type: client.type.value
-        }
+            type: client.type.value,
+        };
     }
 
     public static createRealEstateListingApiModel(listing: RealEstateListing): RealEstateListingAPIModel {
@@ -34,8 +34,15 @@ class ApiModelMapper {
             state: listing.address.state,
             street: listing.address.street,
             type: listing.type.value,
-            zip: listing.address.zip
-        }
+            zip: listing.address.zip,
+            squareMeters: listing.info.squareMeters,
+            yearBuilt: listing.info.yearBuilt,
+            bathroomNumber: listing.info.bathroomNumber,
+            bedroomNumber: listing.info.bedroomNumber,
+            description: listing.info.description,
+            flooringType: listing.info.flooringType,
+            title: listing.title,
+        };
     }
 }
 

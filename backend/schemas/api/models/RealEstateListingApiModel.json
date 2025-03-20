@@ -12,8 +12,33 @@
         "zip": { "type": "string" },
         "country": { "type": "string" },
         "clientId": { "type": "string" },
-        "dateCreated": { "type": "string", "format": "date-time" }
+        "dateCreated": { "type": "string", "format": "date-time" },
+        "squareMeters": { "type": "number", "minimum": 0 },
+        "yearBuilt": { "type": "number", "minimum": 0 },
+        "bathroomNumber": { "type": "number", "minimum": 0 },
+        "bedroomNumber": { "type": "number", "minimum": 0 },
+        "description": { "type": "string", "minLength": 1 },
+        "flooringType": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 1 }
     },
-    "required": ["id", "type", "price", "street", "city", "state", "zip", "country", "clientId", "dateCreated"],
+    "required": [
+        "id",
+        "type",
+        "price",
+        "street",
+        "city",
+        "state",
+        "zip",
+        "country",
+        "clientId",
+        "dateCreated",
+        "squareMeters",
+        "yearBuilt",
+        "bathroomNumber",
+        "bedroomNumber",
+        "description",
+        "flooringType",
+        "title"
+    ],
     "additionalProperties": false
 }

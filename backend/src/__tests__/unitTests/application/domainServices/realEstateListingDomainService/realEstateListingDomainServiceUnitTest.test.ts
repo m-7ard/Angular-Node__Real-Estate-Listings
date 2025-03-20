@@ -9,25 +9,39 @@ import RealEstateListingDomainService from "application/services/domainServices/
 import Client from "domain/entities/Client";
 import RealEstateListingType from "domain/valueObjects/RealEstateListing/RealEstateListingType";
 
-
 let handler: RealEstateListingDomainService;
 let CLIENT_001: Client;
 let DEFAULT_CREATE_CONTRACT: OrchestrateCreateNewListingContract;
-let mockUnitOfWork: jest.Mocked<IUnitOfWork>
+let mockUnitOfWork: jest.Mocked<IUnitOfWork>;
 let mockClientRepo: jest.Mocked<IRealEstateListingRepository>;
 
-beforeAll(() => {
-});
+beforeAll(() => {});
 
-afterAll(() => {
-});
+afterAll(() => {});
 
 beforeEach(() => {
     CLIENT_001 = Mixins.createClient(1);
-    DEFAULT_CREATE_CONTRACT = { "id": "id", "clientId": CLIENT_001.id, "country": "country", "price": 1, "state": "state", "street": "street", "type": RealEstateListingType.HOUSE.value, "zip": "zip", city: "city" };
+    DEFAULT_CREATE_CONTRACT = {
+        bathroomNumber: 1,
+        bedroomNumber: 1,
+        city: "city",
+        clientId: CLIENT_001.id,
+        country: "country",
+        description: "description",
+        flooringType: "flooringType",
+        id: "id",
+        price: 1,
+        squareMeters: 1,
+        state: "state",
+        street: "street",
+        title: "title",
+        type: RealEstateListingType.HOUSE.value,
+        yearBuilt: 1,
+        zip: "zip",
+    };
     mockUnitOfWork = createUnitOfWorkMock();
 
-    mockClientRepo = createRealEstateListingRepositoryMock()
+    mockClientRepo = createRealEstateListingRepositoryMock();
     mockUnitOfWork.realEstateListingRepo = mockClientRepo;
 
     handler = new RealEstateListingDomainService(mockUnitOfWork);
@@ -36,21 +50,21 @@ beforeEach(() => {
 describe("realEstateListingDomainServiceUnitTest.test/tryOrchestractCreateNewListing;", () => {
     it("Try Orchestrate Create New Listing; Valid Data; Success;", async () => {
         // Setup
-        
+
         // Act
-        const result = await handler.tryOrchestractCreateNewListing(DEFAULT_CREATE_CONTRACT)
-        
+        const result = await handler.tryOrchestractCreateNewListing(DEFAULT_CREATE_CONTRACT);
+
         // Assert
         expect(result.isOk());
     });
 
     it("Try Orchestrate Create New Listing; Invalid Type; Failure;", async () => {
         // Setup
-        DEFAULT_CREATE_CONTRACT.type = "bunk_type"
+        DEFAULT_CREATE_CONTRACT.type = "bunk_type";
 
         // Act
         const result = await handler.tryOrchestractCreateNewListing(DEFAULT_CREATE_CONTRACT);
-        
+
         // Assert
         expect(result.isErr());
         const error = result.isErr() && result.error;
@@ -59,11 +73,11 @@ describe("realEstateListingDomainServiceUnitTest.test/tryOrchestractCreateNewLis
 
     it("Try Orchestrate Create New Listing; Invalid Price; Failure;", async () => {
         // Setup
-        DEFAULT_CREATE_CONTRACT.price = -1
+        DEFAULT_CREATE_CONTRACT.price = -1;
 
         // Act
         const result = await handler.tryOrchestractCreateNewListing(DEFAULT_CREATE_CONTRACT);
-        
+
         // Assert
         expect(result.isErr());
         const error = result.isErr() && result.error;

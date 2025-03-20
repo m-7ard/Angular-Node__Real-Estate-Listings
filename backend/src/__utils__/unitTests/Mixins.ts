@@ -41,6 +41,13 @@ class Mixins {
             street: `street_${seed}`,
             type: RealEstateListingType.HOUSE.value,
             zip: `zip_${seed}`,
+            squareMeters: seed,
+            yearBuilt: seed,
+            bathroomNumber: seed,
+            bedroomNumber: seed,
+            description: `description_${seed}`,
+            flooringType: `flooringType_${seed}`,
+            title: `title_${seed}`,
         });
 
         return listing;

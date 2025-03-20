@@ -58,6 +58,13 @@ class ListRealEstateListingsAction implements IAction<ActionRequest, ActionRespo
                 street: typeof request.query.street === "string" ? request.query.street : undefined,
                 type: typeof request.query.type === "string" ? request.query.type : undefined,
                 zip: typeof request.query.zip === "string" ? request.query.zip : undefined,
+                squareMeters: typeof request.query.squareMeters === "string" ? parseInt(request.query.squareMeters) : undefined,
+                yearBuilt: typeof request.query.yearBuilt === "string" ? parseInt(request.query.yearBuilt) : undefined,
+                bathroomNumber: typeof request.query.bathroomNumber === "string" ? parseInt(request.query.bathroomNumber) : undefined,
+                bedroomNumber: typeof request.query.bedroomNumber === "string" ? parseInt(request.query.bedroomNumber) : undefined,
+                description: typeof request.query.description === "string" ? request.query.description : undefined,
+                flooringType: typeof request.query.flooringType === "string" ? request.query.flooringType : undefined,
+                title: typeof request.query.title === "string" ? request.query.title : undefined,
             },
         };
     }

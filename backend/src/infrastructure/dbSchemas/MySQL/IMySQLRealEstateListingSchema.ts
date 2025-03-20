@@ -11,4 +11,11 @@ export default interface IMySQLRealEstateListingSchema {
     country: string;
     client_id: IMySQLClientSchema["id"];
     date_created: Date;
+    title: string;
+    square_meters: number;
+    year_built: number;
+    bathroom_number: number;
+    bedroom_number: number;
+    description: string;
+    flooring_type: string;
 }

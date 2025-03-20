@@ -42,7 +42,6 @@ type IErrorSchema = IPresentationError<{
         FormErrorsComponent,
         PageDirective,
         PageSectionDirective,
-        DividerComponent,
         RouterModule,
         SelectComponent,
     ],

@@ -11,7 +11,14 @@
         "state": { "type": "string", "minLength": 1 },
         "zip": { "type": "string", "minLength": 1 },
         "country": { "type": "string", "minLength": 1 },
-        "clientId": { "type": "string", "minLength": 1 }
+        "clientId": { "type": "string", "minLength": 1 },
+        "squareMeters": { "type": "number", "minimum": 0 },
+        "yearBuilt": { "type": "number", "minimum": 0 },
+        "bathroomNumber": { "type": "number", "minimum": 0 },
+        "bedroomNumber": { "type": "number", "minimum": 0 },
+        "description": { "type": "string", "minLength": 1 },
+        "flooringType": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 1 }
     },
     "required": [],
     "additionalProperties": false

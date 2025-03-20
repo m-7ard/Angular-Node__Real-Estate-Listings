@@ -2,7 +2,7 @@ import IUnitOfWork from "application/interfaces/persistence/IUnitOfWork";
 import ApplicationError from "application/errors/ApplicationError";
 import { err, ok, Result } from "neverthrow";
 import IRealEstateListingDomainService, { OrchestrateCreateNewListingContract, OrchestrateUpdateListingContract } from "application/interfaces/domainServices/IRealEstateListingDomainService";
-import RealEstateListing, { CreateRealEstateListingContract } from "domain/entities/RealEstateListing";
+import RealEstateListing, { CreateRealEstateListingContract, UpdateRealEstateListingContract } from "domain/entities/RealEstateListing";
 import CannotCreateRealEstateListingError from "application/errors/domain/realEstateListings/CannotCreateRealEstateListingError";
 import CannotUpdateRealEstateListingError from "application/errors/domain/realEstateListings/CannotUpdateRealEstateListingError";
 import RealEstateListingId from "domain/valueObjects/RealEstateListing/RealEstateListingId";
@@ -24,6 +24,13 @@ class RealEstateListingDomainService implements IRealEstateListingDomainService 
             street: contract.street,
             type: contract.type,
             zip: contract.zip,
+            squareMeters: contract.squareMeters,
+            yearBuilt: contract.yearBuilt,
+            bathroomNumber: contract.bathroomNumber,
+            bedroomNumber: contract.bedroomNumber,
+            description: contract.description,
+            flooringType: contract.flooringType,
+            title: contract.title,
         };
 
         const canCreateListing = RealEstateListing.canCreate(createClientContract);
@@ -36,7 +43,7 @@ class RealEstateListingDomainService implements IRealEstateListingDomainService 
     }
 
     async tryOrchestractUpdateListing(listing: RealEstateListing, contract: OrchestrateUpdateListingContract): Promise<Result<boolean, ApplicationError>> {
-        const updateContract = {
+        const updateContract: UpdateRealEstateListingContract = {
             city: contract.city,
             clientId: contract.clientId,
             country: contract.country,
@@ -46,6 +53,13 @@ class RealEstateListingDomainService implements IRealEstateListingDomainService 
             street: contract.street,
             type: contract.type,
             zip: contract.zip,
+            squareMeters: contract.squareMeters,
+            yearBuilt: contract.yearBuilt,
+            bathroomNumber: contract.bathroomNumber,
+            bedroomNumber: contract.bedroomNumber,
+            description: contract.description,
+            flooringType: contract.flooringType,
+            title: contract.title,
         };
         const canUpdate = listing.canUpdate(updateContract);
 

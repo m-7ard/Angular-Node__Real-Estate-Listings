@@ -7,6 +7,7 @@ import { AuthGuard } from '../guards/auth-guard';
 import { ClientsPageComponent } from './admin/pages/clients/clients-page.component';
 import { CreateClientPageComponent } from './admin/pages/create-client/create-client-page.component';
 import { ClientsPageResolver } from './admin/pages/clients/clients-page.resolver';
+import { CreateRealEstateListingsPageComponent } from './admin/pages/create-real-estate-listings/create-real-estate-listings-page.component';
 
 export const adminRoutes: Routes = [
     {
@@ -19,8 +20,16 @@ export const adminRoutes: Routes = [
                 children: [
                     {
                         path: 'real-estate-listings',
-                        component: ListRealEstateListingsPageComponent,
-                        // resolve: { [RESOLVER_DATA_KEY]: ListRealEstateListingsPageResolver },
+                        children: [
+                            {
+                                path: '',
+                                component: ListRealEstateListingsPageComponent,
+                            },
+                            {
+                                path: "create",
+                                component: CreateRealEstateListingsPageComponent,
+                            }
+                        ],
                     },
                     {
                         path: 'clients',

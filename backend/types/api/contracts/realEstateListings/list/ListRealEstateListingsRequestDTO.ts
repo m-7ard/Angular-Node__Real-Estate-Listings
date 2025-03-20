@@ -1,11 +1,18 @@
 export interface ListRealEstateListingsRequestDTO {
-    city?:     string;
-    clientId?: string;
-    country?:  string;
-    maxPrice?: number;
-    minPrice?: number;
-    state?:    string;
-    street?:   string;
-    type?:     string;
-    zip?:      string;
+    bathroomNumber?: number;
+    bedroomNumber?:  number;
+    city?:           string;
+    clientId?:       string;
+    country?:        string;
+    description?:    string;
+    flooringType?:   string;
+    maxPrice?:       number;
+    minPrice?:       number;
+    squareMeters?:   number;
+    state?:          string;
+    street?:         string;
+    title?:          string;
+    type?:           string;
+    yearBuilt?:      number;
+    zip?:            string;
 }

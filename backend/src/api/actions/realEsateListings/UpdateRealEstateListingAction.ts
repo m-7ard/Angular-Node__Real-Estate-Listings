@@ -37,7 +37,16 @@ class UpdateRealEstateListingAction implements IAction<ActionRequest, ActionResp
             state: dto.state,
             street: dto.street,
             type: dto.type,
-            zip: dto.zip
+            zip: dto.zip,
+            info: {
+                squareMeters: dto.squareMeters,
+                yearBuilt: dto.yearBuilt,
+                bathroomNumber: dto.bathroomNumber,
+                bedroomNumber: dto.bedroomNumber,
+                description: dto.description,
+                flooringType: dto.flooringType,
+            },
+            title: dto.title
         });
         const result = await this._requestDispatcher.dispatch(command);
 
@@ -77,6 +86,13 @@ class UpdateRealEstateListingAction implements IAction<ActionRequest, ActionResp
                 street: request.body.street,
                 type: request.body.type,
                 zip: request.body.zip,
+                squareMeters: request.body.squareMeters,
+                yearBuilt: request.body.yearBuilt,
+                bathroomNumber: request.body.bathroomNumber,
+                bedroomNumber: request.body.bedroomNumber,
+                description: request.body.description,
+                flooringType: request.body.flooringType,
+                title: request.body.title,
             },
         };
     }

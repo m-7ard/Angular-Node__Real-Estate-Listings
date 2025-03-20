@@ -6,13 +6,8 @@ import {
     setUpIntegrationTest,
 } from "../../../__utils__/integrationTests/integrationTest.setup";
 import authSupertest from "__utils__/integrationTests/authSupertest";
-import { StaticDataRequestDTO } from "../../../../types/api/contracts/other/static-data/StaticDataRequestDTO";
 import User from "domain/entities/User";
 import Mixins from "__utils__/integrationTests/Mixins";
-import { StaticDataResponseDTO } from "../../../../types/api/contracts/other/static-data/StaticDataResponseDTO";
-import ClientType from "domain/valueObjects/Client/ClientType";
-import RealEstateListingType from "domain/valueObjects/RealEstateListing/RealEstateListingType";
-import { readFileSync } from "fs";
 import { TEST_MEDIA_ROOT } from "config";
 import path from "path";
 

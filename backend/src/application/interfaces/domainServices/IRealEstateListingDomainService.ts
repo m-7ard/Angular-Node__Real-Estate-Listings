@@ -13,7 +13,14 @@ export interface OrchestrateCreateNewListingContract {
     zip: string;
     country: string;
     clientId: ClientId;
-} 
+    squareMeters: number;
+    yearBuilt: number;
+    bathroomNumber: number;
+    bedroomNumber: number;
+    description: string;
+    flooringType: string;
+    title: string;
+}
 
 export interface OrchestrateUpdateListingContract {
     type: string;
@@ -24,10 +31,17 @@ export interface OrchestrateUpdateListingContract {
     zip: string;
     country: string;
     clientId: ClientId;
-} 
+    squareMeters: number;
+    yearBuilt: number;
+    bathroomNumber: number;
+    bedroomNumber: number;
+    description: string;
+    flooringType: string;
+    title: string;
+}
 
 export default interface IRealEstateListingDomainService {
-    tryOrchestractCreateNewListing(contract: OrchestrateCreateNewListingContract): Promise<Result<RealEstateListing, ApplicationError>>
-    tryOrchestractUpdateListing(listing: RealEstateListing, contract: OrchestrateUpdateListingContract): Promise<Result<boolean, ApplicationError>>
-    tryGetById(id: string): Promise<Result<RealEstateListing, ApplicationError>>
+    tryOrchestractCreateNewListing(contract: OrchestrateCreateNewListingContract): Promise<Result<RealEstateListing, ApplicationError>>;
+    tryOrchestractUpdateListing(listing: RealEstateListing, contract: OrchestrateUpdateListingContract): Promise<Result<boolean, ApplicationError>>;
+    tryGetById(id: string): Promise<Result<RealEstateListing, ApplicationError>>;
 }

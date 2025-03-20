@@ -13,7 +13,26 @@ export type CreateRealEstateListingCommandResult = ICommandResult<ApplicationErr
 export class CreateRealEstateListingCommand implements ICommand<CreateRealEstateListingCommandResult> {
     __returnType: CreateRealEstateListingCommandResult = null!;
 
-    constructor(params: { id: string; type: string; price: number; street: string; city: string; state: string; zip: string; country: string; clientId: string }) {
+    constructor(params: {
+        id: string;
+        type: string;
+        price: number;
+        street: string;
+        city: string;
+        state: string;
+        zip: string;
+        country: string;
+        clientId: string;
+        info: {
+            squareMeters: number;
+            yearBuilt: number;
+            bathroomNumber: number;
+            bedroomNumber: number;
+            description: string;
+            flooringType: string;
+        };
+        title: string;
+    }) {
         this.id = params.id;
         this.type = params.type;
         this.price = params.price;
@@ -23,6 +42,8 @@ export class CreateRealEstateListingCommand implements ICommand<CreateRealEstate
         this.zip = params.zip;
         this.country = params.country;
         this.clientId = params.clientId;
+        this.info = params.info;
+        this.title = params.title;
     }
 
     id: string;
@@ -34,6 +55,15 @@ export class CreateRealEstateListingCommand implements ICommand<CreateRealEstate
     zip: string;
     country: string;
     clientId: string;
+    info: {
+        squareMeters: number;
+        yearBuilt: number;
+        bathroomNumber: number;
+        bedroomNumber: number;
+        description: string;
+        flooringType: string;
+    };
+    title: string;
 }
 
 export default class CreateRealEstateListingCommandHandler implements IRequestHandler<CreateRealEstateListingCommand, CreateRealEstateListingCommandResult> {
@@ -61,6 +91,13 @@ export default class CreateRealEstateListingCommandHandler implements IRequestHa
             street: command.street,
             type: command.type,
             zip: command.zip,
+            squareMeters: command.info.squareMeters,
+            yearBuilt: command.info.yearBuilt,
+            bathroomNumber: command.info.bathroomNumber,
+            bedroomNumber: command.info.bedroomNumber,
+            description: command.info.description,
+            flooringType: command.info.flooringType,
+            title: command.title,
         });
         if (createResult.isErr()) return err(new CannotCreateNewListingServiceError({ message: createResult.error.message }).asList());
 
