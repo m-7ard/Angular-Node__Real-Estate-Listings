@@ -32,6 +32,7 @@ export class CreateRealEstateListingCommand implements ICommand<CreateRealEstate
             flooringType: string;
         };
         title: string;
+        images: string[];
     }) {
         this.id = params.id;
         this.type = params.type;
@@ -44,6 +45,7 @@ export class CreateRealEstateListingCommand implements ICommand<CreateRealEstate
         this.clientId = params.clientId;
         this.info = params.info;
         this.title = params.title;
+        this.images = params.images;
     }
 
     id: string;
@@ -64,6 +66,7 @@ export class CreateRealEstateListingCommand implements ICommand<CreateRealEstate
         flooringType: string;
     };
     title: string;
+    images: string[];
 }
 
 export default class CreateRealEstateListingCommandHandler implements IRequestHandler<CreateRealEstateListingCommand, CreateRealEstateListingCommandResult> {
@@ -98,6 +101,7 @@ export default class CreateRealEstateListingCommandHandler implements IRequestHa
             description: command.info.description,
             flooringType: command.info.flooringType,
             title: command.title,
+            images: command.images
         });
         if (createResult.isErr()) return err(new CannotCreateNewListingServiceError({ message: createResult.error.message }).asList());
 

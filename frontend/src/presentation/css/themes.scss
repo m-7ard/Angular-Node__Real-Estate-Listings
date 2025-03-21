@@ -25,18 +25,18 @@
     }
 
     .theme-textarea-generic-white {
-        @apply border border-gray-900 text-gray-900 bg-white;
+        @apply border border-zinc-200 text-gray-900 bg-white;
 
         > textarea {
             @apply bg-white focus:bg-zinc-300;
         }
 
         [data-role="footer"] {
-            @apply bg-transparent border-gray-900;
+            @apply bg-transparent border-zinc-200;
         }
 
         [data-role="counter"] {
-            @apply border-gray-900;
+            @apply border-zinc-200;
         }
     }
 

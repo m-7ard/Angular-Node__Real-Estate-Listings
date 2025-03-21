@@ -1,0 +1,8 @@
+<div [class]="[options.size, options.theme].join(' ')">
+    <textarea value="{value}" (change)="onInput($event)" [rows]="5" [maxLength]="maxLength" [disabled]="disabled" [placeholder]="placeholder"></textarea>
+    <ng-container *ngIf="maxLength != null">
+        <footer data-role="footer">
+            <div data-role="counter">{{ value.length }} / {{ maxLength }}</div>
+        </footer>
+    </ng-container>
+</div>

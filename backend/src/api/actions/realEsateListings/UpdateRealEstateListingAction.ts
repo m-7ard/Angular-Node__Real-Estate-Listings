@@ -46,7 +46,8 @@ class UpdateRealEstateListingAction implements IAction<ActionRequest, ActionResp
                 description: dto.description,
                 flooringType: dto.flooringType,
             },
-            title: dto.title
+            title: dto.title,
+            images: dto.images
         });
         const result = await this._requestDispatcher.dispatch(command);
 
@@ -93,6 +94,7 @@ class UpdateRealEstateListingAction implements IAction<ActionRequest, ActionResp
                 description: request.body.description,
                 flooringType: request.body.flooringType,
                 title: request.body.title,
+                images: request.body.images
             },
         };
     }

@@ -20,6 +20,7 @@ export interface OrchestrateCreateNewListingContract {
     description: string;
     flooringType: string;
     title: string;
+    images: string[];
 }
 
 export interface OrchestrateUpdateListingContract {
@@ -38,6 +39,7 @@ export interface OrchestrateUpdateListingContract {
     description: string;
     flooringType: string;
     title: string;
+    images: string[];
 }
 
 export default interface IRealEstateListingDomainService {

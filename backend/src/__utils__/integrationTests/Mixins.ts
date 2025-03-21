@@ -79,6 +79,7 @@ class Mixins {
             description: `description_${seed}`,
             flooringType: `flooringType_${seed}`,
             title: `title_${seed}`,
+            images: []
         });
 
         await this.realEstateListingRepository.createAsync(listing);

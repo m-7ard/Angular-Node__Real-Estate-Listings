@@ -16,5 +16,6 @@ CREATE TABLE real_estate_listings (
     type VARCHAR(100),
     year_built INT,
     zip VARCHAR(20),
+    images JSON,
     FOREIGN KEY (client_id) REFERENCES clients(id)
 );

@@ -25,6 +25,7 @@ export interface CreateRealEstateListingContract {
     description: string;
     flooringType: string;
     title: string;
+    images: string[]
 }
 
 export interface UpdateRealEstateListingContract {
@@ -44,6 +45,7 @@ export interface UpdateRealEstateListingContract {
     description: string;
     flooringType: string;
     title: string;
+    images: string[]
 }
 
 class RealEstateListing {
@@ -56,6 +58,7 @@ class RealEstateListing {
     public dateCreated: Date;
     public info: RealEstateListingInfo;
     public title: string;
+    public images: string[];
 
     private constructor(params: {
         id: RealEstateListingId;
@@ -66,6 +69,7 @@ class RealEstateListing {
         dateCreated: Date;
         info: RealEstateListingInfo;
         title: string;
+        images: string[];
     }) {
         this.id = params.id;
         this.type = params.type;
@@ -75,6 +79,7 @@ class RealEstateListing {
         this.dateCreated = params.dateCreated;
         this.info = params.info;
         this.title = params.title;
+        this.images = params.images;
     }
 
     public static canCreate(contract: CreateRealEstateListingContract): DomainValidationResult {
@@ -128,7 +133,8 @@ class RealEstateListing {
             clientId: contract.clientId,
             dateCreated: contract.dateCreated,
             info: info,
-            title: contract.title
+            title: contract.title,
+            images: contract.images
         });
     }
 
@@ -174,6 +180,9 @@ class RealEstateListing {
             squareMeters: contract.squareMeters,
             yearBuilt: contract.yearBuilt,
         });
+        this.title = contract.title;
+        this.clientId = contract.clientId;
+        this.images = contract.images;
     }
 }
 

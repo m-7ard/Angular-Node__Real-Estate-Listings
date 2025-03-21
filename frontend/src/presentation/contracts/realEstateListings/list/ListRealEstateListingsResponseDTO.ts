@@ -3,14 +3,22 @@ export interface ListRealEstateListingsResponseDTO {
 }
 
 export interface RealEstateListingAPIModel {
-    city:        string;
-    clientId:    string;
-    country:     string;
-    dateCreated: Date;
-    id:          string;
-    price:       number;
-    state:       string;
-    street:      string;
-    type:        string;
-    zip:         string;
+    bathroomNumber: number;
+    bedroomNumber:  number;
+    city:           string;
+    clientId:       string;
+    country:        string;
+    dateCreated:    Date;
+    description:    string;
+    flooringType:   string;
+    id:             string;
+    images:         string[];
+    price:          number;
+    squareMeters:   number;
+    state:          string;
+    street:         string;
+    title:          string;
+    type:           string;
+    yearBuilt:      number;
+    zip:            string;
 }

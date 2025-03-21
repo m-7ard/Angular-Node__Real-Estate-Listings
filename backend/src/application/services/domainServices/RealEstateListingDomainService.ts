@@ -31,6 +31,7 @@ class RealEstateListingDomainService implements IRealEstateListingDomainService 
             description: contract.description,
             flooringType: contract.flooringType,
             title: contract.title,
+            images: contract.images
         };
 
         const canCreateListing = RealEstateListing.canCreate(createClientContract);
@@ -60,6 +61,7 @@ class RealEstateListingDomainService implements IRealEstateListingDomainService 
             description: contract.description,
             flooringType: contract.flooringType,
             title: contract.title,
+            images: contract.images
         };
         const canUpdate = listing.canUpdate(updateContract);
 

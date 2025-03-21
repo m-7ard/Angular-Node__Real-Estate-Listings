@@ -24,6 +24,7 @@ class MySQLRealEstateListingMapper implements IRealEstateListingMapper {
             bedroom_number: source.bedroom_number,
             description: source.description,
             flooring_type: source.flooring_type,
+            images: JSON.parse(source.images)
         });
     }
 
@@ -46,6 +47,7 @@ class MySQLRealEstateListingMapper implements IRealEstateListingMapper {
             bedroom_number: source.info.bedroomNumber,
             description: source.info.description,
             flooring_type: source.info.flooringType,
+            images: source.images
         });
     }
 
@@ -68,6 +70,7 @@ class MySQLRealEstateListingMapper implements IRealEstateListingMapper {
             description: source.description,
             flooringType: source.flooring_type,
             title: source.title,
+            images: source.images
         });
     }
 }

@@ -6,6 +6,7 @@ export interface UpdateRealEstateListingRequestDTO {
     country:        string;
     description:    string;
     flooringType:   string;
+    images:         string[];
     price:          number;
     squareMeters:   number;
     state:          string;

@@ -36,7 +36,7 @@ async function main() {
         port: 3306,
         user: "root",
         password: "adminword",
-        database: "real_estate"
+        database: "real_estate" // 
     });
 
     // const migrations = await getMigrations();

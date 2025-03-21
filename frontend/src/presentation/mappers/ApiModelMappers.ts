@@ -35,6 +35,14 @@ export default class ApiModelMappers {
             street: listing.street,
             type: listing.type,
             zip: listing.zip,
+            title: listing.title,
+            squareMeters: listing.squareMeters,
+            yearBuilt: listing.yearBuilt,
+            bathroomNumber: listing.bathroomNumber,
+            bedroomNumber: listing.bedroomNumber,
+            description: listing.description,
+            flooringType: listing.flooringType,
+            images: listing.images
         });
     }
 }

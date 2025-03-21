@@ -1,33 +1,33 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 
-type CharFieldSize = 'mixin-char-input-sm' | 'mixin-char-input-base';
-type CharFieldTheme = 'theme-input-generic-white' | 'theme-input-generic-gray';
+type TextareaSize = 'mixin-textarea-any';
+type TextareaTheme = 'theme-textarea-generic-white';
 
-interface CharFieldOptions {
-    size: CharFieldSize;
-    theme: CharFieldTheme;
+interface TextareaOptions {
+    size: TextareaSize;
+    theme: TextareaTheme;
 }
 
 @Component({
-    selector: 'app-char-field',
+    selector: 'app-textarea',
     standalone: true,
     imports: [CommonModule, ReactiveFormsModule],
-    templateUrl: './char-field.component.html',
+    templateUrl: './textarea.component.html',
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,
             multi: true,
-            useExisting: CharFieldComponent,
+            useExisting: TextareaComponent,
         },
     ],
 })
-export class CharFieldComponent implements ControlValueAccessor {
+export class TextareaComponent implements ControlValueAccessor {
     // <--ControlValueAccessor
 
-    onChange(value: string): void {};
-    onTouched(): void {};
+    onChange: (value: string) => void = null!;
+    onTouched: () => void = null!;
 
     writeValue(obj: string): void {
         this.value = obj;
@@ -48,21 +48,17 @@ export class CharFieldComponent implements ControlValueAccessor {
     // ControlValueAccessor-->
 
     onInput(event: Event): void {
-        const value = (event.target as HTMLInputElement).value;
+        const value = (event.target as HTMLTextAreaElement).value;
         this.value = value;
         this.onChange(value);
         this.onTouched();
     }
 
-    @Output() focus = new EventEmitter<FocusEvent>();
     @Input() value: string = '';
-    @Input() options: CharFieldOptions = {
-        size: 'mixin-char-input-base',
-        theme: 'theme-input-generic-white',
+    @Input() options: TextareaOptions = {
+        size: 'mixin-textarea-any',
+        theme: 'theme-textarea-generic-white',
     };
-    @Input() type?: string = 'text';
-    @Input() step?: string;
-    @Input() autocomplete?: boolean = false;
     @Input() disabled?: boolean = false;
     @Input() placeholder?: string;
     @Input() readonly?: boolean;

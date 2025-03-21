@@ -36,7 +36,7 @@ class ClientQueryService {
 
         if (contract.name != null) {
             if (this.databaseProviderSingleton.isMySQL) {
-                this.query = this.mySQLQuery.whereILike("name", contract.name);
+                this.query = this.mySQLQuery.whereILike("name", `%${contract.name}%`);
             }
 
             this.mySQLQuery = this.query;

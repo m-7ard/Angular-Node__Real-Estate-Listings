@@ -45,7 +45,8 @@ beforeEach(() => {
             description: "description",
             flooringType: "flooringType",
         },
-        title: "title"
+        title: "title",
+        images: []
     });
     mockUnitOfWork = createUnitOfWorkMock();
     mockClientDomainService = createClientDomainServiceMock();

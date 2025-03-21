@@ -7,5 +7,6 @@
         [attr.disabled]="disabled ? '' : null"
         [attr.maxLength]="maxLength"
         [attr.step]="step"
+        (focus)="focus.emit($event)"
     />
 </div>

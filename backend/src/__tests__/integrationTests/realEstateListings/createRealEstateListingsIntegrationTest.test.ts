@@ -50,7 +50,8 @@ beforeEach(async () => {
         bedroomNumber: 1,
         description: "description",
         flooringType: "flooringType",
-        title: "title"
+        title: "title",
+        images: []
     };
 
     const admin =  await mixins.createAdminUser(1);

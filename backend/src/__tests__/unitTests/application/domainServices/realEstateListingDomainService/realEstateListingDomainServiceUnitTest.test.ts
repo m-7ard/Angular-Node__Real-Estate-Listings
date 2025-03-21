@@ -38,6 +38,7 @@ beforeEach(() => {
         type: RealEstateListingType.HOUSE.value,
         yearBuilt: 1,
         zip: "zip",
+        images: []
     };
     mockUnitOfWork = createUnitOfWorkMock();
 

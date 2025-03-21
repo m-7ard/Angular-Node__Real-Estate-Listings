@@ -48,6 +48,7 @@ class Mixins {
             description: `description_${seed}`,
             flooringType: `flooringType_${seed}`,
             title: `title_${seed}`,
+            images: []
         });
 
         return listing;

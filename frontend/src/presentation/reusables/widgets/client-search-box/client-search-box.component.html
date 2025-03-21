@@ -1,0 +1,23 @@
+<app-char-field
+    (focus)="onFocus($event)"
+    (input)="onSearch($event)"
+    [value]="searchTerm"
+    primeNgPopoverDirective
+    [popover]="op"
+    [positioning]="{ top: '100%', left: '0px', right: '0px' }"
+/>
+<p-popover #op class="fixed z-10">
+    <ul class="w-full z-10 max-w-full" [appPanelDirective]="{ panelSize: 'mixin-panel-base', panelTheme: 'theme-panel-generic-white', panelHasBorder: true, panelHasShadow: true }">
+        <ng-container *ngFor="let client of clients$ | async; let i = index">
+            <li appPanelSectionDirective class="w-full">
+                <div class="text-gray-600 text-sm overflow-hidden shrink-0">
+                    <div class="truncate">{{ client.id }}</div>
+                </div>
+                <div class="font-semibold text-sm grow overflow-hidden shrink-0">
+                    <div class="truncate">{{ client.name }}</div>
+                </div>
+            </li>
+            <app-divider />
+        </ng-container>
+    </ul>
+</p-popover>

@@ -42,6 +42,7 @@ class ApiModelMapper {
             description: listing.info.description,
             flooringType: listing.info.flooringType,
             title: listing.title,
+            images: listing.images
         };
     }
 }

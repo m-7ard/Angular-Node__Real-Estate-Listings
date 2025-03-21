@@ -12,6 +12,7 @@ export interface RealEstateListingAPIModel {
     description:    string;
     flooringType:   string;
     id:             string;
+    images:         string[];
     price:          number;
     squareMeters:   number;
     state:          string;

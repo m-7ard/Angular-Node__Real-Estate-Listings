@@ -24,6 +24,8 @@
     }
 
     .mixin-textarea-any {
+        @apply  rounded-md overflow-hidden;
+        
         > textarea {
             @apply block w-full transition-colors leading-none resize-none p-2;
         }

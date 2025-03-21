@@ -19,6 +19,7 @@ interface RealEstateListingDbEntityContract {
     bedroom_number: number;
     description: string;
     flooring_type: string;
+    images: string[];
 }
 
 class RealEstateListingDbEntity {
@@ -40,6 +41,7 @@ class RealEstateListingDbEntity {
         this.type = contract.type;
         this.year_built = contract.year_built;
         this.zip = contract.zip;
+        this.images = contract.images;
     }
 
     public bathroom_number: number;
@@ -59,6 +61,7 @@ class RealEstateListingDbEntity {
     public type: string;
     public year_built: number;
     public zip: string;
+    public images: string[];
 
     public static readonly TABLE_NAME = "real_estate_listings";
 
@@ -82,8 +85,8 @@ class RealEstateListingDbEntity {
                 bathroom_number,
                 bedroom_number,
                 description,
-                flooring_type
-
+                flooring_type,
+                images
             )
             VALUES 
             (
@@ -103,7 +106,8 @@ class RealEstateListingDbEntity {
                 ${this.bathroom_number},
                 ${this.bedroom_number},
                 ${this.description},
-                ${this.flooring_type}
+                ${this.flooring_type},
+                ${JSON.stringify(this.images)}
             )
         `;
     }
@@ -128,7 +132,8 @@ class RealEstateListingDbEntity {
                 bathroom_number = ${this.bathroom_number}, 
                 bedroom_number = ${this.bedroom_number}, 
                 description = ${this.description}, 
-                flooring_type = ${this.flooring_type}
+                flooring_type = ${this.flooring_type},
+                images = ${JSON.stringify(this.images)}
             WHERE
                 id = ${this.id}
         `;

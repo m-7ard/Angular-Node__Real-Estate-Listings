@@ -33,6 +33,7 @@ export class UpdateRealEstateListingCommand implements ICommand<UpdateRealEstate
             flooringType: string;
         };
         title: string;
+        images: string[];
     }) {
         this.id = params.id;
         this.type = params.type;
@@ -45,6 +46,7 @@ export class UpdateRealEstateListingCommand implements ICommand<UpdateRealEstate
         this.clientId = params.clientId;
         this.info = params.info;
         this.title = params.title;
+        this.images = params.images;
     }
 
     id: string;
@@ -65,6 +67,7 @@ export class UpdateRealEstateListingCommand implements ICommand<UpdateRealEstate
         flooringType: string;
     };
     title: string;
+    images: string[];
 }
 
 export default class UpdateRealEstateListingCommandHandler implements IRequestHandler<UpdateRealEstateListingCommand, UpdateRealEstateListingCommandResult> {
@@ -103,7 +106,8 @@ export default class UpdateRealEstateListingCommandHandler implements IRequestHa
             bedroomNumber: command.info.bedroomNumber,
             description: command.info.description,
             flooringType: command.info.flooringType,
-            title: command.title
+            title: command.title,
+            images: command.images
         });
         if (updateResult.isErr()) return err(new CannotUpdateListingServiceError({ message: updateResult.error.message }).asList());
 
