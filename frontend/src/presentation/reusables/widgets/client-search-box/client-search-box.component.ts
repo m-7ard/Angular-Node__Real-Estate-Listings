@@ -13,21 +13,21 @@ import { PrimeNgPopoverDirective } from '../../prime-ng-popover/prime-ng-popover
 import { MixinStyledButtonDirective } from '../../styled-button/styled-button.directive';
 import { CharFieldComponent } from '../char-field/char-field.component';
 import { PanelDirective } from '../../panel/panel.directive';
-import { DividerComponent } from "../../divider/divider.component";
+import { DividerComponent } from '../../divider/divider.component';
 
 @Component({
     selector: 'app-client-search-box',
     standalone: true,
     imports: [
-    PrimeNgPopoverDirective,
-    MixinStyledButtonDirective,
-    PopoverModule,
-    CommonModule,
-    CharFieldComponent,
-    PanelSectionDirective,
-    PanelDirective,
-    DividerComponent
-],
+        PrimeNgPopoverDirective,
+        MixinStyledButtonDirective,
+        PopoverModule,
+        CommonModule,
+        CharFieldComponent,
+        PanelSectionDirective,
+        PanelDirective,
+        DividerComponent,
+    ],
     templateUrl: './client-search-box.component.html',
     providers: [
         {
@@ -65,6 +65,11 @@ export class ClientSearchBoxComponent implements ControlValueAccessor {
         );
     }
 
+    onHide() {
+        this.searchTerm = this.value == null ? "" : this.value.name; 
+        this.searchSubject.next(this.searchTerm);
+    }
+
     onSearch(event: Event) {
         this.op.show(event);
         const input = event.target as HTMLInputElement;
@@ -74,6 +79,14 @@ export class ClientSearchBoxComponent implements ControlValueAccessor {
 
     onFocus(event: FocusEvent) {
         this.op.show(event);
+    }
+
+    onPick(client: Client) {
+        this.value = client;
+        this.onChange(client);
+        this.onTouched();
+        this.searchTerm = client.name;
+        this.op.hide();
     }
 
     // ControlValueAccessor methods

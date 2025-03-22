@@ -60,7 +60,7 @@ export class TextareaComponent implements ControlValueAccessor {
         theme: 'theme-textarea-generic-white',
     };
     @Input() disabled?: boolean = false;
-    @Input() placeholder?: string;
+    @Input() placeholder?: string = "";
     @Input() readonly?: boolean;
     @Input() maxLength?: number;
 }

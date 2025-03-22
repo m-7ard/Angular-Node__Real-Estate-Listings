@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ListClientsComponent } from '../../../../reusables/page-parts/list-clients/list-clients.component';
-import { ListClientsControlsComponent } from '../../../../reusables/page-parts/list-clients-controls/list-clients-controls.component';
+import { ListClientsComponent } from '../../../../../reusables/page-parts/list-clients/list-clients.component';
+import { ListClientsControlsComponent } from '../../../../../reusables/page-parts/list-clients-controls/list-clients-controls.component';
 import { IClientsPageResolverData } from './clients-page.resolver';
-import { RESOLVER_DATA_KEY } from '../../../../utils/RESOLVER_DATA';
-import Client from '../../../../models/Client';
-import { CheckboxComponent } from '../../../../reusables/widgets/checkbox/checkbox.component';
+import { RESOLVER_DATA_KEY } from '../../../../../utils/RESOLVER_DATA';
+import Client from '../../../../../models/Client';
+import { CheckboxComponent } from '../../../../../reusables/widgets/checkbox/checkbox.component';
 
 @Component({
     selector: 'app-clients-page',

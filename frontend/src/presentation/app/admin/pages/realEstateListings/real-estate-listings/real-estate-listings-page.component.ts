@@ -1,0 +1,33 @@
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { MixinStyledButtonDirective } from '../../../../../reusables/styled-button/styled-button.directive';
+import { RealEsateListingComponent } from '../../../../../reusables/models/real-estate-listing/real-estate-listing.component';
+import { ListRealEstateListingsComponent } from '../../../../../reusables/page-parts/list-real-estate-listings/list-real-estate-listings.component';
+import { ListRealEstateListingsControlsComponent } from '../../../../../reusables/page-parts/list-real-estate-listings-controls/list-real-estate-listings-controls.component';
+import RealEstateListing from '../../../../../models/RealEstateListing';
+import { IListRealEstateListingsPageResolverData } from './real-estate-listings-page.resolver';
+import { RESOLVER_DATA_KEY } from '../../../../../utils/RESOLVER_DATA';
+
+@Component({
+    selector: 'app-real-estate-listings-page',
+    standalone: true,
+    imports: [
+        MixinStyledButtonDirective,
+        RealEsateListingComponent,
+        ListRealEstateListingsComponent,
+        ListRealEstateListingsControlsComponent,
+    ],
+    templateUrl: './real-estate-listings-page.component.html',
+})
+export class ListRealEstateListingsPageComponent implements OnInit {
+    public listings: RealEstateListing[] = null!;
+
+    constructor(private activatedRoute: ActivatedRoute) {}
+
+    ngOnInit() {
+        this.activatedRoute.data.subscribe((resolverData) => {
+            const data = resolverData[RESOLVER_DATA_KEY] as IListRealEstateListingsPageResolverData;
+            this.listings = data.listings;
+        });
+    }
+}

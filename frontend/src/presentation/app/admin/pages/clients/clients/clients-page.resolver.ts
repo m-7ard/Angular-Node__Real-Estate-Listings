@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Resolve } from '@angular/router';
 import { forkJoin, map, Observable } from 'rxjs';
-import Client from '../../../../models/Client';
-import { ClientDataAccessService } from '../../../../services/data-access/client-data-access.service';
-import ApiModelMappers from '../../../../mappers/ApiModelMappers';
+import Client from '../../../../../models/Client';
+import { ClientDataAccessService } from '../../../../../services/data-access/client-data-access.service';
+import ApiModelMappers from '../../../../../mappers/ApiModelMappers';
 
 export interface IClientsPageResolverData {
     clients: Client[];

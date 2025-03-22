@@ -1,0 +1,59 @@
+<!-- Read Real Estate Listing Page -->
+<div [appPageDirective]="{ pageSize: 'mixin-page-base' }">
+    <section class="token-default-flex-col" appPageSectionDirective>
+        <ol class="grid grid-cols-1 min-[485px]:grid-cols-2 sm:grid-cols-3 gap-4">
+            <ng-container *ngFor="let url of listing.images">
+                <li class="rounded-lg overflow-hidden aspect-[4/3]">
+                    <app-cover-image [src]="url" />
+                </li>
+            </ng-container>
+        </ol>
+    </section>
+    <section class="token-default-flex-col" appPageSectionDirective>
+        <ul>
+            <li class="text-3xl font-semibold">
+                {{ listing.title }}
+            </li>
+            <li class="text-base">{{ listing.city }}, {{ listing.state }}, {{ listing.country }}</li>
+        </ul>
+    </section>
+    <section class="token-default-flex-col" appPageSectionDirective>
+        <ul>
+            <li class="text-xl font-semibold">Description</li>
+            <li class="text-base">
+                {{ listing.description }}
+            </li>
+        </ul>
+    </section>
+    <section class="token-default-flex-col" appPageSectionDirective>
+        <ul>
+            <li class="text-xl font-semibold">Details</li>
+            <li class="grid grid-cols-1 min-[450px]:grid-cols-2">
+                <ul class="overflow-hidden">
+                    <ng-container *ngFor="let property of LEFT_PROPERTIES">
+                        <li class="token-default-flex-row items-center">
+                            <span class="font-semibold text-base">
+                                {{ property | generateLabelPipe }}
+                            </span>
+                            <span class="overflow-hidden text-gray-600 text-base">
+                                <div class="truncate">{{ listing[property] }}</div>
+                            </span>
+                        </li>
+                    </ng-container>
+                </ul>
+                <ul class="overflow-hidden">
+                    <ng-container *ngFor="let property of RIGHT_PROPERTIES">
+                        <li class="token-default-flex-row items-center">
+                            <span class="font-semibold text-base">
+                                {{ property | generateLabelPipe }}
+                            </span>
+                            <span class="overflow-hidden text-gray-600 text-base">
+                                <div class="truncate">{{ listing[property] }}</div>
+                            </span>
+                        </li>
+                    </ng-container>
+                </ul>
+            </li>
+        </ul>
+    </section>
+</div>

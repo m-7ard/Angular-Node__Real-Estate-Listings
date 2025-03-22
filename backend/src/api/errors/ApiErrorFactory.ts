@@ -1,5 +1,4 @@
 import API_ERROR_CODES from "./API_ERROR_CODES";
-import { Failure } from "superstruct";
 import IApiError from "./IApiError";
 import { ErrorObject } from "ajv";
 import ApplicationError from "application/errors/ApplicationError";

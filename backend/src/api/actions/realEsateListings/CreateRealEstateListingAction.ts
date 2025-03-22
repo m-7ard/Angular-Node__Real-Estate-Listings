@@ -21,7 +21,8 @@ class CreateRealEstateListingAction implements IAction<ActionRequest, ActionResp
 
         const isValid = CreateRealEstateListingRequestDTOValidator(dto);
         if (!isValid) {
-            return new JsonResponse({
+        console.log(CreateRealEstateListingRequestDTOValidator.errors)
+        return new JsonResponse({
                 status: StatusCodes.BAD_REQUEST,
                 body: ApiErrorFactory.mapAjvErrors(CreateRealEstateListingRequestDTOValidator.errors),
             });

@@ -6,15 +6,17 @@
     [popover]="op"
     [positioning]="{ top: '100%', left: '0px', right: '0px' }"
 />
-<p-popover #op class="fixed z-10">
-    <ul class="w-full z-10 max-w-full" [appPanelDirective]="{ panelSize: 'mixin-panel-base', panelTheme: 'theme-panel-generic-white', panelHasBorder: true, panelHasShadow: true }">
+<p-popover #op class="fixed z-10" (onHide)="onHide()">
+    <ul class="w-full z-10 max-w-full overflow-hidden " [appPanelDirective]="{ panelSize: 'mixin-panel-base', panelTheme: 'theme-panel-generic-white', panelHasBorder: true, panelHasShadow: true }">
         <ng-container *ngFor="let client of clients$ | async; let i = index">
-            <li appPanelSectionDirective class="w-full">
-                <div class="text-gray-600 text-sm overflow-hidden shrink-0">
-                    <div class="truncate">{{ client.id }}</div>
-                </div>
-                <div class="font-semibold text-sm grow overflow-hidden shrink-0">
-                    <div class="truncate">{{ client.name }}</div>
+            <li appPanelSectionDirective [ngClass]="{ 'bg-zinc-200': client.id === value?.id}" class="w-full hover:bg-zinc-200 mixin-Sbutton-like flex-col items-start" (click)="onPick(client)">
+                <div class="overflow-hidden w-full">
+                    <div class="font-semibold text-base grow overflow-hidden shrink-0">
+                        <div class="truncate">{{ client.name }}</div>
+                    </div>
+                    <div class="text-gray-600 text-xs overflow-hidden shrink-0">
+                        <div class="truncate">{{ client.id }}</div>
+                    </div>
                 </div>
             </li>
             <app-divider />

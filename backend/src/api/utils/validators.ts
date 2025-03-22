@@ -12,7 +12,7 @@ import LoginUserRequestDTO from "../../../schemas/api/contracts/users/login/Logi
 import RegisterUserRequestDTO from "../../../schemas/api/contracts/users/register/RegisterUserRequestDTO.json";
 
 
-const ajv = new Ajv();
+const ajv = new Ajv({ allErrors: true });
 addFormats(ajv);
 
 // Users

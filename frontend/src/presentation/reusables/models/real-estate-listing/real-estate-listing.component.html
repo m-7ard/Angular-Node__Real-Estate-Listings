@@ -1,30 +1,23 @@
-<div class="flex flex-col overflow-hidden rounded-lg border token-default-border-color token-default-shadow">
+<div
+    class="flex flex-col overflow-hidden rounded-lg border token-default-border-color token-default-shadow hover:cursor-pointer hover:scale-[1.01] transition-all"
+    [routerLink]="'/admin/real-estate-listings/' + listing.id"
+>
     <section class="h-36">
-        <app-cover-image src="https://www.ikea.com/images/helles-zimmer-in-dem-wohnen-schlafen-und-arbeiten-praktisch--466beb0c1c037433e9404d9f6afb9667.jpg?f=s" />
+        <app-cover-image src="{{ listing.images[0] }}" />
     </section>
     <section class="p-4">
         <ul class="flex flex-col gap-2">
-            <li class="text-lg font-bold">
-                $10.000.000
-            </li>
+            <li class="text-lg font-bold">${{ listing.price }}</li>
             <li>
                 <div class="text-base font-bold">
-                    Sunshine Square
+                    {{ listing.title }}
                 </div>
-                <div class="text-sm text-gray-600">
-                    123 Shaolin, Brooklyn, NY
-                </div>
+                <div class="text-sm text-gray-600">{{ listing.street }}, {{ listing.city }}, {{ listing.state }}</div>
             </li>
             <li class="flex flex-row gap-2 space-between text-sm text-gray-600 text-center">
-                <div>
-                    2 bd.
-                </div>
-                <div>
-                    1 ba.
-                </div>
-                <div>
-                    8000 sqft.
-                </div>
+                <div>{{ listing.bedroomNumber }} bd.</div>
+                <div>{{ listing.bathroomNumber }} ba.</div>
+                <div>{{ listing.squareMeters }} sqft.</div>
             </li>
         </ul>
     </section>

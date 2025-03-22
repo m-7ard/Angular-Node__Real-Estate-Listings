@@ -1,22 +1,27 @@
 import { Component, OnInit } from '@angular/core';
-import { MixinStyledButtonDirective } from '../../../../reusables/styled-button/styled-button.directive';
-import { SelectOpt, SelectComponent } from '../../../../reusables/widgets/select/select.component';
+import { MixinStyledButtonDirective } from '../../../../../reusables/styled-button/styled-button.directive';
+import { SelectOpt, SelectComponent } from '../../../../../reusables/widgets/select/select.component';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import IPresentationError from '../../../../errors/IPresentationError';
-import Client from '../../../../models/Client';
-import { ClientDataAccessService } from '../../../../services/data-access/client-data-access.service';
-import { ExceptionNoticeService } from '../../../../services/exception-notice.service';
-import { StaticApiDataService } from '../../../../services/static-api-data-service';
+import IPresentationError from '../../../../../errors/IPresentationError';
+import Client from '../../../../../models/Client';
+import { ClientDataAccessService } from '../../../../../services/data-access/client-data-access.service';
+import { ExceptionNoticeService } from '../../../../../services/exception-notice.service';
+import { StaticApiDataService } from '../../../../../services/static-api-data-service';
 import { Router } from '@angular/router';
-import { FormFieldComponent } from '../../../../reusables/form-field/form-field.component';
-import { FormErrorsComponent } from '../../../../reusables/form-errors/form-errors';
+import { FormFieldComponent } from '../../../../../reusables/form-field/form-field.component';
+import { FormErrorsComponent } from '../../../../../reusables/form-errors/form-errors';
 import { CommonModule } from '@angular/common';
-import { PageDirective } from '../../../../reusables/page/page.directive';
-import { PageSectionDirective } from '../../../../reusables/page/page-section.directive';
-import { ImageUploadComponent } from '../../../../reusables/widgets/image-upload/image-upload.component';
-import { CharFieldComponent } from '../../../../reusables/widgets/char-field/char-field.component';
-import { TextareaComponent } from '../../../../reusables/widgets/textarea-field/textarea.component';
-import { ClientSearchBoxComponent } from "../../../../reusables/widgets/client-search-box/client-search-box.component";
+import { PageDirective } from '../../../../../reusables/page/page.directive';
+import { PageSectionDirective } from '../../../../../reusables/page/page-section.directive';
+import { ImageUploadComponent } from '../../../../../reusables/widgets/image-upload/image-upload.component';
+import { CharFieldComponent } from '../../../../../reusables/widgets/char-field/char-field.component';
+import { TextareaComponent } from '../../../../../reusables/widgets/textarea-field/textarea.component';
+import { ClientSearchBoxComponent } from '../../../../../reusables/widgets/client-search-box/client-search-box.component';
+import { RealEstateListingDataAccessService } from '../../../../../services/data-access/real-estate-listing-data-access.service';
+import validateSuperstruct from '../../../../../utils/validateSuperstuct';
+import { catchError, EMPTY } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
+import PresentationErrorFactory from '../../../../../errors/PresentationErrorFactory';
 
 interface IFormControls {
     bathroomNumber: FormControl<string>;
@@ -60,19 +65,19 @@ type IErrorSchema = IPresentationError<{
     selector: 'app-create-real-estate-listings-page',
     standalone: true,
     imports: [
-    MixinStyledButtonDirective,
-    FormFieldComponent,
-    SelectComponent,
-    FormErrorsComponent,
-    CommonModule,
-    ReactiveFormsModule,
-    PageDirective,
-    PageSectionDirective,
-    ImageUploadComponent,
-    CharFieldComponent,
-    TextareaComponent,
-    ClientSearchBoxComponent
-],
+        MixinStyledButtonDirective,
+        FormFieldComponent,
+        SelectComponent,
+        FormErrorsComponent,
+        CommonModule,
+        ReactiveFormsModule,
+        PageDirective,
+        PageSectionDirective,
+        ImageUploadComponent,
+        CharFieldComponent,
+        TextareaComponent,
+        ClientSearchBoxComponent,
+    ],
     templateUrl: './create-real-estate-listings-page.component.html',
 })
 export class CreateRealEstateListingsPageComponent implements OnInit {
@@ -80,10 +85,16 @@ export class CreateRealEstateListingsPageComponent implements OnInit {
     errors: IErrorSchema = {};
     realEstateListingTypeOptions: Array<SelectOpt<string>>;
     ADDRESS_FIELDS: Array<keyof IFormControls> = ['street', 'city', 'zip', 'state', 'country'] as const;
-    INFO_FIELDS: Array<keyof IFormControls> = ['bathroomNumber', 'bedroomNumber', 'flooringType', "yearBuilt", "squareMeters"] as const;
+    INFO_FIELDS: Array<keyof IFormControls> = [
+        'bathroomNumber',
+        'bedroomNumber',
+        'flooringType',
+        'yearBuilt',
+        'squareMeters',
+    ] as const;
 
     constructor(
-        private readonly dataAccess: ClientDataAccessService,
+        private readonly dataAccess: RealEstateListingDataAccessService,
         private readonly exceptionNoticeService: ExceptionNoticeService,
         private readonly router: Router,
         private readonly staticApiDataService: StaticApiDataService,
@@ -162,7 +173,69 @@ export class CreateRealEstateListingsPageComponent implements OnInit {
     ngOnInit() {}
 
     onSubmit() {
-        console.log(this.form.value)
+        const rawValue = this.form.getRawValue();
+
+        this.dataAccess
+            .create({
+                city: rawValue.city,
+                clientId: rawValue.client?.id as string,
+                country: rawValue.country,
+                description: rawValue.description,
+                images: rawValue.images,
+                price: parseInt(rawValue.price),
+                state: rawValue.state,
+                street: rawValue.street,
+                type: rawValue.type,
+                zip: rawValue.zip,
+                bathroomNumber: parseInt(rawValue.bathroomNumber),
+                bedroomNumber: parseInt(rawValue.bedroomNumber),
+                flooringType: rawValue.flooringType,
+                squareMeters: parseInt(rawValue.squareMeters),
+                title: rawValue.title,
+                yearBuilt: parseInt(rawValue.yearBuilt),
+            })
+            .pipe(
+                catchError((err: HttpErrorResponse) => {
+                    console.log(err.error)
+            
+                    if (err.status === 400) {
+                        this.errors = PresentationErrorFactory.ApiErrorsToPresentationErrors(err.error);
+                    } else {
+                        this.exceptionNoticeService.dispatchError(new Error(JSON.stringify(err.message)));
+                    }
+
+                    return EMPTY;
+                }),
+            )
+            .subscribe({
+                next: (response) => {
+                    if (response === null) {
+                        return;
+                    }
+
+                    this.router.navigate(['/admin/real-estate-listings']);
+                },
+            });
     }
-    onReset() {}
+
+    onReset() {
+        this.form.reset({
+            city: '',
+            client: null,
+            country: '',
+            description: '',
+            images: [],
+            price: '',
+            state: '',
+            street: '',
+            type: '',
+            zip: '',
+            bathroomNumber: '',
+            bedroomNumber: '',
+            flooringType: '',
+            squareMeters: '',
+            title: '',
+            yearBuilt: '',
+        });
+    }
 }
