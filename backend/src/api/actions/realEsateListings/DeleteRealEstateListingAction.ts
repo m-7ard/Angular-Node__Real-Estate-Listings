@@ -5,7 +5,7 @@ import JsonResponse from "../../responses/JsonResponse";
 import { StatusCodes } from "http-status-codes";
 import IApiError from "api/errors/IApiError";
 import ApiErrorFactory from "api/errors/ApiErrorFactory";
-import { DeleteRealEstateListingCommand } from "application/handlers/realEstateListings/DeleteRealEstateListingCommandHandler";
+import { DeleteManyRealEstateListingsCommand } from "application/handlers/realEstateListings/DeleteManyRealEstateListingsCommandHandler";
 import { DeleteRealEstateListingRequestDTO } from "../../../../types/api/contracts/realEstateListings/delete/DeleteRealEstateListingRequestDTO";
 import { DeleteRealEstateListingResponseDTO } from "../../../../types/api/contracts/realEstateListings/delete/DeleteRealEstateListingResponseDTO";
 import RealEstateListingDoesNotExistError from "application/errors/application/realEstateListings/RealEstateListingDoesNotExistError";
@@ -19,8 +19,8 @@ class DeleteRealEstateListingAction implements IAction<ActionRequest, ActionResp
     async handle(request: ActionRequest): Promise<ActionResponse> {
         const { dto, id } = request;
 
-        const command = new DeleteRealEstateListingCommand({
-            id: id,
+        const command = new DeleteManyRealEstateListingsCommand({
+            ids: [id],
         });
         const result = await this._requestDispatcher.dispatch(command);
 

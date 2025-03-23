@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, forwardRef, Input, ViewChild } from '@angular/core';
+import { Component, forwardRef, Input, OnInit, ViewChild } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { PopoverModule, Popover } from 'primeng/popover';
 import { Subject, Observable, of, debounceTime, switchMap, map, catchError, EMPTY } from 'rxjs';
@@ -37,7 +37,7 @@ import { DividerComponent } from '../../divider/divider.component';
         },
     ],
 })
-export class ClientSearchBoxComponent implements ControlValueAccessor {
+export class ClientSearchBoxComponent implements ControlValueAccessor, OnInit {
     @Input() value: Client | null = null;
     @ViewChild('op') op!: Popover;
 
@@ -63,6 +63,9 @@ export class ClientSearchBoxComponent implements ControlValueAccessor {
                 return EMPTY;
             }),
         );
+    }
+
+    ngOnInit(): void {
     }
 
     onHide() {
@@ -92,6 +95,7 @@ export class ClientSearchBoxComponent implements ControlValueAccessor {
     // ControlValueAccessor methods
     writeValue(value: Client | null): void {
         this.value = value;
+        this.searchTerm = value?.name ?? "";
     }
 
     registerOnChange(fn: (value: Client | null) => void): void {

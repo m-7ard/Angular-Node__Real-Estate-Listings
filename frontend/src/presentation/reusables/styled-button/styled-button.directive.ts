@@ -12,7 +12,8 @@ export class MixinStyledButtonDirective implements OnChanges {
             | 'theme-Sbutton-generic-yellow'
             | 'theme-Sbutton-generic-green'
             | 'theme-Sbutton-generic-red'
-            | 'theme-Sbutton-generic-blue';
+            | 'theme-Sbutton-generic-blue'
+            | 'theme-Sbutton-generic-black';
         hasShadow?: boolean;
         isStatic?: boolean;
         isSharp?: boolean;

@@ -1,6 +1,5 @@
 import { createRealEstateListingRepositoryMock, createUnitOfWorkMock } from "__mocks__/mocks";
 import Mixins from "__utils__/unitTests/Mixins";
-import CannotCreateClientError from "application/errors/domain/client/CannotCreateClientError";
 import CannotCreateRealEstateListingError from "application/errors/domain/realEstateListings/CannotCreateRealEstateListingError";
 import { OrchestrateCreateNewListingContract } from "application/interfaces/domainServices/IRealEstateListingDomainService";
 import IRealEstateListingRepository from "application/interfaces/persistence/IRealEstateListingRepository";

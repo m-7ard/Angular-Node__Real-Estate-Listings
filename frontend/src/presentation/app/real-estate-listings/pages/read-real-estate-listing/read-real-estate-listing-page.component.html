@@ -1,0 +1,170 @@
+<!-- Read Real Estate Listing Page -->
+<div [appPageDirective]="{ pageSize: 'mixin-page-base' }">
+    <section class="flex flex-col gap-1" appPageSectionDirective>
+        <ol class="grid grid-cols-1 min-[485px]:grid-cols-2 gap-4">
+            <li class="rounded-lg overflow-hidden aspect-[4/3]">
+                <app-cover-image [src]="listing.images[0]" />
+            </li>
+            <li>
+                <ul class="aspect-[4/3] gap-4 grid grid-cols-2">
+                    <li class="rounded-lg overflow-hidden aspect-[4/3]">
+                        <app-cover-image [src]="listing.images[0]" />
+                    </li>
+                    <li class="rounded-lg overflow-hidden aspect-[4/3]">
+                        <app-cover-image [src]="listing.images[0]" />
+                    </li>
+                    <li class="rounded-lg overflow-hidden aspect-[4/3]">
+                        <app-cover-image [src]="listing.images[0]" />
+                    </li>
+                    <li class="rounded-lg overflow-hidden aspect-[4/3]">
+                        <app-cover-image [src]="listing.images[0]" />
+                    </li>
+                </ul>
+            </li>
+        </ol>
+    </section>
+    <section class="flex lg:flex-row flex-col gap-8" appPageSectionDirective>
+        <aside class="flex flex-col gap-8 grow">
+            <section class="flex flex-col gap-1">
+                <div class="text-3xl font-semibold line-clamp-2" [title]="listing.title">
+                    {{ listing.title }}
+                </div>
+                <div class="text-base">{{ listing.city }}, {{ listing.state }}, {{ listing.country }}</div>
+                <div
+                    class="w-fit"
+                    [appMixinStyledButton]="{
+                        theme: 'theme-Sbutton-generic-black',
+                        size: 'mixin-Sbutton-sm',
+                        isStatic: true
+                    }"
+                >
+                    {{ listingTypes[listing.type] }}
+                </div>
+            </section>
+            <section class="flex flex-col gap-1" appPageSectionDirective>
+                <div class="text-xl font-semibold">Description</div>
+                <ul>
+                    <li class="text-base">
+                        {{ listing.description }}
+                    </li>
+                </ul>
+            </section>
+            <section class="flex flex-col gap-1" appPageSectionDirective>
+                <div class="text-xl font-semibold">Details</div>
+                <ul>
+                    <li class="grid grid-cols-1 min-[450px]:grid-cols-2">
+                        <ul class="overflow-hidden flex flex-col gap-0.5">
+                            <ng-container *ngFor="let property of LEFT_PROPERTIES">
+                                <li class="token-default-flex-row items-center">
+                                    <span class="font-semibold text-base shrink-0">
+                                        &bull; {{ property | generateLabelPipe }}
+                                    </span>
+                                    <span class="overflow-hidden text-gray-600 text-base">
+                                        <div class="truncate">{{ listing[property] }}</div>
+                                    </span>
+                                </li>
+                            </ng-container>
+                        </ul>
+                        <ul class="overflow-hidden flex flex-col gap-0.5">
+                            <ng-container *ngFor="let property of RIGHT_PROPERTIES">
+                                <li class="token-default-flex-row items-center">
+                                    <span class="font-semibold text-base">
+                                        &bull; {{ property | generateLabelPipe }}
+                                    </span>
+                                    <span class="overflow-hidden text-gray-600 text-base">
+                                        <div class="truncate">{{ listing[property] }}</div>
+                                    </span>
+                                </li>
+                            </ng-container>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+        </aside>
+        <aside class="token-default-flex-col shrink-0 w-96 max-lg:w-full">
+            <div
+                [appMixinStyledCard]="{
+                    size: 'mixin-Scard-base',
+                    theme: 'theme-Scard-generic-white',
+                    hasDivide: true,
+                    hasBorder: true,
+                    hasShadow: true
+                }"
+            >
+                <section appMixinStyledCardSection class="token-default-flex-col">
+                    <div class="font-semibold">Admin Actions</div>
+                </section>
+                <section appMixinStyledCardSection class="token-default-flex-row flex-wrap">
+                    <button
+                        type="button"
+                        [appMixinStyledButton]="{
+                            theme: 'theme-Sbutton-generic-black',
+                            size: 'mixin-Sbutton-base'
+                        }"
+                        class="justify-center grow"
+                        [routerLink]="'/admin/real-estate-listings/' + listing.id + '/update/'"
+                    >
+                        Update
+                    </button>
+                    <button
+                        type="button"
+                        [appMixinStyledButton]="{
+                            theme: 'theme-Sbutton-generic-red',
+                            size: 'mixin-Sbutton-base'
+                        }"
+                        class="justify-center grow"
+                        [routerLink]="'/admin/real-estate-listings/delete/'"
+                        [queryParams]="{ ids: [listing.id] }"
+                    >
+                        Delete
+                    </button>
+                </section>
+            </div>
+            <form
+                [appMixinStyledCard]="{
+                    size: 'mixin-Scard-base',
+                    theme: 'theme-Scard-generic-white',
+                    hasDivide: true,
+                    hasBorder: true,
+                    hasShadow: true
+                }"
+            >
+                <section appMixinStyledCardSection class="token-default-flex-col">
+                    <div class="font-semibold">Get In Contact</div>
+                </section>
+                <section appMixinStyledCardSection class="token-default-flex-col">
+                    <app-form-field [name]="'email'" [errors]="[]">
+                        <ng-template let-name="name">
+                            <app-char-field
+                                [options]="{
+                                    size: 'mixin-char-input-base',
+                                    theme: 'theme-input-generic-white'
+                                }"
+                            />
+                        </ng-template>
+                    </app-form-field>
+                    <app-form-field [name]="'inquiry'" [errors]="[]">
+                        <ng-template let-name="name">
+                            <app-textarea
+                                value=""
+                                [options]="{
+                                    size: 'mixin-textarea-any',
+                                    theme: 'theme-textarea-generic-white'
+                                }"
+                            />
+                        </ng-template>
+                    </app-form-field>
+                    <button
+                        [appMixinStyledButton]="{
+                            theme: 'theme-Sbutton-generic-black',
+                            size: 'mixin-Sbutton-base'
+                        }"
+                        class="ml-auto"
+                    >
+                        Send Enquiry
+                    </button>
+                </section>
+            </form>
+        </aside>
+    </section>
+</div>

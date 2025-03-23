@@ -7,6 +7,7 @@ import DeleteClientRequestDTO from "../../../schemas/api/contracts/clients/delet
 
 import CreateRealEstateListingRequestDTO from "../../../schemas/api/contracts/realEstateListings/create/CreateRealEstateListingRequestDTO.json";
 import UpdateRealEstateListingRequestDTO from "../../../schemas/api/contracts/realEstateListings/update/UpdateRealEstateListingRequestDTO.json";
+import DeleteManyRealEstateListingsRequestDTO from "../../../schemas/api/contracts/realEstateListings/deleteMany/DeleteManyRealEstateListingsRequestDTO.json";
 
 import LoginUserRequestDTO from "../../../schemas/api/contracts/users/login/LoginUserRequestDTO.json";
 import RegisterUserRequestDTO from "../../../schemas/api/contracts/users/register/RegisterUserRequestDTO.json";
@@ -27,3 +28,4 @@ export const DeleteClientRequestDTOValidator = ajv.compile(DeleteClientRequestDT
 // Real Estate Listings
 export const CreateRealEstateListingRequestDTOValidator = ajv.compile(CreateRealEstateListingRequestDTO);
 export const UpdateRealEstateListingRequestDTOValidator = ajv.compile(UpdateRealEstateListingRequestDTO);
+export const DeleteManyRealEstateListingsRequestDTOValidator = ajv.compile(DeleteManyRealEstateListingsRequestDTO);

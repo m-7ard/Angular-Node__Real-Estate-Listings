@@ -1,0 +1,110 @@
+<!-- Update Real Estate Listing Page -->
+<form
+    [formGroup]="form"
+    (ngSubmit)="onSubmit()"
+    (reset)="onReset($event)"
+    [appPageDirective]="{ pageSize: 'mixin-page-base' }"
+>
+    <section class="token-default-flex-col grow" appPageSectionDirective>
+        <div class="text-lg font-bold">Update Real Estate Listing</div>
+        <div class="text-base font-bold">Listing Data</div>
+        <section *ngIf="errors['_'] != null">
+            <app-form-errors [errors]="errors['_']"></app-form-errors>
+        </section>
+        <app-form-field [name]="'title'" [errors]="errors.title">
+            <ng-template let-name="name">
+                <app-char-field
+                    [formControlName]="name"
+                    [options]="{
+                        size: 'mixin-char-input-base',
+                        theme: 'theme-input-generic-white'
+                    }"
+                ></app-char-field>
+            </ng-template>
+        </app-form-field>
+        <app-form-field [name]="'price'" [errors]="errors.price">
+            <ng-template let-name="name">
+                <app-char-field
+                    [formControlName]="name"
+                    [options]="{
+                        size: 'mixin-char-input-base',
+                        theme: 'theme-input-generic-white'
+                    }"
+                ></app-char-field>
+            </ng-template>
+        </app-form-field>
+        <app-form-field [name]="'type'" [errors]="errors.type">
+            <ng-template let-name="name">
+                <app-select [formControlName]="name" [options]="realEstateListingTypeOptions"></app-select>
+            </ng-template>
+        </app-form-field>
+        <app-form-field [name]="'images'" [errors]="errors.images">
+            <ng-template let-name="name">
+                <app-image-upload [formControlName]="name" />
+            </ng-template>
+        </app-form-field>
+        <app-form-field [name]="'description'" [errors]="errors.description">
+            <ng-template let-name="name">
+                <app-textarea [formControlName]="name" [maxLength]="1028" />
+            </ng-template>
+        </app-form-field>
+        <app-form-field [name]="'client'" [errors]="errors.client">
+            <ng-template let-name="name">
+                <app-client-search-box [formControlName]="name" />
+            </ng-template>
+        </app-form-field>
+    </section>
+    <section class="token-default-flex-col grow" appPageSectionDirective>
+        <div class="text-base font-bold">Address</div>
+        <ng-container *ngFor="let field of ADDRESS_FIELDS">
+            <app-form-field [name]="field" [errors]="errors[field]">
+                <ng-template let-name="name">
+                    <app-char-field
+                        [formControlName]="name"
+                        [options]="{
+                            size: 'mixin-char-input-base',
+                            theme: 'theme-input-generic-white'
+                        }"
+                    ></app-char-field>
+                </ng-template>
+            </app-form-field>
+        </ng-container>
+    </section>
+    <section class="token-default-flex-col grow" appPageSectionDirective>
+        <div class="text-base font-bold">Information</div>
+        <ng-container *ngFor="let field of INFO_FIELDS">
+            <app-form-field [name]="field" [errors]="errors[field]">
+                <ng-template let-name="name">
+                    <app-char-field
+                        [formControlName]="name"
+                        [options]="{
+                            size: 'mixin-char-input-base',
+                            theme: 'theme-input-generic-white'
+                        }"
+                    ></app-char-field>
+                </ng-template>
+            </app-form-field>
+        </ng-container>
+    </section>
+    <section class="token-default-flex-row justify-end" appPageSectionDirective>
+        <button
+            [appMixinStyledButton]="{
+                size: 'mixin-Sbutton-base',
+                theme: 'theme-Sbutton-generic-white',
+                hasShadow: true
+            }"
+            type="reset"
+        >
+            Reset
+        </button>
+        <button
+            [appMixinStyledButton]="{
+                size: 'mixin-Sbutton-base',
+                theme: 'theme-Sbutton-generic-green',
+                hasShadow: true
+            }"
+        >
+            Create
+        </button>
+    </section>
+</form>

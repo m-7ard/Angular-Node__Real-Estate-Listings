@@ -1,0 +1,10 @@
+{
+    "$id": "http://127.0.0.1:3000/schemas/api/contracts/realEstateListings/deleteMany/DeleteManyRealEstateListingsRequestDTO.json",
+    "title": "DeleteManyRealEstateListingsRequestDTO",
+    "type": "object",
+    "properties": {
+        "ids": { "type": "array", "items": { "type": "string" } }
+    },
+    "required": ["ids"],
+    "additionalProperties": false
+}

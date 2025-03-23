@@ -11,7 +11,7 @@ import ReadClientQueryHandler, { ReadClientQuery } from "application/handlers/cl
 import UpdateClientCommandHandler, { UpdateClientCommand } from "application/handlers/clients/UpdateClientCommandHandler";
 import CreateRealEstateListingCommandHandler, { CreateRealEstateListingCommand } from "application/handlers/realEstateListings/CreateRealEstateListingCommandHandler";
 import UpdateRealEstateListingCommandHandler, { UpdateRealEstateListingCommand } from "application/handlers/realEstateListings/UpdateRealEstateListingCommandHandler";
-import DeleteRealEstateListingCommandHandler, { DeleteRealEstateListingCommand } from "application/handlers/realEstateListings/DeleteRealEstateListingCommandHandler";
+import DeleteManyRealEstateListingsCommandHandler, { DeleteManyRealEstateListingsCommand } from "application/handlers/realEstateListings/DeleteManyRealEstateListingsCommandHandler";
 import ReadRealEstateListingQueryHandler, { ReadRealEstateListingQuery } from "application/handlers/realEstateListings/ReadRealEstateListingQueryHandler";
 import FilterRealEstateListingsQueryHandler, { FilterRealEstateListingsQuery } from "application/handlers/realEstateListings/FilterRealEstateListingsQueryHandler";
 
@@ -69,10 +69,10 @@ function registerRealEstateListingHandlers(requestDispatcher: IRequestDispatcher
     });
 
     // Delete
-    requestDispatcher.registerHandler(DeleteRealEstateListingCommand, () => {
+    requestDispatcher.registerHandler(DeleteManyRealEstateListingsCommand, () => {
         const realEstateListingDomainService = diContainer.resolve(DI_TOKENS.REAL_ESTATE_LISTING_DOMAIN_SERVICE);
         const unitOfWork = diContainer.resolve(DI_TOKENS.UNIT_OF_WORK);
-        return new DeleteRealEstateListingCommandHandler(unitOfWork, realEstateListingDomainService);
+        return new DeleteManyRealEstateListingsCommandHandler(unitOfWork, realEstateListingDomainService);
     });
 
     // Read

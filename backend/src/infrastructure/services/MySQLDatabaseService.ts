@@ -18,7 +18,7 @@ class MySQLDatabaseService implements IDatabaseService {
 
     async initialise(migrations: string[]): Promise<void> {
         await this.pool.query(`DROP DATABASE IF EXISTS real_estate`);
-        await this.pool.query(`CREATE DATABASE real_estate`);
+        await this.pool.query(`CREATE DATABASE real_estate CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;`);
 
         this.pool.end();
         this.pool = mysql.createPool({ ...this.config, database: "real_estate" });

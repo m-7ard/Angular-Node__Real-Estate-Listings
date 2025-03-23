@@ -57,7 +57,7 @@ export class ImageUploadComponent implements ControlValueAccessor {
     onSuccess(response: UploadImagesResponseDTO) {
         const value = response.images.map(({ url }) => url);
         this.value = [...this.value, ...value];
-        this.onChange([...this.value, ...value]);
+        this.onChange(this.value);
         this.onTouched();
     }
 

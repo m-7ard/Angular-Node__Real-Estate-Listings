@@ -21,8 +21,7 @@ class CreateRealEstateListingAction implements IAction<ActionRequest, ActionResp
 
         const isValid = CreateRealEstateListingRequestDTOValidator(dto);
         if (!isValid) {
-        console.log(CreateRealEstateListingRequestDTOValidator.errors)
-        return new JsonResponse({
+            return new JsonResponse({
                 status: StatusCodes.BAD_REQUEST,
                 body: ApiErrorFactory.mapAjvErrors(CreateRealEstateListingRequestDTOValidator.errors),
             });
@@ -49,7 +48,7 @@ class CreateRealEstateListingAction implements IAction<ActionRequest, ActionResp
                 flooringType: dto.flooringType,
             },
             title: dto.title,
-            images: dto.images
+            images: dto.images,
         });
         const result = await this._requestDispatcher.dispatch(command);
 
@@ -86,7 +85,7 @@ class CreateRealEstateListingAction implements IAction<ActionRequest, ActionResp
                 description: request.body.description,
                 flooringType: request.body.flooringType,
                 title: request.body.title,
-                images: request.body.images
+                images: request.body.images,
             },
         };
     }

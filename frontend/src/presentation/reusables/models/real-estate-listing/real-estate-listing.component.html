@@ -9,10 +9,10 @@
         <ul class="flex flex-col gap-2">
             <li class="text-lg font-bold">${{ listing.price }}</li>
             <li>
-                <div class="text-base font-bold">
+                <div class="text-base font-bold line-clamp-2 h-[2lh]">
                     {{ listing.title }}
                 </div>
-                <div class="text-sm text-gray-600">{{ listing.street }}, {{ listing.city }}, {{ listing.state }}</div>
+                <div class="text-sm text-gray-600 line-clamp-2 h-[2lh]">{{ listing.street }}, {{ listing.city }}, {{ listing.state }}</div>
             </li>
             <li class="flex flex-row gap-2 space-between text-sm text-gray-600 text-center">
                 <div>{{ listing.bedroomNumber }} bd.</div>

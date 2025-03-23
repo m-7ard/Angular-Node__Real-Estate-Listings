@@ -39,8 +39,8 @@ async function main() {
         database: "real_estate" // 
     });
 
-    // const migrations = await getMigrations();
-    // await db.initialise(migrations);
+     // const migrations = await getMigrations();
+     // await db.initialise(migrations);
 
     const diContainer = new ProductionDIContainer();
 

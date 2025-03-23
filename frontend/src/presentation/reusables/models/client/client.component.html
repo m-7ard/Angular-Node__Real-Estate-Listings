@@ -1,6 +1,6 @@
-<ul class="flex flex-row gap-4 p-4 border token-default-border-color  rounded-lg items-center">
+<ul class="flex flex-row gap-4 p-4 border token-default-border-color rounded-lg items-center">
     <li>
-        <app-checkbox (checkChange)="select.emit(client)" [value]="selected"  />
+        <app-checkbox (checkChange)="select.emit(client)" [value]="selected" />
     </li>
     <li class="font-semibold text-sm grow overflow-hidden shrink-0 basis-1">
         <div class="truncate">{{ client.name }}</div>
@@ -14,7 +14,13 @@
     <li class="font-semibold text-sm grow overflow-hidden shrink-0 basis-1 max-[485px]:hidden">
         <div class="truncate">John Doe Street Johnville 123 222299835</div>
     </li>
-    <li class="font-semibold text-sm shrink-0">
+    <li
+        class="font-semibold shrink-0"
+        [appMixinStyledButton]="{
+            theme: 'theme-Sbutton-generic-white',
+            size: 'mixin-Sbutton-sm'
+        }"
+    >
         ☰
     </li>
 </ul>

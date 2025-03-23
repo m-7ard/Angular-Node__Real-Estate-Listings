@@ -61,6 +61,19 @@
         }
     }
 
+    .theme-Sbutton-generic-black {
+        $root: &;
+        @apply text-white;
+
+        &:not(&.active) {
+            @apply bg-neutral-800;
+        }
+
+        &.active, &:not(&--static):hover {
+            @apply bg-neutral-900;
+        }
+    }
+
     .theme-Sbutton-generic-yellow {
         $root: &;
         @apply text-gray-800;

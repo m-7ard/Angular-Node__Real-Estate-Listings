@@ -11,6 +11,7 @@ import { UpdateRealEstateListingRequestDTO } from '../../contracts/realEstateLis
 import { UpdateRealEstateListingResponseDTO } from '../../contracts/realEstateListings/update/UpdateRealEstateListingResponseDTO';
 import { ListRealEstateListingsRequestDTO } from '../../contracts/realEstateListings/list/ListRealEstateListingsRequestDTO';
 import { ListRealEstateListingsResponseDTO } from '../../contracts/realEstateListings/list/ListRealEstateListingsResponseDTO';
+import { DeleteManyRealEstateListingsRequestDTO } from '../../contracts/realEstateListings/deleteMany/DeleteManyRealEstateListingsRequestDTO';
 
 @Injectable({
     providedIn: 'root',
@@ -27,6 +28,11 @@ export class RealEstateListingDataAccessService {
         return this.http.delete<DeleteRealEstateListingResponseDTO>(`${this.baseUrl}/${id}/delete`, { body: request });
     }
 
+    deleteMany(request: DeleteManyRealEstateListingsRequestDTO) {
+        const url = urlWithQuery(`${this.baseUrl}/delete`, request)
+        return this.http.delete<DeleteRealEstateListingResponseDTO>(url);
+    }
+
     list(request: ListRealEstateListingsRequestDTO) {
         const url = urlWithQuery(`${this.baseUrl}`, request);
         return this.http.get<ListRealEstateListingsResponseDTO>(url);
@@ -37,6 +43,6 @@ export class RealEstateListingDataAccessService {
     }
 
     update(id: string, request: UpdateRealEstateListingRequestDTO) {
-        return this.http.post<UpdateRealEstateListingResponseDTO>(`${this.baseUrl}/${id}/update`, request);
+        return this.http.put<UpdateRealEstateListingResponseDTO>(`${this.baseUrl}/${id}/update`, request);
     }
 }

@@ -6,6 +6,7 @@ import UpdateRealEstateListingAction from "api/actions/realEsateListings/UpdateR
 import DeleteRealEstateListingAction from "api/actions/realEsateListings/DeleteRealEstateListingAction";
 import ReadRealEstateListingAction from "api/actions/realEsateListings/ReadRealEstateListingAction";
 import ListRealEstateListingsAction from "api/actions/realEsateListings/ListRealEstateListingsAction";
+import DeleteManyRealEstateListingsAction from "api/actions/realEsateListings/DeleteManyRealEstateListingsAction";
 
 export function createRealEstateListingsRouter(diContainer: IDIContainer) {
     const realEstateListingRouter = Router();
@@ -37,6 +38,16 @@ export function createRealEstateListingsRouter(diContainer: IDIContainer) {
         initialiseAction: () => {
             const requestDispatcher = diContainer.resolve(DI_TOKENS.REQUEST_DISPATCHER);
             return new DeleteRealEstateListingAction(requestDispatcher);
+        },
+    });
+
+    registerAction({
+        router: realEstateListingRouter,
+        path: "/delete",
+        method: "DELETE",
+        initialiseAction: () => {
+            const requestDispatcher = diContainer.resolve(DI_TOKENS.REQUEST_DISPATCHER);
+            return new DeleteManyRealEstateListingsAction(requestDispatcher);
         },
     });
 
