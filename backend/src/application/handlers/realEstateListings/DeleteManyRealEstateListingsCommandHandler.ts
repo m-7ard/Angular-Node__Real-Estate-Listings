@@ -49,7 +49,10 @@ export default class DeleteManyRealEstateListingsCommandHandler implements IRequ
             }
         }
 
-        if (errors.length > 0) return err(errors);
+        if (errors.length > 0) {
+            await this.unitOfWork.rollbackTransaction();
+            return err(errors)
+        };
 
         await this.unitOfWork.commitTransaction();
         return ok(undefined);

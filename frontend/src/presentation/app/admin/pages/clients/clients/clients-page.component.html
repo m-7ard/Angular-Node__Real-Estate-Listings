@@ -4,7 +4,7 @@
         <app-list-clients-controls />
         <ul class="flex flex-row gap-4 items-center px-4">
             <li>
-                <app-checkbox (checkChange)="selectAllClients($event)" />
+                <app-checkbox (checkChange)="selectAllClients($event)" [value]="selectedClients.size === clients.length" />
             </li>
             <li class="font-bold text-sm grow overflow-hidden shrink-0 basis-1">
                 <div class="truncate">Name</div>
@@ -31,7 +31,7 @@
                 ☰
             </li>
         </ul>
-        <app-list-clients [clients]="clients" [selectedClients]="selectedClients" />
+        <app-list-clients [clients]="clients" [selectedClients]="selectedClients" (toggleClient)="toggleClient($event)" />
     </div>
 </div>
 <p-popover #op class="fixed">
@@ -43,25 +43,20 @@
             panelHasShadow: true
         }"
     >
-        <section class="flex flex-row gap-8 items-center" appPanelSectionDirective>
-            <div class="text-sm font-semibold">Selection (8) Actions</div>
-            <button
-                [appMixinStyledButton]="{
-                    theme: 'theme-Sbutton-generic-white',
-                    size: 'mixin-Sbutton-sm'
-                }"
-            >
-                Close
-            </button>
+        <section class="flex flex-row gap-8 items-center w-64" appPanelSectionDirective>
+            <div class="text-sm">Selection ({{ selectedClients.size }}) Actions</div>
         </section>
         <app-divider />
         <section class="flex flex-col gap-4" appPanelSectionDirective>
             <button
                 [appMixinStyledButton]="{
                     theme: 'theme-Sbutton-generic-red',
-                    size: 'mixin-Sbutton-sm'
+                    size: 'mixin-Sbutton-base'
                 }"
                 class="justify-center grow"
+                [ngClass]="{ 'contrast-75': selectedClients.size === 0 }"    
+                [routerLink]="'/admin/clients/delete/'"
+                [queryParams]="{ ids: this.selectedClientsIds }"
             >
                 Delete
             </button>

@@ -4,7 +4,6 @@ import { forkJoin, map, Observable, switchMap } from 'rxjs';
 import ClientSideErrorException from '../../../../../exceptions/ClientSideErrorException';
 import ApiModelMappers from '../../../../../mappers/ApiModelMappers';
 import RealEstateListing from '../../../../../models/RealEstateListing';
-import { ClientDataAccessService } from '../../../../../services/data-access/client-data-access.service';
 import { RealEstateListingDataAccessService } from '../../../../../services/data-access/real-estate-listing-data-access.service';
 
 export interface IDeleteRealEstateListingsPageResolverData {

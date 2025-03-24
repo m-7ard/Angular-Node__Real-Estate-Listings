@@ -203,7 +203,6 @@ export class UpdateRealEstateListingPageComponent implements OnInit {
             this.listing = data.listing;
             this.originalClient = data.client;
         });
-        console.log(this.listing.images);
 
         this.form.patchValue(this.initialData);
     }

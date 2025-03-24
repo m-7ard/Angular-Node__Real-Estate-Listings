@@ -6,6 +6,7 @@
     [appPageDirective]="{ pageSize: 'mixin-page-base' }"
 >
     <section class="token-default-flex-col grow" appPageSectionDirective>
+
         <div class="text-lg font-bold">Create Real Estate Listing</div>
         <div class="text-base font-bold">Listing Data</div>
         <section *ngIf="errors['_'] != null">
@@ -87,6 +88,17 @@
         </ng-container>
     </section>
     <section class="token-default-flex-row justify-end" appPageSectionDirective>
+        <button
+            [appMixinStyledButton]="{
+                size: 'mixin-Sbutton-base',
+                theme: 'theme-Sbutton-generic-white',
+                hasShadow: true
+            }"
+            (click)="fill()"
+            type="button"
+        >
+            Fill
+        </button>
         <button
             [appMixinStyledButton]="{
                 size: 'mixin-Sbutton-base',

@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
 export class ListClientsComponent implements OnInit {
     @Input() clients: Client[] = null!;
     @Input() selectedClients: Set<Client> = null!;
-    @Output() selectClient = new EventEmitter<Client>();
+    @Output() toggleClient = new EventEmitter<Client>();
 
     constructor() {}
 

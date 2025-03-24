@@ -170,6 +170,27 @@ export class CreateRealEstateListingsPageComponent implements OnInit {
         ).map<SelectOpt<string>>(([value, label]) => ({ value: value, label: label }));
     }
 
+    fill() {
+        this.form.patchValue({
+            "bathroomNumber": "1",
+            "bedroomNumber": "2",
+            "city": "Brookyln",
+            "client": null, 
+            "country": "USA",
+            "description": "Lorem Ipsum",
+            "flooringType": "Marble",
+            "images": ["https://preview.redd.it/um-if-the-simpsons-got-a-real-life-house-how-come-family-v0-09j1uzslkumc1.jpeg?auto=webp&s=a82cef5f0af37267094ac640eac61ab7ec653717"],
+            "price": "1000000",
+            "squareMeters": "10000",
+            "state": "NY",
+            "street": "Fake Street 123",
+            "title": "Family Guy House",
+            "type": this.realEstateListingTypeOptions[0].value,
+            "yearBuilt": "1999",
+            "zip": "00000"
+        })
+    }
+
     ngOnInit() {}
 
     onSubmit() {

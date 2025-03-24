@@ -1,0 +1,10 @@
+{
+    "$id": "http://127.0.0.1:3000/schemas/api/contracts/clients/delete/DeleteManyClientsResponseDTO.json",
+    "title": "DeleteManyClientsResponseDTO",
+    "type": "object",
+    "properties": {
+        "_": { "type": "null" }
+    },
+    "required": [],
+    "additionalProperties": false
+}

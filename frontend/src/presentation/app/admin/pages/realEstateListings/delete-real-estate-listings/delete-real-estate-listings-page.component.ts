@@ -46,7 +46,9 @@ export class DeleteRealEstateListingsPageComponent implements OnInit {
         });
     }
 
-    onSubmit() {
+    onSubmit(event: Event) {
+        event.preventDefault();
+        
         this.dataAccess
             .deleteMany({ ids: this.listings.map(({ id }) => id) })
             .pipe(

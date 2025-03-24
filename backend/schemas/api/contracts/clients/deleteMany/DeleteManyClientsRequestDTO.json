@@ -1,0 +1,11 @@
+{
+    "$id": "http://127.0.0.1:3000/schemas/api/contracts/clients/deleteMany/DeleteManyClientsRequestDTO.json",
+    "title": "DeleteManyClientsRequestDTO",
+    "type": "object",
+    "properties": {
+        "force": { "type": "boolean" },
+        "ids": { "type": "array", "items": { "type": "string" } }
+    },
+    "required": ["force", "ids"],
+    "additionalProperties": false
+}

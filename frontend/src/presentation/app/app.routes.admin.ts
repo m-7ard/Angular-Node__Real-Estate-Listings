@@ -14,6 +14,8 @@ import { UpdateRealEstateListingPageComponent } from './admin/pages/realEstateLi
 import { UpdateRealEstateListingPageResolver } from './admin/pages/realEstateListings/update-real-estate-listings/update-real-estate-listing-page.resolver';
 import { DeleteRealEstateListingsPageResolver } from './admin/pages/realEstateListings/delete-real-estate-listings/delete-real-estate-listing-page.resolver';
 import { DeleteRealEstateListingsPageComponent } from './admin/pages/realEstateListings/delete-real-estate-listings/delete-real-estate-listings-page.component';
+import { DeleteClientsPageComponent } from './admin/pages/clients/delete-clients/delete-clients-page.component';
+import { DeleteClientsPageResolver } from './admin/pages/clients/delete-clients/delete-clients-page.resolver';
 
 export const adminRoutes: Routes = [
     {
@@ -64,6 +66,11 @@ export const adminRoutes: Routes = [
                             {
                                 path: "create",
                                 component: CreateClientPageComponent,
+                            },
+                            {
+                                path: "delete",
+                                component: DeleteClientsPageComponent,
+                                resolve: { [RESOLVER_DATA_KEY]: DeleteClientsPageResolver }
                             }
                         ],
                     },

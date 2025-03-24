@@ -1,23 +1,20 @@
-<!-- Delete Real Estate Listings Page -->
+<!-- Update Client Page -->
 <form
-    (submit)="onSubmit($event)"
     [appPageDirective]="{ pageSize: 'mixin-page-base' }"
 >
     <section class="token-default-flex-col grow" appPageSectionDirective>
-        <div class="text-lg font-bold">Delete Real Estate Listings</div>
+        <div class="text-lg font-bold">Delete Clients</div>
         <section *ngIf="errors['_'] != null">
             <app-form-errors [errors]="errors['_']"></app-form-errors>
         </section>
         <div>
-            You are deleting the following Real Estate Listings:
+            You are deleting the following Clients:
         </div>
-        <ul>
-            <ng-container *ngFor="let listing of listings">
-                <li class="text-sm text-blue-600 mixin-Sbutton-like" [routerLink]="'/admin/real-estate-listings/' + listing.id">
-                    &bull; ({{ listing.id }}) {{ listing.title }}
-                </li>
-            </ng-container>
-        </ul>
+        <app-form-field [name]="'force'" [errors]="errors.force">
+            <ng-template let-name="name">
+                <app-checkbox />
+            </ng-template>
+        </app-form-field>
     </section>
     <section class="token-default-flex-row justify-end" appPageSectionDirective>
         <button

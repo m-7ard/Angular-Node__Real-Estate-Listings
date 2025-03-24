@@ -5,15 +5,13 @@ import JsonResponse from "../../responses/JsonResponse";
 import { StatusCodes } from "http-status-codes";
 import IApiError from "api/errors/IApiError";
 import ApiErrorFactory from "api/errors/ApiErrorFactory";
-import { DeleteManyClientsCommand } from "application/handlers/clients/DeleteManyClientsCommandHandler";
 import ClientDoesNotExistError from "application/errors/application/clients/ClientDoesNotExistError";
-import { DeleteClientRequestDTO } from "../../../../types/api/contracts/clients/delete/DeleteClientRequestDTO";
-import { DeleteClientResponseDTO } from "../../../../types/api/contracts/clients/delete/DeleteClientResponseDTO";
+import { DeleteManyClientsCommand } from "application/handlers/clients/DeleteManyClientsCommandHandler";
 
-type ActionRequest = { id: string; dto: DeleteClientRequestDTO };
-type ActionResponse = JsonResponse<DeleteClientResponseDTO | IApiError[]>;
+type ActionRequest = { dto: DeleteManyClientsRequestDTO };
+type ActionResponse = JsonResponse<DeleteManyClientsResponseDTO | IApiError[]>;
 
-class DeleteClientAction implements IAction<ActionRequest, ActionResponse> {
+class DeleteManyClientsAction implements IAction<ActionRequest, ActionResponse> {
     constructor(private readonly requestDispatcher: IRequestDispatcher) {}
 
     async handle(request: ActionRequest): Promise<ActionResponse> {
@@ -57,4 +55,4 @@ class DeleteClientAction implements IAction<ActionRequest, ActionResponse> {
     }
 }
 
-export default DeleteClientAction;
+export default DeleteManyClientsAction;

@@ -5,7 +5,7 @@ import IRequestDispatcher from "application/handlers/IRequestDispatcher";
 import RegisterUserCommandHandler, { RegisterUserCommand } from "application/handlers/users/RegisterUserCommandHandler";
 import LoginUserQueryHandler, { LoginUserQuery } from "application/handlers/users/LoginUserQueryHandler";
 import CurrentUserQueryHandler, { CurrentUserQuery } from "application/handlers/users/CurrentUserQueryHandler";
-import DeleteClientCommandHandler, { DeleteClientCommand } from "application/handlers/clients/DeleteClientCommandHandler";
+import DeleteManyClientsCommandHandler, { DeleteManyClientsCommand } from "application/handlers/clients/DeleteManyClientsCommandHandler";
 import FilterClientsQueryHandler, { FilterClientsQuery } from "application/handlers/clients/FilterClientsQueryHandler";
 import ReadClientQueryHandler, { ReadClientQuery } from "application/handlers/clients/ReadClientQueryHandler";
 import UpdateClientCommandHandler, { UpdateClientCommand } from "application/handlers/clients/UpdateClientCommandHandler";
@@ -31,11 +31,11 @@ function registerClientHandlers(requestDispatcher: IRequestDispatcher, diContain
     });
 
     // Delete
-    requestDispatcher.registerHandler(DeleteClientCommand, () => {
+    requestDispatcher.registerHandler(DeleteManyClientsCommand, () => {
         const clientDomainService = diContainer.resolve(DI_TOKENS.CLIENT_DOMAIN_SERVICE);
         const realEstateListingDomainService = diContainer.resolve(DI_TOKENS.REAL_ESTATE_LISTING_DOMAIN_SERVICE);
         const unitOfWork = diContainer.resolve(DI_TOKENS.UNIT_OF_WORK);
-        return new DeleteClientCommandHandler(unitOfWork, clientDomainService, realEstateListingDomainService);
+        return new DeleteManyClientsCommandHandler(unitOfWork, clientDomainService, realEstateListingDomainService);
     });
 
     // Read

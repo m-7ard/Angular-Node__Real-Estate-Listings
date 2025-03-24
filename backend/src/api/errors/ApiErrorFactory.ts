@@ -34,7 +34,7 @@ class ApiErrorFactory {
             throw new Error("No errors were provided to mapAjvErrors.");
         }
 
-        return errors.map<IApiError>((error) => ({ code: API_ERROR_CODES.APPLICATION_ERROR, message: error.message ?? "", path: error.instancePath }));
+        return errors.map<IApiError>((error) => ({ code: API_ERROR_CODES.VALIDATION_ERROR, message: error.message ?? "", path: error.instancePath }));
     }
 }
 

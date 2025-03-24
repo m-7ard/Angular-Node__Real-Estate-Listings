@@ -1,9 +1,9 @@
 import { createClientDomainServiceMock, createRealEstateListingDomainServiceMock, createRealEstateListingRepositoryMock, createUnitOfWorkMock } from "__mocks__/mocks";
 import Mixins from "__utils__/unitTests/Mixins";
 import { emptyApplicationError } from "__utils__/values/emptyApplicationError";
-import CannotDeleteClientError from "application/errors/application/clients/CannotDeleteClientError";
+import CannotDeleteClientError from "application/errors/domain/client/CannotDeleteClientError";
 import ClientDoesNotExistError from "application/errors/application/clients/ClientDoesNotExistError";
-import DeleteClientCommandHandler, { DeleteClientCommand } from "application/handlers/clients/DeleteClientCommandHandler";
+import DeleteManyClientsCommandHandler, { DeleteManyClientsCommand } from "application/handlers/clients/DeleteManyClientsCommandHandler";
 import IClientDomainService from "application/interfaces/domainServices/IClientDomainService";
 import IRealEstateListingDomainService from "application/interfaces/domainServices/IRealEstateListingDomainService";
 import IRealEstateListingRepository from "application/interfaces/persistence/IRealEstateListingRepository";
@@ -12,21 +12,21 @@ import Client from "domain/entities/Client";
 import RealEstateListing from "domain/entities/RealEstateListing";
 import { err, ok } from "neverthrow";
 
-let DEFAULT_REQUEST: DeleteClientCommand;
+let DEFAULT_REQUEST: DeleteManyClientsCommand;
 let CLIENT_001: Client;
 let REAL_ESTATE_LISTING_001: RealEstateListing;
 let mockUnitOfWork: jest.Mocked<IUnitOfWork>;
 let mockClientDomainService: jest.Mocked<IClientDomainService>;
 let mockRealEstateListingDomainService: jest.Mocked<IRealEstateListingDomainService>;
 let mockRealEstateListingRepository: jest.Mocked<IRealEstateListingRepository>;
-let handler: DeleteClientCommandHandler;
+let handler: DeleteManyClientsCommandHandler;
 
 beforeAll(() => {});
 
 afterAll(() => {});
 
 beforeEach(() => {
-    DEFAULT_REQUEST = new DeleteClientCommand({ id: "id", force: false });
+    DEFAULT_REQUEST = new DeleteManyClientsCommand({ ids: "id", force: false });
 
     mockUnitOfWork = createUnitOfWorkMock();
     mockRealEstateListingRepository = createRealEstateListingRepositoryMock();
@@ -38,7 +38,7 @@ beforeEach(() => {
     CLIENT_001 = Mixins.createClient(1);
     REAL_ESTATE_LISTING_001 = Mixins.createRealEstateListing(1, CLIENT_001);
 
-    handler = new DeleteClientCommandHandler(mockUnitOfWork, mockClientDomainService, mockRealEstateListingDomainService);
+    handler = new DeleteManyClientsCommandHandler(mockUnitOfWork, mockClientDomainService, mockRealEstateListingDomainService);
 });
 
 describe("deleteClientUnitTest.test;", () => {
