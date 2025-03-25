@@ -27,7 +27,7 @@ interface IFormControls {
 }
 
 type IErrorSchema = IPresentationError<{
-    force: boolean[];
+    force: string[];
 }>;
 
 @Component({
@@ -83,11 +83,12 @@ export class DeleteClientsPageComponent {
 
     onSubmit(): void {
         const rawValue = this.form.getRawValue();
+        console.log(rawValue)
 
         this.dataAccess
-            .delete({
-                name: rawValue.name,
-                type: rawValue.type,
+            .deleteMany({
+                force: rawValue.force,
+                ids: this.clients.map(({ id }) => id)
             })
             .pipe(
                 catchError((err: HttpErrorResponse) => {

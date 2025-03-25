@@ -6,6 +6,7 @@ import UpdateClientAction from "api/actions/clients/UpdateClientAction";
 import ListClientsAction from "api/actions/clients/FilterClientAction";
 import DeleteClientAction from "api/actions/clients/DeleteClientAction";
 import ReadClientAction from "api/actions/clients/ReadClientAction";
+import DeleteManyClientsAction from "api/actions/clients/DeleteManyClientsAction";
 
 export function createClientsRouter(diContainer: IDIContainer) {
     const clientsRouter = Router();
@@ -37,6 +38,16 @@ export function createClientsRouter(diContainer: IDIContainer) {
         initialiseAction: () => {
             const requestDispatcher = diContainer.resolve(DI_TOKENS.REQUEST_DISPATCHER);
             return new DeleteClientAction(requestDispatcher);
+        },
+    });
+
+    registerAction({
+        router: clientsRouter,
+        path: "/delete",
+        method: "DELETE",
+        initialiseAction: () => {
+            const requestDispatcher = diContainer.resolve(DI_TOKENS.REQUEST_DISPATCHER);
+            return new DeleteManyClientsAction(requestDispatcher);
         },
     });
 

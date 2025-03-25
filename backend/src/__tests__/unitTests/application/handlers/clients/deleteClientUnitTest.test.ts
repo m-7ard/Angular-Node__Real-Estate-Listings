@@ -26,7 +26,6 @@ beforeAll(() => {});
 afterAll(() => {});
 
 beforeEach(() => {
-    DEFAULT_REQUEST = new DeleteManyClientsCommand({ ids: "id", force: false });
 
     mockUnitOfWork = createUnitOfWorkMock();
     mockRealEstateListingRepository = createRealEstateListingRepositoryMock();
@@ -37,8 +36,9 @@ beforeEach(() => {
 
     CLIENT_001 = Mixins.createClient(1);
     REAL_ESTATE_LISTING_001 = Mixins.createRealEstateListing(1, CLIENT_001);
+    DEFAULT_REQUEST = new DeleteManyClientsCommand({ ids: [CLIENT_001.id.value], force: false });
 
-    handler = new DeleteManyClientsCommandHandler(mockUnitOfWork, mockClientDomainService, mockRealEstateListingDomainService);
+    handler = new DeleteManyClientsCommandHandler(mockUnitOfWork, mockClientDomainService);
 });
 
 describe("deleteClientUnitTest.test;", () => {
@@ -78,6 +78,18 @@ describe("deleteClientUnitTest.test;", () => {
         expect(result.isErr());
         const error = result.isErr() && result.error;
         expect(error instanceof ClientDoesNotExistError);
+    });
+
+    it("Delete Client; Client Does Not Exist (rollback is called); Failure;", async () => {
+        // Setup
+        mockClientDomainService.tryGetById.mockImplementationOnce(async () => err(emptyApplicationError));
+
+        // Act
+        const result = await handler.handle(DEFAULT_REQUEST);
+
+        // Assert
+        expect(result.isErr());
+        expect(mockUnitOfWork.rollbackTransaction).toHaveBeenCalled();
     });
 
     it("Delete Client; Cannot Delete Client (Does Have Listings); Failure;", async () => {

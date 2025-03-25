@@ -11,6 +11,7 @@ import { ListClientsResponseDTO } from '../../contracts/clients/list/ListClients
 import { ReadClientResponseDTO } from '../../contracts/clients/read/ReadClientResponseDTO';
 import { UpdateClientRequestDTO } from '../../contracts/clients/update/UpdateClientRequestDTO';
 import { UpdateClientResponseDTO } from '../../contracts/clients/update/UpdateClientResponseDTO';
+import { DeleteManyClientsRequestDTO } from '../../contracts/clients/deleteMany/DeleteManyClientsRequestDTO';
 
 @Injectable({
     providedIn: 'root',
@@ -25,6 +26,12 @@ export class ClientDataAccessService {
 
     delete(id: string, request: DeleteClientRequestDTO) {
         return this.http.delete<DeleteClientResponseDTO>(`${this.baseUrl}/${id}/delete`, { body: request });
+    }
+
+    deleteMany(request: DeleteManyClientsRequestDTO) {
+        const { ids } = request;
+        const url = urlWithQuery(`${this.baseUrl}/delete`, { ids })
+        return this.http.delete<DeleteClientResponseDTO>(url, { body: request });
     }
 
     list(request: ListClientsRequestDTO) {

@@ -35,7 +35,7 @@ function registerClientHandlers(requestDispatcher: IRequestDispatcher, diContain
         const clientDomainService = diContainer.resolve(DI_TOKENS.CLIENT_DOMAIN_SERVICE);
         const realEstateListingDomainService = diContainer.resolve(DI_TOKENS.REAL_ESTATE_LISTING_DOMAIN_SERVICE);
         const unitOfWork = diContainer.resolve(DI_TOKENS.UNIT_OF_WORK);
-        return new DeleteManyClientsCommandHandler(unitOfWork, clientDomainService, realEstateListingDomainService);
+        return new DeleteManyClientsCommandHandler(unitOfWork, clientDomainService);
     });
 
     // Read

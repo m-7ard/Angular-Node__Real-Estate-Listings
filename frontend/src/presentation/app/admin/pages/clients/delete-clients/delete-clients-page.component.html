@@ -1,5 +1,7 @@
 <!-- Update Client Page -->
 <form
+    [formGroup]="form"
+    (ngSubmit)="onSubmit()"
     [appPageDirective]="{ pageSize: 'mixin-page-base' }"
 >
     <section class="token-default-flex-col grow" appPageSectionDirective>
@@ -10,9 +12,23 @@
         <div>
             You are deleting the following Clients:
         </div>
+        <ul>
+            <ng-container *ngFor="let client of clients">
+                <li class="text-sm text-blue-600 mixin-Sbutton-like" [routerLink]="'/admin/clients/' + client.id">
+                    &bull; ({{ client.id }}) {{ client.name }}
+                </li>
+                <ul *ngIf="clientListings[client.id] != null" class="pl-4">
+                    <ng-container *ngFor="let listing of clientListings[client.id]">
+                        <li class="text-sm text-blue-600 mixin-Sbutton-like" [routerLink]="'/admin/real-estate-listings/' + listing.id">
+                            &bull; ({{ listing.id }}) {{ listing.title }}
+                        </li>
+                    </ng-container>
+                </ul>
+            </ng-container>
+        </ul>
         <app-form-field [name]="'force'" [errors]="errors.force">
             <ng-template let-name="name">
-                <app-checkbox />
+                <app-checkbox [formControlName]="name"/>
             </ng-template>
         </app-form-field>
     </section>

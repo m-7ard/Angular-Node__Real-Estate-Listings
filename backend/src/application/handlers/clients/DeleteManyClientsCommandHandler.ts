@@ -37,8 +37,11 @@ export default class DeleteManyClientsCommandHandler implements IRequestHandler<
 
             try {
                 // Client Exists
-                const clientExists = await this.clientDomainService.tryGetById(command.id);
-                if (clientExists.isErr()) return err(new ClientDoesNotExistError({ message: clientExists.error.message }).asList());
+                const clientExists = await this.clientDomainService.tryGetById(id);
+                if (clientExists.isErr()) {
+                    errors.push(new ClientDoesNotExistError({ message: clientExists.error.message }));
+                    continue;
+                }
 
                 const client = clientExists.value;
 
@@ -53,7 +56,8 @@ export default class DeleteManyClientsCommandHandler implements IRequestHandler<
                             await this.unitOfWork.realEstateListingRepo.deleteAsync(listing);
                         }
                     } else {
-                        return err(new CannotDeleteClientError({ message: `Cannot delete a Client while they have existing Real Estate Listings (Amount: ${listings.length})` }).asList());
+                        errors.push(new CannotDeleteClientError({ message: `Cannot delete a Client while they have existing Real Estate Listings (Amount: ${listings.length})` }));
+                        continue;
                     }
                 }
 

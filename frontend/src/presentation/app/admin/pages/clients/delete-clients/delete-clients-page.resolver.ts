@@ -23,9 +23,9 @@ export class DeleteClientsPageResolver implements Resolve<IDeleteClientsPageReso
     ) {}
 
     resolve(route: ActivatedRouteSnapshot): Observable<IDeleteClientsPageResolverData> {
-        const idsParam = route.paramMap.get('ids');
+        const idsParam = route.queryParamMap.get('ids');
         if (!idsParam) {
-            throw new ClientSideErrorException('delete-clients-page.resolver: id parameter is null.');
+            throw new ClientSideErrorException('delete-clients-page.resolver: ids parameter is null.');
         }
 
         const ids = idsParam.split(',');

@@ -20,7 +20,7 @@ class DeleteClientAction implements IAction<ActionRequest, ActionResponse> {
         const { dto, id } = request;
 
         const command = new DeleteManyClientsCommand({
-            ids: id,
+            ids: [id],
             force: dto.force,
         });
         const result = await this.requestDispatcher.dispatch(command);
