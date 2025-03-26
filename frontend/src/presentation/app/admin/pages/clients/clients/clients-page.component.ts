@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ListClientsComponent } from '../../../../../reusables/page-parts/list-clients/list-clients.component';
 import { ListClientsControlsComponent } from '../../../../../reusables/page-parts/list-clients-controls/list-clients-controls.component';
@@ -13,6 +13,14 @@ import { PanelSectionDirective } from '../../../../../reusables/panel/panel-sect
 import { MixinStyledButtonDirective } from '../../../../../reusables/styled-button/styled-button.directive';
 import { DividerComponent } from '../../../../../reusables/divider/divider.component';
 import { CommonModule } from '@angular/common';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FilterClientsModal, IFilterClientsModalProps } from '../../../../../reusables/modals/delete-player-modal/filter-clients-modal.component';
+import { Dialog, DialogRef } from '@angular/cdk/dialog';
+
+export interface IFilterClientFormControls {
+    name: FormControl<string>;
+    type: FormControl<string>;
+}
 
 @Component({
     selector: 'app-clients-page',
@@ -33,15 +41,42 @@ import { CommonModule } from '@angular/common';
     templateUrl: './clients-page.component.html',
 })
 export class ClientsPageComponent implements OnInit {
+    dialogRef: DialogRef<unknown, typeof FilterClientsModal.prototype> | null = null;
+    dialog = inject(Dialog);
+    
+    public form: FormGroup<IFilterClientFormControls>;
+
     public clients: Client[] = null!;
     public selectedClients: Set<Client> = new Set();
     public selectAllClients = (all: boolean) => {
         this.selectedClients = all ? new Set(this.clients) : new Set();
     };
+    
     public get selectedClientsIds() {
         const result: string[] = [];
         this.selectedClients.forEach(({ id }) => result.push(id));
         return result;
+    }
+
+    public onFilter(clients: Client[]) {
+        this.clients = clients;
+    }
+
+    public toggleFilterClientsModal = () => {
+        if (this.dialogRef == null || this.dialogRef.closed) {
+            const data: IFilterClientsModalProps = {
+                form: this.form,
+                onSuccess: (clients) => {
+                    this.clients = clients;
+                }
+            };
+    
+            this.dialogRef = this.dialog.open(FilterClientsModal, {  
+                data: data,
+            });
+        } else {
+            this.dialogRef.close();
+        }
     }
 
     toggleClient(client: Client) {
@@ -50,7 +85,18 @@ export class ClientsPageComponent implements OnInit {
 
     @ViewChild('op') op!: Popover;
 
-    constructor(private activatedRoute: ActivatedRoute) {}
+    constructor(private activatedRoute: ActivatedRoute) {
+        this.form = new FormGroup<IFilterClientFormControls>({
+            name: new FormControl('', {
+                nonNullable: true,
+                validators: [Validators.required],
+            }),
+            type: new FormControl('', {
+                nonNullable: true,
+                validators: [Validators.required],
+            }),
+        });
+    }
 
     ngOnInit() {
         this.activatedRoute.data.subscribe((resolverData) => {

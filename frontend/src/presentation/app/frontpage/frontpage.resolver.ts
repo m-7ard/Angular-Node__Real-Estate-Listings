@@ -1,29 +1,27 @@
 import { Injectable } from '@angular/core';
 import { Resolve } from '@angular/router';
 import { forkJoin, map, Observable } from 'rxjs';
+import ApiModelMappers from '../../mappers/ApiModelMappers';
+import RealEstateListing from '../../models/RealEstateListing';
+import { RealEstateListingDataAccessService } from '../../services/data-access/real-estate-listing-data-access.service';
 
 export interface IFrontpageResolverData {
+    listings: RealEstateListing[];
 }
 
 @Injectable({ providedIn: 'root' })
 export class FrontpageResolver implements Resolve<IFrontpageResolverData> {
-    constructor(
-        // private readonly matchDataAccess: MatchDataAccessService,
-    ) {}
+    constructor(private readonly realEstateListingDataAccess: RealEstateListingDataAccessService) {}
 
     resolve(): Observable<IFrontpageResolverData> {
-        // const matchesRequest = this.matchDataAccess
-        //     .listMatches({ limitBy: 24, status: null, scheduledDate: new Date(), teamId: null })
-        //     .pipe(
-        //         map((response) => {
-        //             return response.matches.map(MatchMapper.apiModelToDomain);
-        //         }),
-        //     );
+        const request = this.realEstateListingDataAccess.list({}).pipe(
+            map((response) => {
+                return response.listings.map(ApiModelMappers.realEstateListingApiModelToDomain);
+            }),
+        );
 
         return forkJoin({
-            // players: playersRequest,
-            // teams: teamsRequest,
-            // matches: matchesRequest,
+            listings: request,
         });
     }
 }

@@ -4,12 +4,15 @@ import { FrontpageComponent } from "./frontpage/frontpage.component";
 import { PageDoesNotExistPageComponent } from "./other/page-does-not-exist";
 import { usersRoutes } from "./app.routes.users";
 import { adminRoutes } from "./app.routes.admin";
+import { FrontpageResolver } from "./frontpage/frontpage.resolver";
+import { RESOLVER_DATA_KEY } from "../utils/RESOLVER_DATA";
 
 export const routes: Routes = [
     // Main routes
     {
         path: '',
         component: FrontpageComponent,
+        resolve: { [RESOLVER_DATA_KEY]: FrontpageResolver }
     },
 
     // Feature modules

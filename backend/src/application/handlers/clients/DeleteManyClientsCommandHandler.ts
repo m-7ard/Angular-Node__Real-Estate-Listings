@@ -56,13 +56,14 @@ export default class DeleteManyClientsCommandHandler implements IRequestHandler<
                             await this.unitOfWork.realEstateListingRepo.deleteAsync(listing);
                         }
                     } else {
-                        errors.push(new CannotDeleteClientError({ message: `Cannot delete a Client while they have existing Real Estate Listings (Amount: ${listings.length})` }));
+                        errors.push(new CannotDeleteClientError({ message: `Cannot Client of id "${client.id.value}" while they have existing Real Estate Listings (Amount: ${listings.length})` }));
                         continue;
                     }
                 }
 
                 await this.unitOfWork.clientRepo.deleteAsync(client);
             } catch (e) {
+                console.log(e)
                 errors.push(new CannotDeleteClientError({ message: `Unable to delete Client of Id "${id}"` }));
             }
         }

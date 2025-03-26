@@ -13,19 +13,16 @@ import { MixinStyledCardSectionDirective } from '../styled-card/styled-card-sect
             [appMixinStyledCard]="{
                 size: 'mixin-Scard-base',
                 theme: 'theme-Scard-generic-white',
-                hasBorder: true,
                 hasDivide: true,
-                hasShadow: true
+                hasBorder: true
             }"
         >
             <section appMixinStyledCardSection>
-                <div class="token-card--header--primary-text">Form Errors</div>
-            </section>
-            <div appMixinStyledCardSection>
+                <div class="text-sm font-semibold">Form Errors</div>
                 <div class="token-card--header--secondary-text" *ngFor="let error of errors">
-                    {{ error }}
+                    &bull; {{ error }}
                 </div>
-            </div>
+            </section>
         </div>
     `,
 })

@@ -1,0 +1,67 @@
+<!-- Filter Clients Modal -->
+<form
+    [formGroup]="form"
+    (ngSubmit)="onSubmit()"
+    (reset)="onReset($event)"
+    [appPanelDirective]="{
+        panelSize: 'mixin-panel-base',
+        panelTheme: 'theme-panel-generic-white',
+        panelHasShadow: true,
+        panelHasBorder: true
+    }"
+    class="w-[100vw]"
+>
+    <section class="token-default-flex-row grow justify-between" appPanelSectionDirective>
+        <div class="text-lg font-semibold">Filter Clients</div>
+        <button
+            [appMixinStyledButton]="{
+                size: 'mixin-Sbutton-sm',
+                theme: 'theme-Sbutton-generic-white',
+                hasShadow: true
+            }"
+            (click)="closeModal()"
+        >
+            Close
+        </button>
+    </section>
+    <app-divider />
+    <section appPanelSectionDirective class="token-default-flex-col ">
+        <app-form-field [name]="'name'">
+            <ng-template let-name="name">
+                <app-char-field
+                    [formControlName]="name"
+                    [options]="{
+                        size: 'mixin-char-input-base',
+                        theme: 'theme-input-generic-white'
+                    }"
+                ></app-char-field>
+            </ng-template>
+        </app-form-field>
+        <app-form-field [name]="'type'">
+            <ng-template let-name="name">
+                <app-select [formControlName]="name" [options]="clientTypeOptions"></app-select>
+            </ng-template>
+        </app-form-field>
+    </section>
+    <app-divider />
+    <section class="token-default-flex-row grow justify-end" appPanelSectionDirective>
+        <button
+            [appMixinStyledButton]="{
+                size: 'mixin-Sbutton-base',
+                theme: 'theme-Sbutton-generic-white'
+            }"
+            (click)="closeModal()"
+            type="reset"
+        >
+            Reset
+        </button>
+        <button
+            [appMixinStyledButton]="{
+                size: 'mixin-Sbutton-base',
+                theme: 'theme-Sbutton-generic-red'
+            }"
+        >
+            Filter
+        </button>
+    </section>
+</form>

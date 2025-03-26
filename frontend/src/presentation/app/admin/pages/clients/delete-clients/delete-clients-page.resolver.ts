@@ -23,12 +23,15 @@ export class DeleteClientsPageResolver implements Resolve<IDeleteClientsPageReso
     ) {}
 
     resolve(route: ActivatedRouteSnapshot): Observable<IDeleteClientsPageResolverData> {
-        const idsParam = route.queryParamMap.get('ids');
-        if (!idsParam) {
+        const ids = route.queryParams['ids'];
+
+        if (ids == null) {
             throw new ClientSideErrorException('delete-clients-page.resolver: ids parameter is null.');
         }
-
-        const ids = idsParam.split(',');
+        
+        if (!Array.isArray(ids)) {
+            throw new ClientSideErrorException('delete-clients-page.resolver: ids parameter is not Array.')
+        }
 
         const clients$ = forkJoin(
             ids.map((id) =>

@@ -17,97 +17,97 @@ export interface FilterRealEstateListingsQueryContract {
 }
 
 class RealEstateListingQueryService {
-    private query: knex.Knex.QueryBuilder<any>;
-    private mySQLQuery: knex.Knex.QueryBuilder<IMySQLRealEstateListingSchema>
-    private SQLiteQuery: knex.Knex.QueryBuilder<IMySQLRealEstateListingSchema>
+    constructor(
+        private readonly connection: IDatabaseConnection,
+        private readonly databaseProviderSingleton: IDatabaseProviderSingleton,
+        private readonly knex: Knex,
+        private readonly mapperRegistry: IMapperRegistry,
+    ) {}
 
-    private readonly deferedOperations: Array<(listings: RealEstateListingDbEntity[]) => RealEstateListingDbEntity[]> = [];
-
-    constructor(private readonly connection: IDatabaseConnection, private readonly databaseProviderSingleton: IDatabaseProviderSingleton, private readonly knex: Knex, private readonly mapperRegistry: IMapperRegistry) {
-        this.query = this.knex(RealEstateListingDbEntity.TABLE_NAME);
-        this.mySQLQuery = this.query;
-        this.SQLiteQuery = this.query;
-    }
-    
     async filter(contract: FilterRealEstateListingsQueryContract): Promise<RealEstateListingDbEntity[]> {
+        const deferedOperations: Array<(listings: RealEstateListingDbEntity[]) => RealEstateListingDbEntity[]> = [];
+        let query: knex.Knex.QueryBuilder<any> = this.knex(RealEstateListingDbEntity.TABLE_NAME);
+        let mySQLQuery: knex.Knex.QueryBuilder<IMySQLRealEstateListingSchema> = query;
+        let SQLiteQuery: knex.Knex.QueryBuilder<IMySQLRealEstateListingSchema> = query;
+
         if (contract.maxPrice != null) {
             if (this.databaseProviderSingleton.isMySQL) {
-                this.query = this.mySQLQuery.where("price", "<=", contract.maxPrice)
+                query = mySQLQuery.where("price", "<=", contract.maxPrice);
             }
 
-            this.mySQLQuery = this.query;
-            this.SQLiteQuery = this.query;
+            mySQLQuery = query;
+            SQLiteQuery = query;
         }
 
         if (contract.minPrice != null) {
             if (this.databaseProviderSingleton.isMySQL) {
-                this.query = this.mySQLQuery.where("price", ">=", contract.minPrice)
+                query = mySQLQuery.where("price", ">=", contract.minPrice);
             }
 
-            this.mySQLQuery = this.query;
-            this.SQLiteQuery = this.query;
+            mySQLQuery = query;
+            SQLiteQuery = query;
         }
 
         if (contract.city != null) {
             if (this.databaseProviderSingleton.isMySQL) {
-                this.query = this.mySQLQuery.whereILike("city", contract.city);
+                query = mySQLQuery.whereILike("city", contract.city);
             }
 
-            this.mySQLQuery = this.query;
-            this.SQLiteQuery = this.query;
+            mySQLQuery = query;
+            SQLiteQuery = query;
         }
 
         if (contract.clientId != null) {
             if (this.databaseProviderSingleton.isMySQL) {
-                this.query = this.mySQLQuery.whereILike("client_id", contract.clientId);
+                query = mySQLQuery.whereILike("client_id", contract.clientId);
             }
 
-            this.mySQLQuery = this.query;
-            this.SQLiteQuery = this.query;
+            mySQLQuery = query;
+            SQLiteQuery = query;
         }
 
         if (contract.country != null) {
             if (this.databaseProviderSingleton.isMySQL) {
-                this.query = this.mySQLQuery.whereILike("country", contract.country);
+                query = mySQLQuery.whereILike("country", contract.country);
             }
 
-            this.mySQLQuery = this.query;
-            this.SQLiteQuery = this.query;
+            mySQLQuery = query;
+            SQLiteQuery = query;
         }
 
         if (contract.state != null) {
             if (this.databaseProviderSingleton.isMySQL) {
-                this.query = this.mySQLQuery.whereILike("state", contract.state);
+                query = mySQLQuery.whereILike("state", contract.state);
             }
 
-            this.mySQLQuery = this.query;
-            this.SQLiteQuery = this.query;
+            mySQLQuery = query;
+            SQLiteQuery = query;
         }
 
         if (contract.type != null) {
             if (this.databaseProviderSingleton.isMySQL) {
-                this.query = this.mySQLQuery.whereILike("type", contract.type);
+                query = mySQLQuery.whereILike("type", contract.type);
             }
 
-            this.mySQLQuery = this.query;
-            this.SQLiteQuery = this.query;
+            mySQLQuery = query;
+            SQLiteQuery = query;
         }
 
         if (contract.zip != null) {
             if (this.databaseProviderSingleton.isMySQL) {
-                this.query = this.mySQLQuery.whereILike("zip", contract.zip);
+                query = mySQLQuery.whereILike("zip", contract.zip);
             }
 
-            this.mySQLQuery = this.query;
-            this.SQLiteQuery = this.query;
+            mySQLQuery = query;
+            SQLiteQuery = query;
         }
 
-        const entry = this.query.toSQL();
+        const entry = query.toSQL();
         const rows = await this.connection.executeRows<object>({ statement: entry.sql, parameters: [...entry.bindings] });
         let dbEntities = rows.map(this.mapperRegistry.realEstateListingMapper.schemaToDbEntity);
-        dbEntities = this.deferedOperations.reduce((acc, fn) => fn(acc), dbEntities);
+        dbEntities = deferedOperations.reduce((acc, fn) => fn(acc), dbEntities);
         return dbEntities;
-    };
+    }
 }
 
 export default RealEstateListingQueryService;

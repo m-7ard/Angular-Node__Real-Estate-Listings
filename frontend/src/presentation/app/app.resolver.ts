@@ -4,15 +4,15 @@ import { forkJoin, Observable } from 'rxjs';
 import { StaticDataResponseDTO } from '../contracts/other/static-data/StaticDataResponseDTO';
 import { StaticApiDataService } from '../services/static-api-data-service';
 
-export interface IFrontpageResolverData {
+export interface IAppResolverData {
     staticApiData: StaticDataResponseDTO | null;
 }
 
 @Injectable({ providedIn: 'root' })
-export class AppResolver implements Resolve<IFrontpageResolverData> {
+export class AppResolver implements Resolve<IAppResolverData> {
     constructor(private staticApiDataService: StaticApiDataService) {}
 
-    resolve(): Observable<IFrontpageResolverData> {
+    resolve(): Observable<IAppResolverData> {
         return forkJoin({
             staticApiData: this.staticApiDataService.loadData(),
         });

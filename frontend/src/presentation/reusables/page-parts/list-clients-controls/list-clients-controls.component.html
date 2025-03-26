@@ -6,8 +6,9 @@
                 theme: 'theme-Sbutton-generic-white',
                 hasShadow: true
             }"
+            (click)="toggleFilterMenu()"
         >
-            Filters
+            Filter
         </button>
         <menu class="flex flex-row gap-[inherit]">
             <button
@@ -20,10 +21,20 @@
             >
                 +
             </button>
+            <button
+                [appMixinStyledButton]="{
+                    size: 'mixin-Sbutton-base',
+                    theme: 'theme-Sbutton-generic-white',
+                    hasShadow: true
+                }"
+                (click)="onFill()"
+            >
+                Fill
+            </button>
         </menu>
     </section>
     <section class="flex flex-row items-center gap-4">
-        <div class="text-sm">2089 Listings</div>
+        <div class="text-sm">{{ clients.length }} Clients</div>
         <div class="text-sm text-emerald-600 font-semibold mixin-Sbutton-like hover:underline">Sort By ⥮</div>
     </section>
 </div>

@@ -4,19 +4,19 @@ import { Router, RouterModule } from '@angular/router';
 import { catchError, of } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import IPresentationError from '../../../errors/IPresentationError';
-import PresentationErrorFactory from '../../../errors/PresentationErrorFactory';
-import { DividerComponent } from '../../../reusables/divider/divider.component';
-import { FormErrorsComponent } from '../../../reusables/form-errors/form-errors';
-import { FormFieldComponent } from '../../../reusables/form-field/form-field.component';
-import { MixinStyledButtonDirective } from '../../../reusables/styled-button/styled-button.directive';
-import { CharFieldComponent } from '../../../reusables/widgets/char-field/char-field.component';
-import { AuthService } from '../../../services/auth-service';
-import { ExceptionNoticeService } from '../../../services/exception-notice.service';
-import { PageDirective } from '../../../reusables/page/page.directive';
-import { PageSectionDirective } from '../../../reusables/page/page-section.directive';
-import { ContentGridDirective } from '../../../reusables/content-grid/content-grid.directive';
-import { ContentGridTrackDirective } from '../../../reusables/content-grid/content-grid-track.directive';
+import IPresentationError from '../../../../errors/IPresentationError';
+import PresentationErrorFactory from '../../../../errors/PresentationErrorFactory';
+import { DividerComponent } from '../../../../reusables/divider/divider.component';
+import { FormErrorsComponent } from '../../../../reusables/form-errors/form-errors';
+import { FormFieldComponent } from '../../../../reusables/form-field/form-field.component';
+import { MixinStyledButtonDirective } from '../../../../reusables/styled-button/styled-button.directive';
+import { CharFieldComponent } from '../../../../reusables/widgets/char-field/char-field.component';
+import { AuthService } from '../../../../services/auth-service';
+import { ExceptionNoticeService } from '../../../../services/exception-notice.service';
+import { PageDirective } from '../../../../reusables/page/page.directive';
+import { PageSectionDirective } from '../../../../reusables/page/page-section.directive';
+import { ContentGridDirective } from '../../../../reusables/content-grid/content-grid.directive';
+import { ContentGridTrackDirective } from '../../../../reusables/content-grid/content-grid-track.directive';
 
 interface IFormControls {
     email: FormControl<string>;
@@ -42,8 +42,6 @@ type IErrorSchema = IPresentationError<{
         FormErrorsComponent,
         PageDirective,
         PageSectionDirective,
-        ContentGridDirective,
-        ContentGridTrackDirective,
         DividerComponent,
         RouterModule
     ],

@@ -12,8 +12,6 @@ import { RESOLVER_DATA_KEY } from '../../../../../utils/RESOLVER_DATA';
     selector: 'app-list-real-estate-listings-page',
     standalone: true,
     imports: [
-        MixinStyledButtonDirective,
-        RealEsateListingComponent,
         ListRealEstateListingsComponent,
         ListRealEstateListingsControlsComponent,
     ],

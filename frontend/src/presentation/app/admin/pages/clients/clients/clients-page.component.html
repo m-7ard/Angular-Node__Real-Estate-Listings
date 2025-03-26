@@ -1,7 +1,7 @@
 <!-- List Clients Page -->
 <div class="flex flex-row">
     <div class="flex flex-col gap-4 p-4 grow overflow-hidden">
-        <app-list-clients-controls />
+        <app-list-clients-controls [clients]="clients" [toggleFilterMenu]="toggleFilterClientsModal" />
         <ul class="flex flex-row gap-4 items-center px-4">
             <li>
                 <app-checkbox (checkChange)="selectAllClients($event)" [value]="selectedClients.size === clients.length" />
@@ -25,7 +25,8 @@
                 [positioning]="{ top: '100%', right: '0px' }"
                 [appMixinStyledButton]="{
                     theme: 'theme-Sbutton-generic-white',
-                    size: 'mixin-Sbutton-sm'
+                    size: 'mixin-Sbutton-sm',
+                    hasShadow: true
                 }"
             >
                 ☰

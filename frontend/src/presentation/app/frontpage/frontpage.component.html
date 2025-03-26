@@ -1,73 +1,7 @@
 <!-- Frontpage Page -->
 <div class="flex flex-row">
     <div class="flex flex-col gap-4 p-4 grow">
-        <section class="flex flex-row gap-2">
-            <button
-                [appMixinStyledButton]="{
-                    size: 'mixin-Sbutton-base',
-                    theme: 'theme-Sbutton-generic-white',
-                    hasShadow: true
-                }"
-            >   
-                Filters
-            </button>
-            <button
-                [appMixinStyledButton]="{
-                    size: 'mixin-Sbutton-base',
-                    theme: 'theme-Sbutton-generic-white',
-                    hasShadow: true
-                }"
-                class="ml-auto"
-            >   
-                ◫
-            </button>
-            <button
-                [appMixinStyledButton]="{
-                    size: 'mixin-Sbutton-base',
-                    theme: 'theme-Sbutton-generic-white',
-                    hasShadow: true
-                }"
-            >   
-                ▤
-            </button>
-            <button
-                [appMixinStyledButton]="{
-                    size: 'mixin-Sbutton-base',
-                    theme: 'theme-Sbutton-generic-yellow',
-                    hasShadow: true
-                }"
-            >   
-                +
-            </button>
-        </section>
-        <section class="flex flex-col gap-2">
-            <div class="text-xl">
-                Properties Listed in <span class="font-bold">New York City</span>
-            </div>
-        </section>
-        <section class="flex flex-row items-center justify-between gap-4">
-            <div class="text-sm">
-                2089 Listings
-            </div>
-            <button
-                [appMixinStyledButton]="{
-                    size: 'mixin-Sbutton-sm',
-                    theme: 'theme-Sbutton-generic-white',
-                    hasShadow: true
-                }"
-            >   
-                Sort By
-            </button>
-        </section>
-        <section class="grid grid-cols-2 gap-4">
-            <app-real-estate-listing />
-            <app-real-estate-listing />
-            <app-real-estate-listing />
-            <app-real-estate-listing />
-            <app-real-estate-listing />
-            <app-real-estate-listing />
-            <app-real-estate-listing />
-            <app-real-estate-listing />
-        </section>
+        <app-list-real-estate-listings-controls [searchQuery]="''" [listings]="listings"  />
+        <app-list-real-estate-listings [listings]="listings" />
     </div>
 </div>
