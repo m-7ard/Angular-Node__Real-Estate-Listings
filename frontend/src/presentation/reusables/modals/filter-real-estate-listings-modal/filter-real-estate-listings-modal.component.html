@@ -1,0 +1,70 @@
+<!-- Filter Clients Modal -->
+<form
+    [formGroup]="form"
+    (ngSubmit)="onSubmit()"
+    (keydown.enter)="$event.preventDefault(); onSubmit()"
+    (reset)="onReset($event)"
+    [appPanelDirective]="{
+        panelSize: 'mixin-panel-base',
+        panelTheme: 'theme-panel-generic-white',
+        panelHasShadow: true,
+        panelHasBorder: true
+    }"
+    class="w-[100vw] overflow-hidden flex flex-col max-h-[100vh]"
+>
+    <section class="token-default-flex-row grow justify-between" appPanelSectionDirective>
+        <div class="text-lg font-semibold">Filter Clients</div>
+        <button
+            [appMixinStyledButton]="{
+                size: 'mixin-Sbutton-sm',
+                theme: 'theme-Sbutton-generic-white',
+                hasShadow: true
+            }"
+            (click)="closeModal()"
+        >
+            Close
+        </button>
+    </section>
+    <app-divider />
+    <section appPanelSectionDirective class="token-default-flex-col overflow-auto">
+        <ng-container *ngFor="let field of TEXT_FIELDS">
+            <app-form-field [name]="field">
+                <ng-template let-name="name">
+                    <app-char-field
+                        [formControlName]="name"
+                        [options]="{
+                            size: 'mixin-char-input-base',
+                            theme: 'theme-input-generic-white'
+                        }"
+                    ></app-char-field>
+                </ng-template>
+            </app-form-field>
+        </ng-container>
+        <app-form-field [name]="'type'">
+            <ng-template let-name="name">
+                <app-select [formControlName]="name" [options]="realEstateListingTypeOptions"></app-select>
+            </ng-template>
+        </app-form-field>
+    </section>
+    <app-divider />
+    <section class="token-default-flex-row grow justify-end" appPanelSectionDirective>
+        <button
+            [appMixinStyledButton]="{
+                size: 'mixin-Sbutton-base',
+                theme: 'theme-Sbutton-generic-white'
+            }"
+            type="reset"
+        >
+            Reset
+        </button>
+        <button
+            [appMixinStyledButton]="{
+                size: 'mixin-Sbutton-base',
+                theme: 'theme-Sbutton-generic-red'
+            }"
+            type="submit"
+        >
+            Filter
+        </button>
+    </section>
+</form>

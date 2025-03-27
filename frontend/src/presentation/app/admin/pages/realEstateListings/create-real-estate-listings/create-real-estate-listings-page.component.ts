@@ -97,7 +97,7 @@ export class CreateRealEstateListingsPageComponent implements OnInit {
         private readonly dataAccess: RealEstateListingDataAccessService,
         private readonly exceptionNoticeService: ExceptionNoticeService,
         private readonly router: Router,
-        private readonly staticApiDataService: StaticApiDataService,
+       staticApiDataService: StaticApiDataService,
     ) {
         this.form = new FormGroup<IFormControls>({
             city: new FormControl('', {

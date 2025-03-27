@@ -12,7 +12,8 @@ export const routes: Routes = [
     {
         path: '',
         component: FrontpageComponent,
-        resolve: { [RESOLVER_DATA_KEY]: FrontpageResolver }
+        resolve: { [RESOLVER_DATA_KEY]: FrontpageResolver },
+        runGuardsAndResolvers: 'always',
     },
 
     // Feature modules

@@ -21,7 +21,7 @@ import { StaticApiDataService } from '../../../services/static-api-data-service'
 
 export interface IFilterClientsModalProps {
     form: FormGroup<IFilterClientFormControls>;
-    onSuccess: (clients: Client[]) => void;
+    onSubmit: (form: FormGroup<IFilterClientFormControls>) => void;
 }
 
 @Component({
@@ -42,18 +42,16 @@ export interface IFilterClientsModalProps {
 })
 export class FilterClientsModal {
     public form: FormGroup<IFilterClientFormControls> = null!;
-    public onSuccess: (clients: Client[]) => void = null!;
+    public onSubmitCallback: (form: FormGroup<IFilterClientFormControls>) => void = null!;
     clientTypeOptions: Array<SelectOpt<string>>;
 
     constructor(
         public dialogRef: DialogRef<unknown, IFilterClientsModalProps>,
         @Inject(DIALOG_DATA) public data: IFilterClientsModalProps,
-        private clientDataAccess: ClientDataAccessService,
-        private exceptionNoticeService: ExceptionNoticeService,
-        private readonly staticApiDataService: StaticApiDataService,
+        staticApiDataService: StaticApiDataService,
     ) {
         this.form = data.form;
-        this.onSuccess = data.onSuccess;
+        this.onSubmitCallback = data.onSubmit;
 
         this.clientTypeOptions = Object.entries(staticApiDataService.getOptions().clientTypes).map<SelectOpt<string>>(
             ([value, label]) => ({ value: value, label: label }),
@@ -70,28 +68,7 @@ export class FilterClientsModal {
     }
 
     async onSubmit() {
-        const rawValue = this.form.getRawValue();
-
-        this.clientDataAccess
-            .list({
-                name: rawValue.name,
-                type: rawValue.type,
-            })
-            .pipe(
-                catchError((err: HttpErrorResponse) => {
-                    this.exceptionNoticeService.dispatchError(new Error(JSON.stringify(err.message)));
-                    return of(null);
-                }),
-            )
-            .subscribe({
-                next: (response) => {
-                    if (response === null) {
-                        return;
-                    }
-
-                    this.onSuccess(response.clients.map(ApiModelMappers.clientApiModelToDomain));
-                    this.closeModal();
-                },
-            });
+        this.onSubmitCallback(this.form);
+        this.closeModal();
     }
 }

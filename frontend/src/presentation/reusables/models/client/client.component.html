@@ -40,7 +40,7 @@
             <div class="text-sm">Actions</div>
         </section>
         <app-divider />
-        <section class="flex flex-col gap-4" appPanelSectionDirective>
+        <section class="flex flex-col gap-1" appPanelSectionDirective>
             <button
                 [appMixinStyledButton]="{
                     theme: 'theme-Sbutton-generic-red',
@@ -51,6 +51,16 @@
                 [queryParams]="{ ids: [this.client.id] }"
             >
                 Delete
+            </button>
+            <button
+                [appMixinStyledButton]="{
+                    theme: 'theme-Sbutton-generic-blue',
+                    size: 'mixin-Sbutton-base'
+                }"
+                class="justify-center grow"
+                [routerLink]="'/admin/clients/' + client.id + '/update'"
+            >
+                Update
             </button>
         </section>
     </div>

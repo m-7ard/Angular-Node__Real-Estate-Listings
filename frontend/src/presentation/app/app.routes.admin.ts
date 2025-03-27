@@ -16,6 +16,8 @@ import { DeleteRealEstateListingsPageResolver } from './admin/pages/realEstateLi
 import { DeleteRealEstateListingsPageComponent } from './admin/pages/realEstateListings/delete-real-estate-listings/delete-real-estate-listings-page.component';
 import { DeleteClientsPageComponent } from './admin/pages/clients/delete-clients/delete-clients-page.component';
 import { DeleteClientsPageResolver } from './admin/pages/clients/delete-clients/delete-clients-page.resolver';
+import { UpdateClientPageComponent } from './admin/pages/clients/update-client/update-client-page.component';
+import { UpdateClientPageResolver } from './admin/pages/clients/update-client/update-clinet-page.resolver';
 
 export const adminRoutes: Routes = [
     {
@@ -32,26 +34,27 @@ export const adminRoutes: Routes = [
                             {
                                 path: '',
                                 component: ListRealEstateListingsPageComponent,
-                                resolve: { [RESOLVER_DATA_KEY]: ListRealEstateListingsPageResolver }
+                                resolve: { [RESOLVER_DATA_KEY]: ListRealEstateListingsPageResolver },
+                                runGuardsAndResolvers: 'always',
                             },
                             {
-                                path: "create",
+                                path: 'create',
                                 component: CreateRealEstateListingsPageComponent,
                             },
                             {
-                                path: "delete",
+                                path: 'delete',
                                 component: DeleteRealEstateListingsPageComponent,
-                                resolve: { [RESOLVER_DATA_KEY]: DeleteRealEstateListingsPageResolver }
+                                resolve: { [RESOLVER_DATA_KEY]: DeleteRealEstateListingsPageResolver },
                             },
                             {
-                                path: ":id",
+                                path: ':id',
                                 component: ReadRealEstateListingPageComponent,
-                                resolve: { [RESOLVER_DATA_KEY]: ReadRealEstateListingPageResolver }
+                                resolve: { [RESOLVER_DATA_KEY]: ReadRealEstateListingPageResolver },
                             },
                             {
-                                path: ":id/update",
+                                path: ':id/update',
                                 component: UpdateRealEstateListingPageComponent,
-                                resolve: { [RESOLVER_DATA_KEY]: UpdateRealEstateListingPageResolver }
+                                resolve: { [RESOLVER_DATA_KEY]: UpdateRealEstateListingPageResolver },
                             },
                         ],
                     },
@@ -61,17 +64,23 @@ export const adminRoutes: Routes = [
                             {
                                 path: '',
                                 component: ClientsPageComponent,
-                                resolve: { [RESOLVER_DATA_KEY]: ClientsPageResolver }
+                                resolve: { [RESOLVER_DATA_KEY]: ClientsPageResolver },
+                                runGuardsAndResolvers: 'always',
                             },
                             {
-                                path: "create",
+                                path: 'create',
                                 component: CreateClientPageComponent,
                             },
                             {
-                                path: "delete",
+                                path: 'delete',
                                 component: DeleteClientsPageComponent,
-                                resolve: { [RESOLVER_DATA_KEY]: DeleteClientsPageResolver }
-                            }
+                                resolve: { [RESOLVER_DATA_KEY]: DeleteClientsPageResolver },
+                            },
+                            {
+                                path: ':id/update',
+                                component: UpdateClientPageComponent,
+                                resolve: { [RESOLVER_DATA_KEY]: UpdateClientPageResolver },
+                            },
                         ],
                     },
                 ],

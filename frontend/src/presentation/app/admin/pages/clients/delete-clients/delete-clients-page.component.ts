@@ -83,7 +83,6 @@ export class DeleteClientsPageComponent {
 
     onSubmit(): void {
         const rawValue = this.form.getRawValue();
-        console.log(rawValue)
 
         this.dataAccess
             .deleteMany({

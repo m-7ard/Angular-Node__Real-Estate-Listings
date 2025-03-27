@@ -3,7 +3,6 @@ import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
 import { map, Observable } from 'rxjs';
 import ClientSideErrorException from '../../../../../exceptions/ClientSideErrorException';
 import ApiModelMappers from '../../../../../mappers/ApiModelMappers';
-import { RealEstateListingDataAccessService } from '../../../../../services/data-access/real-estate-listing-data-access.service';
 import Client from '../../../../../models/Client';
 import { ClientDataAccessService } from '../../../../../services/data-access/client-data-access.service';
 

@@ -6,28 +6,11 @@
                 theme: 'theme-Sbutton-generic-white',
                 hasShadow: true
             }"
+            (click)="toggleFilterListingsModal()"
         >
-            Filters
+            Filter
         </button>
         <menu class="flex flex-row gap-[inherit]">
-            <button
-                [appMixinStyledButton]="{
-                    size: 'mixin-Sbutton-base',
-                    theme: 'theme-Sbutton-generic-white',
-                    hasShadow: true
-                }"
-            >
-                ◫
-            </button>
-            <button
-                [appMixinStyledButton]="{
-                    size: 'mixin-Sbutton-base',
-                    theme: 'theme-Sbutton-generic-white',
-                    hasShadow: true
-                }"
-            >
-                ▤
-            </button>
             <button
                 [appMixinStyledButton]="{
                     size: 'mixin-Sbutton-base',

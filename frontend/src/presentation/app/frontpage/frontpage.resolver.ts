@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Resolve } from '@angular/router';
+import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
 import { forkJoin, map, Observable } from 'rxjs';
 import ApiModelMappers from '../../mappers/ApiModelMappers';
 import RealEstateListing from '../../models/RealEstateListing';
@@ -13,8 +13,15 @@ export interface IFrontpageResolverData {
 export class FrontpageResolver implements Resolve<IFrontpageResolverData> {
     constructor(private readonly realEstateListingDataAccess: RealEstateListingDataAccessService) {}
 
-    resolve(): Observable<IFrontpageResolverData> {
-        const request = this.realEstateListingDataAccess.list({}).pipe(
+    resolve(route: ActivatedRouteSnapshot): Observable<IFrontpageResolverData> {
+        const queryParams = { ...route.queryParams };
+        Object.keys(queryParams).forEach((key) => {
+            if (queryParams[key] === '') {
+                queryParams[key] = undefined;
+            }
+        });
+
+        const request = this.realEstateListingDataAccess.list(queryParams).pipe(
             map((response) => {
                 return response.listings.map(ApiModelMappers.realEstateListingApiModelToDomain);
             }),

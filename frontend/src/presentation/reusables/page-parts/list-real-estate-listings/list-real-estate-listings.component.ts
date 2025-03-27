@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { RealEsateListingComponent } from '../../models/real-estate-listing/real-estate-listing.component';
-import { MixinStyledButtonDirective } from '../../styled-button/styled-button.directive';
 import RealEstateListing from '../../../models/RealEstateListing';
 import { CommonModule } from '@angular/common';
 

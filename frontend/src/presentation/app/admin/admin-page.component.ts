@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { catchError, of } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import IPresentationError from '../../errors/IPresentationError';
 
 interface IFormControls {
     email: FormControl<string>;

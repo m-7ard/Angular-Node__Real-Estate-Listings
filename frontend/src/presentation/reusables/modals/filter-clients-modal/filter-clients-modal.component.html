@@ -2,6 +2,7 @@
 <form
     [formGroup]="form"
     (ngSubmit)="onSubmit()"
+    (keydown.enter)="$event.preventDefault(); onSubmit()"
     (reset)="onReset($event)"
     [appPanelDirective]="{
         panelSize: 'mixin-panel-base',
@@ -50,7 +51,6 @@
                 size: 'mixin-Sbutton-base',
                 theme: 'theme-Sbutton-generic-white'
             }"
-            (click)="closeModal()"
             type="reset"
         >
             Reset
@@ -60,6 +60,7 @@
                 size: 'mixin-Sbutton-base',
                 theme: 'theme-Sbutton-generic-red'
             }"
+            type="submit"
         >
             Filter
         </button>
