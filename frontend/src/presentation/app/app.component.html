@@ -11,11 +11,12 @@
                 src="https://img.freepik.com/premium-vector/abstract-house-construction-architecture-logos-with-typography_835895-5894.jpg?semt=ais_hybrid"
             />
         </a>
-        <div class="max-w-prose w-full">
+        <form class="max-w-prose w-full" (submit)="onSearch($event)">
             <app-char-field
+                (valueChange)="onChange($event)"
                 [options]="{ size: 'mixin-char-input-base', theme: 'theme-input-generic-gray' }"
             ></app-char-field>
-        </div>
+        </form>
         <button type="button" routerLink="/" class="ml-auto mixin-Sbutton-like text-sm font-semibold">Home</button>
         <app-divider class="h-full" [isVertical]="true" />
         <a

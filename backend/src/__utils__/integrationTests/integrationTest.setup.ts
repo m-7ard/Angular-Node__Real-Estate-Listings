@@ -23,7 +23,7 @@ export async function setUpIntegrationTest() {
         port: 3306,
         user: "root",
         password: "adminword",
-    });
+    }, "test_real_estate");
 
     testingDIContainer = new TestingDIContainer({ connection: await db.getConnection() });
 

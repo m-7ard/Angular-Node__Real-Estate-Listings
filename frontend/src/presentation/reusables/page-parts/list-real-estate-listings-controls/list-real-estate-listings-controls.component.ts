@@ -78,5 +78,7 @@ export class ListRealEstateListingsControlsComponent implements OnInit {
         });
     }
 
-    ngOnInit() {}
+    ngOnInit() {
+        console.log("searchQuery", this.searchQuery)
+    }
 }

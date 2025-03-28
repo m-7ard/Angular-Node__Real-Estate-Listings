@@ -50,7 +50,7 @@ class RealEstateListingQueryService {
 
         if (contract.city != null) {
             if (this.databaseProviderSingleton.isMySQL) {
-                query = mySQLQuery.whereILike("city", contract.city);
+                query = mySQLQuery.whereILike("city", `%${contract.city}%`);
             }
 
             mySQLQuery = query;
@@ -59,7 +59,7 @@ class RealEstateListingQueryService {
 
         if (contract.clientId != null) {
             if (this.databaseProviderSingleton.isMySQL) {
-                query = mySQLQuery.whereILike("client_id", contract.clientId);
+                query = mySQLQuery.whereILike("client_id", `%${contract.clientId}%`);
             }
 
             mySQLQuery = query;
@@ -68,7 +68,7 @@ class RealEstateListingQueryService {
 
         if (contract.country != null) {
             if (this.databaseProviderSingleton.isMySQL) {
-                query = mySQLQuery.whereILike("country", contract.country);
+                query = mySQLQuery.whereILike("country", `%${contract.country}%`);
             }
 
             mySQLQuery = query;
@@ -77,7 +77,7 @@ class RealEstateListingQueryService {
 
         if (contract.state != null) {
             if (this.databaseProviderSingleton.isMySQL) {
-                query = mySQLQuery.whereILike("state", contract.state);
+                query = mySQLQuery.whereILike("state", `%${contract.state}%`);
             }
 
             mySQLQuery = query;
@@ -95,7 +95,7 @@ class RealEstateListingQueryService {
 
         if (contract.zip != null) {
             if (this.databaseProviderSingleton.isMySQL) {
-                query = mySQLQuery.whereILike("zip", contract.zip);
+                query = mySQLQuery.whereILike("zip", `%${contract.zip}%`);
             }
 
             mySQLQuery = query;

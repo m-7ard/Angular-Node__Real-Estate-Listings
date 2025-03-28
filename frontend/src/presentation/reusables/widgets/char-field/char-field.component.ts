@@ -52,8 +52,10 @@ export class CharFieldComponent implements ControlValueAccessor {
         this.value = value;
         this.onChange(value);
         this.onTouched();
+        this.valueChange.emit(value)
     }
 
+    @Output() valueChange = new EventEmitter<string>();
     @Output() focus = new EventEmitter<FocusEvent>();
     @Input() value: string = '';
     @Input() options: CharFieldOptions = {

@@ -6,10 +6,12 @@ import MySQLDatabaseConnection from "./MySQLDatabaseConnection";
 class MySQLDatabaseService implements IDatabaseService {
     private pool: mysql.Pool;
     private readonly config: mysql.PoolOptions;
+    private readonly name: string;
 
-    constructor(config: mysql.PoolOptions) {
+    constructor(config: mysql.PoolOptions, name: string) {
         this.pool = mysql.createPool(config);
         this.config = config;
+        this.name = name;
     }
 
     async getConnection(): Promise<IDatabaseConnection> {
@@ -17,11 +19,11 @@ class MySQLDatabaseService implements IDatabaseService {
     }
 
     async initialise(migrations: string[]): Promise<void> {
-        await this.pool.query(`DROP DATABASE IF EXISTS real_estate`);
-        await this.pool.query(`CREATE DATABASE real_estate CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;`);
+        await this.pool.query(`DROP DATABASE IF EXISTS ${this.name}`);
+        await this.pool.query(`CREATE DATABASE ${this.name} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;`);
 
         this.pool.end();
-        this.pool = mysql.createPool({ ...this.config, database: "real_estate" });
+        this.pool = mysql.createPool({ ...this.config, database: this.name });
 
         for (const migration of migrations) {
             await this.pool.query(migration);
@@ -29,7 +31,7 @@ class MySQLDatabaseService implements IDatabaseService {
     }
 
     async dispose(): Promise<void> {
-        await this.pool.query(`DROP DATABASE IF EXISTS real_estate`);
+        await this.pool.query(`DROP DATABASE IF EXISTS ${this.name}`);
     }
 
     async queryRows<T>(args: { statement: string }): Promise<T[]> {

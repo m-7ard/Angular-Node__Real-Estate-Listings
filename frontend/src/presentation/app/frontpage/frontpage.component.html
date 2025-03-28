@@ -1,7 +1,7 @@
 <!-- Frontpage Page -->
 <div class="flex flex-row">
     <div class="flex flex-col gap-4 p-4 grow">
-        <app-list-real-estate-listings-controls [searchQuery]="''" [listings]="listings"  />
+        <app-list-real-estate-listings-controls [searchQuery]="searchQueryService.searchQuery.value" [listings]="listings"  />
         <app-list-real-estate-listings [listings]="listings" />
     </div>
 </div>

@@ -50,6 +50,7 @@ export class ReadRealEstateListingPageComponent implements OnInit {
     ] as const;
     listingTypes: Record<string, string> = null!;
     isAdmin: boolean = null!;
+    images: Array<string | undefined> = null!;
 
     constructor(
         private readonly router: Router,
@@ -66,6 +67,7 @@ export class ReadRealEstateListingPageComponent implements OnInit {
         this.activatedRoute.data.subscribe((resolverData) => {
             const data = resolverData[RESOLVER_DATA_KEY] as IReadRealEstateListingsPageResolverData;
             this.listing = data.listing;
+            this.images = this.listing.images;
         });
     }
 }
