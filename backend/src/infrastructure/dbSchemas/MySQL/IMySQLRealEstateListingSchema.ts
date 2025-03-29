@@ -18,5 +18,5 @@ export default interface IMySQLRealEstateListingSchema {
     bedroom_number: number;
     description: string;
     flooring_type: string;
-    images: string;
+    images: string[];
 }

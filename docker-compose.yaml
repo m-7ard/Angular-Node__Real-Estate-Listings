@@ -26,6 +26,9 @@ services:
         volumes:
             - ./src:/app/src
             - /app/node_modules
+            - uploaded-media:/app/backend/media
 
 volumes:
     mysql_data:
+    uploaded-media:
+

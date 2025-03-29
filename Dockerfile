@@ -18,5 +18,8 @@ RUN npm run export:docker
 # Assuming the build output from frontend is correct
 COPY --from=frontend-builder /app/frontend/dist/frontend/browser /app/backend/static
 
+RUN mkdir -p /app/backend/media && \
+    chown -R $APP_UID:$APP_UID /app
+
 EXPOSE 3000
 CMD ["node", "dist/index.mjs"]

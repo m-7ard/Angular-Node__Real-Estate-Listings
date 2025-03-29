@@ -24,7 +24,7 @@ class MySQLRealEstateListingMapper implements IRealEstateListingMapper {
             bedroom_number: source.bedroom_number,
             description: source.description,
             flooring_type: source.flooring_type,
-            images: JSON.parse(source.images)
+            images: source.images
         });
     }
 

@@ -1,1 +1,0 @@
-Potentially add a registry made of services to create db strings, since right now it is locked into one single table structure 
