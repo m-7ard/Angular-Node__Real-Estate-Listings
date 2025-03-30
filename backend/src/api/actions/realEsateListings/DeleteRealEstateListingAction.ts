@@ -14,7 +14,7 @@ type ActionRequest = { dto: DeleteRealEstateListingRequestDTO; id: string };
 type ActionResponse = JsonResponse<DeleteRealEstateListingResponseDTO | IApiError[]>;
 
 class DeleteRealEstateListingAction implements IAction<ActionRequest, ActionResponse> {
-    constructor(private readonly _requestDispatcher: IRequestDispatcher) {}
+    constructor(private readonly requestDispatcher: IRequestDispatcher) {}
 
     async handle(request: ActionRequest): Promise<ActionResponse> {
         const { dto, id } = request;
@@ -22,7 +22,7 @@ class DeleteRealEstateListingAction implements IAction<ActionRequest, ActionResp
         const command = new DeleteManyRealEstateListingsCommand({
             ids: [id],
         });
-        const result = await this._requestDispatcher.dispatch(command);
+        const result = await this.requestDispatcher.dispatch(command);
 
         if (result.isErr()) {
             const [firstError] = result.error;

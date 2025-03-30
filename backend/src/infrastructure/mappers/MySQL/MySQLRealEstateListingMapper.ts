@@ -6,6 +6,10 @@ import ClientId from "domain/valueObjects/Client/ClientId";
 
 class MySQLRealEstateListingMapper implements IRealEstateListingMapper {
     schemaToDbEntity(source: IMySQLRealEstateListingSchema): RealEstateListingDbEntity {
+        if (typeof source.images === "string") {
+            source.images = JSON.parse(source.images);
+        }
+
         return new RealEstateListingDbEntity({
             id: source.id,
             city: source.city,

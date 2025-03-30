@@ -3,21 +3,39 @@
     <section class="flex flex-col gap-1" appPageSectionDirective>
         <ol class="grid grid-cols-1 min-[485px]:grid-cols-2 gap-4">
             <li class="rounded-lg overflow-hidden aspect-[4/3]">
-                <app-cover-image [src]="images[0] ?? 'https://i.pinimg.com/736x/26/74/84/2674845ed281cf90e9cce3eba31d5ca4.jpg'" />
+                <app-cover-image
+                    [src]="images[0] ?? 'https://i.pinimg.com/736x/26/74/84/2674845ed281cf90e9cce3eba31d5ca4.jpg'"
+                />
             </li>
             <li>
                 <ul class="aspect-[4/3] gap-4 grid grid-cols-2">
                     <li class="rounded-lg overflow-hidden aspect-[4/3]">
-                        <app-cover-image [src]="images[1] ?? 'https://i.pinimg.com/736x/26/74/84/2674845ed281cf90e9cce3eba31d5ca4.jpg'" />
+                        <app-cover-image
+                            [src]="
+                                images[1] ?? 'https://i.pinimg.com/736x/26/74/84/2674845ed281cf90e9cce3eba31d5ca4.jpg'
+                            "
+                        />
                     </li>
                     <li class="rounded-lg overflow-hidden aspect-[4/3]">
-                        <app-cover-image [src]="images[2] ?? 'https://i.pinimg.com/736x/26/74/84/2674845ed281cf90e9cce3eba31d5ca4.jpg'" />
+                        <app-cover-image
+                            [src]="
+                                images[2] ?? 'https://i.pinimg.com/736x/26/74/84/2674845ed281cf90e9cce3eba31d5ca4.jpg'
+                            "
+                        />
                     </li>
                     <li class="rounded-lg overflow-hidden aspect-[4/3]">
-                        <app-cover-image [src]="images[3] ?? 'https://i.pinimg.com/736x/26/74/84/2674845ed281cf90e9cce3eba31d5ca4.jpg'" />
+                        <app-cover-image
+                            [src]="
+                                images[3] ?? 'https://i.pinimg.com/736x/26/74/84/2674845ed281cf90e9cce3eba31d5ca4.jpg'
+                            "
+                        />
                     </li>
                     <li class="rounded-lg overflow-hidden aspect-[4/3]">
-                        <app-cover-image [src]="images[4] ?? 'https://i.pinimg.com/736x/26/74/84/2674845ed281cf90e9cce3eba31d5ca4.jpg'" />
+                        <app-cover-image
+                            [src]="
+                                images[4] ?? 'https://i.pinimg.com/736x/26/74/84/2674845ed281cf90e9cce3eba31d5ca4.jpg'
+                            "
+                        />
                     </li>
                 </ul>
             </li>
@@ -121,6 +139,8 @@
                 </section>
             </div>
             <form
+                [formGroup]="mailingForm"
+                (ngSubmit)="sendEmail()"
                 [appMixinStyledCard]="{
                     size: 'mixin-Scard-base',
                     theme: 'theme-Scard-generic-white',
@@ -132,25 +152,33 @@
                 <section appMixinStyledCardSection class="token-default-flex-col">
                     <div class="font-semibold">Get In Contact</div>
                 </section>
+                <ng-container *ngIf="confirmation">
+                    <section appMixinStyledCardSection>
+                        <div class="text-sm font-semibold text-green-600">Confirmation ✓</div>
+                        <div class="text-sm">Your Inquiry was Successfully Sent.</div>
+                    </section>
+                </ng-container>
                 <section appMixinStyledCardSection class="token-default-flex-col">
-                    <app-form-field [name]="'email'" [errors]="[]">
+                    <app-form-field [name]="'email'" [errors]="errors.email">
                         <ng-template let-name="name">
                             <app-char-field
                                 [options]="{
                                     size: 'mixin-char-input-base',
                                     theme: 'theme-input-generic-white'
                                 }"
+                                [formControlName]="name"
                             />
                         </ng-template>
                     </app-form-field>
-                    <app-form-field [name]="'inquiry'" [errors]="[]">
+                    <app-form-field [name]="'inquiry'" [errors]="errors.inquiry">
                         <ng-template let-name="name">
                             <app-textarea
-                                value=""
                                 [options]="{
                                     size: 'mixin-textarea-any',
                                     theme: 'theme-textarea-generic-white'
                                 }"
+                                [formControlName]="name"
+                                [maxLength]="2048"
                             />
                         </ng-template>
                     </app-form-field>

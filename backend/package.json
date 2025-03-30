@@ -71,6 +71,7 @@
         "path": "^0.12.7",
         "quicktype": "^23.0.171",
         "quicktype-core": "^23.0.171",
+        "resend": "^4.2.0",
         "sql-template-tag": "^5.2.1",
         "superstruct": "^2.0.2",
         "tsx": "^4.19.2"

@@ -12,6 +12,8 @@ import DeleteManyRealEstateListingsRequestDTO from "../../../schemas/api/contrac
 import LoginUserRequestDTO from "../../../schemas/api/contracts/users/login/LoginUserRequestDTO.json";
 import RegisterUserRequestDTO from "../../../schemas/api/contracts/users/register/RegisterUserRequestDTO.json";
 
+import SendEmailRequestDTO from "../../../schemas/api/contracts/other/send-email/SendEmailRequestDTO.json";
+
 
 const ajv = new Ajv({ allErrors: true });
 addFormats(ajv);
@@ -29,3 +31,6 @@ export const DeleteClientRequestDTOValidator = ajv.compile(DeleteClientRequestDT
 export const CreateRealEstateListingRequestDTOValidator = ajv.compile(CreateRealEstateListingRequestDTO);
 export const UpdateRealEstateListingRequestDTOValidator = ajv.compile(UpdateRealEstateListingRequestDTO);
 export const DeleteManyRealEstateListingsRequestDTOValidator = ajv.compile(DeleteManyRealEstateListingsRequestDTO);
+
+// Other
+export const SendEmailRequestDTOValidator = ajv.compile(SendEmailRequestDTO);

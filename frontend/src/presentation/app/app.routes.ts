@@ -6,6 +6,7 @@ import { usersRoutes } from "./app.routes.users";
 import { adminRoutes } from "./app.routes.admin";
 import { FrontpageResolver } from "./frontpage/frontpage.resolver";
 import { RESOLVER_DATA_KEY } from "../utils/RESOLVER_DATA";
+import { realEstateListingsRoutes } from "./app.routes.real-estate-listings";
 
 export const routes: Routes = [
     // Main routes
@@ -19,6 +20,7 @@ export const routes: Routes = [
     // Feature modules
     ...adminRoutes,
     ...usersRoutes,
+    ...realEstateListingsRoutes,
     
     // Error routes
     ...errorRoutes,

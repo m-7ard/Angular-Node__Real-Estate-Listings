@@ -17,6 +17,7 @@ import IRealEstateListingDomainService from "application/interfaces/domainServic
 import IDatabaseProviderSingleton from "api/interfaces/IDatabaseProviderSingleton";
 import RealEstateListingQueryService from "infrastructure/services/RealEstateListingQueryService";
 import ClientQueryService from "infrastructure/services/ClientQueryService";
+import IEmailService from "api/interfaces/IEmailService";
 
 type TokenType<T> = T extends { __service: infer S } ? S : never;
 
@@ -38,6 +39,7 @@ export const DI_TOKENS = {
     DATABASE_PROVIDER_SINGLETON: makeToken<IDatabaseProviderSingleton>("DATABASE_PROVIDER_SINGLETON"),
     KNEX_CLIENT: makeToken<Knex>("KNEX_CLIENT"),
     REQUEST_DISPATCHER: makeToken<IRequestDispatcher>("REQUEST_DISPATCHER"),
+    EMAIL_SERVICE: makeToken<IEmailService>("EMAIL_SERVICE"),
     PASSWORD_HASHER: makeToken<IPasswordHasher>("PASSWORD_HASHER"),
     JWT_TOKEN_SERVICE: makeToken<IJwtTokenService>("JWT_TOKEN_SERVICE"),
     API_MODEL_SERVICE: makeToken<IApiModelService>("API_MODEL_SERVICE"),

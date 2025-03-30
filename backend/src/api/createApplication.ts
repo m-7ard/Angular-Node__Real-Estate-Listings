@@ -37,6 +37,8 @@ import { StatusCodes } from "http-status-codes";
 import { writeFileSync } from "fs";
 import { UploadImagesResponseDTO } from "../../types/api/contracts/other/upload-images/UploadImagesResponseDTO";
 import { STATIC_DIR, DIST_DIR, MEDIA_ROOT, MEDIA_FOLDER_NAME } from "config";
+import dotenv from "dotenv";
+import ResendEmailService from "./services/ResendEmailService";
 
 export default function createApplication(config: {
     port: 3000 | 4200;
@@ -48,8 +50,8 @@ export default function createApplication(config: {
     const { database, diContainer } = config;
     const app = express();
     app.options("*", cors());
-    // console.log("----------------------------");
     app.use(cors());
+    dotenv.config({ path: path.join(DIST_DIR, ".env.API_KEYS") });
 
     // Database
     diContainer.register(DI_TOKENS.DATABASE, database);
@@ -136,6 +138,8 @@ export default function createApplication(config: {
         const queryService = container.resolve(DI_TOKENS.REAL_ESTATE_LISTING_QUERY_SERVICE);
         return new RealEstateListingRepository(connection, registry, queryService);
     });
+
+    diContainer.register(DI_TOKENS.EMAIL_SERVICE, new ResendEmailService(process.env.RESEND_API_KEY))
 
     // Request Dispatcher
     const dispatcher = createRequestDispatcher(diContainer);

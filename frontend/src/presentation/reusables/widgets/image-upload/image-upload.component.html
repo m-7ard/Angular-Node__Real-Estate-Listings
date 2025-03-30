@@ -17,10 +17,10 @@
             >
                 <div
                     [style]="{ right: '4px', top: '4px' }"
-                    class="flex flex-row items-center justify-center h-[25%] aspect-square bg-white rounded-lg shadow absolute z-10 mix-blend-luminosity opacity-70 font-bold text-red-700"
+                    class="flex flex-row items-center justify-center h-[20%] aspect-square bg-white hover:bg-zinc-200 rounded-lg shadow absolute z-10 mix-blend-luminosity opacity-70 font-bold text-black mixin-Sbutton-like border token-default-border-color "
                     (click)="removeImage(image)"
                 >
-                    X
+                    ✖
                 </div>
                 <app-cover-image [src]="image" />
             </li>

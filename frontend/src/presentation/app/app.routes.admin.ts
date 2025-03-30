@@ -47,11 +47,6 @@ export const adminRoutes: Routes = [
                                 resolve: { [RESOLVER_DATA_KEY]: DeleteRealEstateListingsPageResolver },
                             },
                             {
-                                path: ':id',
-                                component: ReadRealEstateListingPageComponent,
-                                resolve: { [RESOLVER_DATA_KEY]: ReadRealEstateListingPageResolver },
-                            },
-                            {
                                 path: ':id/update',
                                 component: UpdateRealEstateListingPageComponent,
                                 resolve: { [RESOLVER_DATA_KEY]: UpdateRealEstateListingPageResolver },

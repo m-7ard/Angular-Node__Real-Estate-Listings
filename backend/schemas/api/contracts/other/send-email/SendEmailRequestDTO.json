@@ -1,0 +1,12 @@
+{
+    "$id": "http://127.0.0.1:3000/schemas/api/contracts/other/send-email/SendEmailRequestDTO.json",
+    "title": "SendEmailRequestDTO",
+    "type": "object",
+    "properties": {
+        "email": { "type": "string", "format": "email" },
+        "inquiry": { "type": "string", "maxLength": 2048 },
+        "realEstateListingId": { "type": "string" }
+    },
+    "required": ["email", "inquiry", "realEstateListingId"],
+    "additionalProperties": false
+}
