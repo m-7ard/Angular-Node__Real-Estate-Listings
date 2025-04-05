@@ -16,5 +16,5 @@
         "rootDirs": ["./src"],
         "resolveJsonModule": true
     },
-    "include": ["src/**/*", "babel.config.js", "static", "types/**/*", "schemas/**/*"]
+    "include": ["src/**/*", "babel.config.js", "static", "types/**/*", "schemas/**/*", "tests/**/*"]
 }
