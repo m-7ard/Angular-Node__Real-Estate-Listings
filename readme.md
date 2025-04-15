@@ -10,7 +10,7 @@
     - [IAction Interface](#iaction-interface)
     - [IActionResponse Interface](#iactionresponse-interface)
     - [JsonResponse Class](#jsonresponse-class)
-    - [Example: CreateRealEstateListingAction](#example-createplayeraction)
+    - [Example: CreateRealEstateListingAction](#example-createrealestatelistingaction)
     - [registerAction Utility](#registeraction-utility)
     - [Dependency Injection System](#dependency-injection-system)
     - [Multi-Environment Application Startup Service](#multi-environment-application-startup-service)
@@ -669,81 +669,34 @@ export default class RequestDispatcher implements IRequestDispatcher {
 Example of a command handler
 
 ```ts
-export type ScheduleMatchCommandResult = ICommandResult<IApplicationError[]>;
+export type CreateClientCommandResult = ICommandResult<ApplicationError[]>;
 
-export class ScheduleMatchCommand implements ICommand<ScheduleMatchCommandResult>, CommandProps {
-    __returnType: ScheduleMatchCommandResult = null!;
+export class CreateClientCommand implements ICommand<CreateClientCommandResult> {
+    __returnType: CreateClientCommandResult = null!;
 
-    constructor(props: CommandProps) {
-        this.id = props.id;
-        this.homeTeamId = props.homeTeamId;
-        this.awayTeamId = props.awayTeamId;
-        this.venue = props.venue;
-        this.scheduledDate = props.scheduledDate;
+    constructor({ id, name, type }: { id: string; name: string; type: string }) {
+        this.id = id;
+        this.name = name;
+        this.type = type;
     }
 
-    id: string;
-    homeTeamId: string;
-    awayTeamId: string;
-    venue: string;
-    scheduledDate: Date;
+    public id: string;
+    public name: string;
+    public type: string;
 }
 
-export default class ScheduleMatchCommandHandler implements IRequestHandler<ScheduleMatchCommand, ScheduleMatchCommandResult> {
-    private readonly _matchRepository: IMatchRepository;
-    private readonly teamExistsValidator: ITeamValidator<TeamId>;
+export default class CreateClientCommandHandler implements IRequestHandler<CreateClientCommand, CreateClientCommandResult> {
+    constructor(
+        private readonly unitOfWork: IUnitOfWork,
+        private readonly clientDomainService: IClientDomainService,
+    ) {}
 
-    constructor(props: { matchRepository: IMatchRepository; teamExistsValidator: ITeamValidator<TeamId> }) {
-        this._matchRepository = props.matchRepository;
-        this.teamExistsValidator = props.teamExistsValidator;
-    }
+    async handle(command: CreateClientCommand): Promise<CreateClientCommandResult> {
+        const createResult = await this.clientDomainService.tryOrchestractCreateNewClient({ id: command.id, name: command.name, type: command.type });
+        if (createResult.isErr()) return err(new CannotCreateNewClient({ message: createResult.error.message }).asList());
 
-    async handle(command: ScheduleMatchCommand): Promise<ScheduleMatchCommandResult> {
-        if (command.awayTeamId === command.homeTeamId) {
-            return err(ApplicationErrorFactory.createSingleListError({
-                message: "Away team cannot be the same team as home team.",
-                path: [],
-                code: APPLICATION_ERROR_CODES.IntegrityError
-            }))
-        }
+        await this.unitOfWork.commitTransaction();
 
-        const homeTeamExistsResult = await this.teamExistsValidator.validate(TeamId.executeCreate(command.homeTeamId));
-        if (homeTeamExistsResult.isErr()) {
-            return err(homeTeamExistsResult.error);
-        }
-
-        const awayTeamExistsResult = await this.teamExistsValidator.validate(TeamId.executeCreate(command.awayTeamId));
-        if (awayTeamExistsResult.isErr()) {
-            return err(awayTeamExistsResult.error);
-        }
-
-        const homeTeam = homeTeamExistsResult.value;
-        const awayTeam = awayTeamExistsResult.value;
-
-        const isValidMatchDatesValidator = new IsValidMatchDatesValidator();
-        const isValidMatchDatesResult = isValidMatchDatesValidator.validate({
-            scheduledDate: command.scheduledDate,
-            startDate: null,
-            endDate: null,
-        });
-        if (isValidMatchDatesResult.isErr()) {
-            return err(isValidMatchDatesResult.error);
-        }
-
-        const match = MatchFactory.CreateNew({
-            id: command.id,
-            homeTeamId: homeTeam.id,
-            awayTeamId: awayTeam.id,
-            venue: command.venue,
-            matchDates: MatchDates.executeCreate({
-                scheduledDate: command.scheduledDate,
-                startDate: null,
-                endDate: null,
-            }),
-            status: MatchStatus.SCHEDULED,
-        });
-
-        await this._matchRepository.createAsync(match);
         return ok(undefined);
     }
 }
@@ -752,26 +705,24 @@ export default class ScheduleMatchCommandHandler implements IRequestHandler<Sche
 Example of creating the command dispatcher
 
 ```ts
-function createRequestDispatcher() {
-    const requestDispatcher = new RequestDispatcher();
-    const teamRepository = diContainer.resolve(DI_TOKENS.TEAM_REPOSITORY);
-    /*
-        ... Further resolves
-    */
-    const addGoalServiceFactory = diContainer.resolve(DI_TOKENS.ADD_GOAL_SERIVICE_FACTORY);
+function registerClientHandlers(requestDispatcher: IRequestDispatcher, diContainer: IDIContainer) {
+    // Create
+    requestDispatcher.registerHandler(CreateClientCommand, () => {
+        const clientDomainService = diContainer.resolve(DI_TOKENS.CLIENT_DOMAIN_SERVICE);
+        const unitOfWork = diContainer.resolve(DI_TOKENS.UNIT_OF_WORK);
+        return new CreateClientCommandHandler(unitOfWork, clientDomainService);
+    });
 
-    // Players
-    requestDispatcher.registerHandler(CreatePlayerCommand, new CreatePlayerCommandHandler({ playerRepository: playerRepository }));
-    
+    // Update
+    requestDispatcher.registerHandler(UpdateClientCommand, () => {
+        const clientDomainService = diContainer.resolve(DI_TOKENS.CLIENT_DOMAIN_SERVICE);
+        const unitOfWork = diContainer.resolve(DI_TOKENS.UNIT_OF_WORK);
+        return new UpdateClientCommandHandler(unitOfWork, clientDomainService);
+    });
+
     /*
         ... Further registering
     */
-    
-    // Matches
-    requestDispatcher.registerHandler(
-        CreateMatchCommand,
-        new CreateMatchCommandHandler({ matchRepository: matchRepository, teamExistsValidator: teamExistsValidator, addGoalServiceFactory: addGoalServiceFactory }),
-    );
     
     return requestDispatcher;
 }
